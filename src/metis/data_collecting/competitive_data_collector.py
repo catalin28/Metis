@@ -232,12 +232,18 @@ class CompetitiveDataCollector:
             metrics['operating_margin'] = latest_ratios.get('operatingProfitMargin', 0)
             metrics['net_margin'] = latest_ratios.get('netProfitMargin', 0)
             
-            # Growth metrics
+            # Growth metrics - Quarter-over-Quarter (QoQ)
+            # NOTE: QoQ growth compares most recent quarter vs previous quarter.
+            # This can show negative values even when annual/YoY growth is positive,
+            # especially for companies with seasonal or lumpy revenue patterns.
+            # For competitive analysis, this metric should be labeled as "QoQ" to prevent
+            # misinterpretation as annual weakness.
             if len(raw_data['income_statement']) >= 2:
                 current_revenue = raw_data['income_statement'][0].get('revenue', 0)
                 prior_revenue = raw_data['income_statement'][1].get('revenue', 0)
                 
                 if prior_revenue and prior_revenue != 0:
+                    # Store as 'revenue_growth' for backward compatibility, but context indicates QoQ
                     metrics['revenue_growth'] = ((current_revenue - prior_revenue) / prior_revenue) * 100
                 else:
                     metrics['revenue_growth'] = 0

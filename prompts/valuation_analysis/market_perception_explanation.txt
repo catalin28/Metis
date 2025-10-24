@@ -8,7 +8,7 @@ Analyze why the market has a "{category}" perception of {symbol} based on the pr
 - P/E Ratio: {pe_ratio}x (vs peer average {peer_pe_avg}x)
 - ROE: {roe}% (vs peer average {peer_roe_avg}%)
 - Combined Ratio: {combined_ratio} (vs peer average {peer_combined_ratio_avg})
-- Revenue Growth: {revenue_growth}% (vs peer average {peer_growth_avg}%)
+- Revenue Growth (QoQ): {revenue_growth}% (vs peer average {peer_growth_avg}%) [Quarter-over-Quarter comparison]
 - Debt/Equity: {debt_to_equity} (vs peer average {peer_debt_equity_avg})
 
 **Communication Metrics**:

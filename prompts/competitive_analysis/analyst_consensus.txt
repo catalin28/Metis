@@ -83,10 +83,11 @@ Focus on quantifiable disparities that create contrarian opportunities.
    - "Low" = Weak fundamentals match bearish sentiment
    
    **If trading at PREMIUM (target P/E > peer average):**
-   - **CRITICAL: For premium stocks with NEGATIVE revenue growth, ALWAYS qualify risk:**
-     * Required format: "High (contingent on sustaining [competitive advantage] and growth reacceleration; premium otherwise at risk)"
+   - **CRITICAL: For premium stocks with NEGATIVE revenue growth (QoQ), ALWAYS qualify risk:**
+     * Required format: "High (contingent on sustaining [competitive advantage] and QoQ growth reacceleration; premium otherwise at risk)"
      * NEVER use "High (accumulation opportunity)" for premium + negative growth - this is a logical contradiction
      * Check revenue_growth field - if negative AND P/E > peer_avg, MUST include risk qualifier
+     * ALWAYS specify "QoQ revenue decline" (Quarter-over-Quarter) to prevent misinterpretation as annual weakness
    - "High (contingent on [specific catalyst] to justify premium)" = Strong fundamentals but premium needs justification
    - "Moderate (premium partially justified)" = Strong fundamentals + mixed sentiment
    - "Low (premium appropriately valued)" = Strong fundamentals + bullish sentiment

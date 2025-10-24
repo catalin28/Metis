@@ -41,7 +41,8 @@ Analyze each metric to determine market perception and generate explanations for
    - CRITICAL VALUATION LANGUAGE:
      * If target P/E is ABOVE peer average: Use "premium" or "pressure on premium multiple" - NEVER say "valuation discount"
      * If target P/E is BELOW peer average: Use "discount" or "undervalued" - NEVER say "premium"
-     * For negative revenue growth on premium stock: Say "puts pressure on the current premium multiple" NOT "contributes to valuation discount"
+     * For negative revenue growth (QoQ) on premium stock: Say "QoQ revenue decline of X% puts pressure on the current premium multiple" NOT "contributes to valuation discount"
+     * Always specify QoQ time horizon when mentioning revenue growth to prevent misinterpretation as annual weakness
      * For market cap perceptions on premium stocks: Qualify upside with "may depend on sustaining growth to justify existing premium"
      * Example (P/E above avg): "...puts pressure on the current premium multiple" NOT "contributes to valuation discount"
 
@@ -67,7 +68,8 @@ Analyze each metric to determine market perception and generate explanations for
 4. **key_weaknesses_summary**: 50-500 char summary using ONLY the top_3_weaknesses provided above
    - DO NOT choose different metrics - use the 3 pre-calculated weaknesses
    - Format: "{{Company}} trails in {{metric1}} (#{{rank}}, value), {{metric2}} (#{{rank}}, value), and {{metric3}} (#{{rank}}, value)"
-   - MUST include actual values and ranks from the data (e.g., "P/E Ratio (#N, NN.NN), Revenue Growth (#N, -N.NN%)")
+   - MUST include actual values and ranks from the data (e.g., "P/E Ratio (#N, NN.NN), Revenue Growth QoQ (#N, -N.NN%)")
+   - CRITICAL: Revenue growth is Quarter-over-Quarter (QoQ). Always label as "Revenue Growth (QoQ)" to clarify time horizon
    - **CRITICAL: If fewer than 3 weaknesses provided:**
      * DO NOT add "N/A (#N/A, N/A)" or placeholder text
      * Write summary using ONLY weaknesses actually provided

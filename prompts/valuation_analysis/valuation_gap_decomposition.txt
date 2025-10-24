@@ -9,7 +9,7 @@ Analyze the P/E valuation gap for {symbol} and decompose it into fundamental vs 
 **Financial Fundamentals:**
 - Target ROE: {target_roe}%
 - Peer Average ROE: {peer_roe_avg}%
-- Target Revenue Growth: {target_growth}%
+- Target Revenue Growth (QoQ): {target_growth}% [Quarter-over-Quarter]
 - Peer Average Growth: {peer_growth_avg}%
 - Target Combined Ratio: {target_combined_ratio}
 - Peer Average Combined Ratio: {peer_combined_ratio_avg}

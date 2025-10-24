@@ -59,6 +59,7 @@ Create an executive-level summary that synthesizes the competitive analysis find
      * Example: "ranks #{target_rank} overall among {peer_count} peers in our comparative analysis"
    - CRITICAL METRIC-SPECIFIC RANKING RULES:
      * For individual metrics (ROE, P/E, revenue growth), you may say "ranks #1 in ROE" if actually best in that metric
+     * When mentioning revenue growth, ALWAYS specify "Revenue Growth (QoQ)" to clarify time horizon (Quarter-over-Quarter)
      * DO NOT use "#1 (tied)" unless multiple companies have EXACT SAME numerical value
      * Only add "(tied)" when values are mathematically identical (e.g., both have 13.45%)
      * Example: ROE X.XX% vs peers Y.YY%, Z.ZZ%, -W.WW% = "ranks #1 in ROE" NOT "#1 (tied)" unless tied

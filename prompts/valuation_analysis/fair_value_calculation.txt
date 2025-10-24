@@ -4,7 +4,7 @@ Calculate the fair value P/E ratio for {symbol} based on fundamental analysis.
 - Symbol: {symbol}
 - Current P/E: {current_pe}
 - ROE: {roe}%
-- Revenue Growth: {revenue_growth}%
+- Revenue Growth (QoQ): {revenue_growth}% [Quarter-over-Quarter]
 - Debt/Equity: {debt_equity}
 - Combined Ratio: {combined_ratio}
 - Market Cap: ${market_cap}B
@@ -12,7 +12,7 @@ Calculate the fair value P/E ratio for {symbol} based on fundamental analysis.
 **Peer Group Benchmarks:**
 - Peer Average P/E: {peer_pe_avg}
 - Peer Average ROE: {peer_roe_avg}%
-- Peer Average Growth: {peer_growth_avg}%
+- Peer Average Growth (QoQ): {peer_growth_avg}%
 - Peer Average Debt/Equity: {peer_debt_avg}
 - Peer Average Combined Ratio: {peer_combined_avg}
 

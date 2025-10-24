@@ -94,8 +94,8 @@ class ExecutiveSummaryInput(BaseModel):
     # Industry-specific metrics (optional, depends on sector)
     target_combined_ratio: Optional[float] = Field(None, description="Target combined ratio (insurance)")
     peer_combined_ratio: Optional[float] = Field(None, description="Peer average combined ratio (insurance)")
-    target_revenue_growth: Optional[float] = Field(None, description="Target revenue growth percentage")
-    peer_revenue_growth: Optional[float] = Field(None, description="Peer average revenue growth percentage")
+    target_revenue_growth: Optional[float] = Field(None, description="Target revenue growth percentage (QoQ: Quarter-over-Quarter). NOTE: Compares most recent quarter vs previous quarter, can be negative even with positive annual growth.")
+    peer_revenue_growth: Optional[float] = Field(None, description="Peer average revenue growth percentage (QoQ: Quarter-over-Quarter)")
     
     # Competitive position analysis (from comparative analysis modules)
     target_rank: int = Field(..., ge=1, description="Target company's overall ranking (1 = best)")

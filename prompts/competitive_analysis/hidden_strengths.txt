@@ -78,7 +78,8 @@ Identify 2-6 operational advantages where the target significantly outperforms p
     → Where A-B range is BELOW current P/E (peer band should be lower than current valuation)
     → **DO NOT suggest "uplift" - stock is ALREADY above fair value**
   * EXAMPLE for PREMIUM (when current_pe > peer_average_pe):
-    → "Current valuation sits ~X-Y% above the peer fair-value band (Ax-Bx P/E). Sustaining the premium requires continued [competitive advantage], [profitability strength], and a return to positive revenue growth."
+    → "Current valuation sits ~X-Y% above the peer fair-value band (Ax-Bx P/E). Sustaining the premium requires continued [competitive advantage], [profitability strength], and a return to sequential revenue growth (QoQ)."
+    → NOTE: Specify "QoQ" (Quarter-over-Quarter) when mentioning revenue growth to clarify time horizon
   * EXAMPLE for DISCOUNT (when current_pe < peer_average_pe):
     → "Total P/E uplift if all gaps closed: +X-Y% to fair value (Ax-Bx P/E)"
 - **communication_gap_summary** (100-500 chars): Common themes explaining why these strengths are missed
