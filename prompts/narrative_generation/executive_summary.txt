@@ -11,10 +11,12 @@ Generate a comprehensive executive summary for the competitive intelligence repo
 - Current P/E Ratio: {current_pe}x
 - Peer Average P/E: {peer_average_pe}x
 - Valuation Gap: {valuation_gap}x ({gap_percentage}%)
-- Target ROE: {target_roe}%
-- Peer Average ROE: {peer_average_roe}%
+- Target ROE: {target_roe_formatted} (raw: {target_roe})
+- Peer Average ROE: {peer_average_roe_formatted} (raw: {peer_average_roe})
 - Target Combined Ratio: {target_combined_ratio}
 - Peer Average Combined Ratio: {peer_combined_ratio}
+
+**IMPORTANT**: When mentioning ROE in narrative, use the formatted versions (e.g., "ROE of ~13.0%"), NOT the raw decimal values
 
 **Valuation Math Guide** (for recommendations with market cap impact):
 - Formula: Market Cap Impact = (Target P/E / Current P/E - 1) × Current Market Cap
@@ -69,11 +71,12 @@ Create an executive-level summary that synthesizes the competitive analysis find
 
 3. **Root Cause Analysis** (50-150 words):
    - Number and nature of perception gaps identified - ALWAYS use {perception_gap_count}
-   - If {perception_gap_count} = 0: "No explicit perception gaps identified"
-   - If {perception_gap_count} = 1: "We identified 1 perception gap..."
-   - If {perception_gap_count} > 1: "We identified {perception_gap_count} perception gaps..."
+   - If {perception_gap_count} = 0: "No explicit perception gaps identified. The observed premium/discount appears driven by fundamentals..."
+   - If {perception_gap_count} = 1: "{perception_gap_count} perception gap identified: [describe the specific gap and its impact]"
+   - If {perception_gap_count} >= 2: "{perception_gap_count} perception gaps are present: [enumerate and briefly explain each gap with impact]"
    - DO NOT count {perception_gaps} list manually - ALWAYS use {perception_gap_count} variable
-   - DO NOT say "0 perception gaps" if {perception_gap_count} > 0
+   - DO NOT say "No gaps" or "0 perception gaps" if {perception_gap_count} > 0
+   - If gaps exist, enumerate them with brief explanations: "(1) [gap name + metric], (2) [gap name + metric], etc."
    - Underlying factors driving market misperception
    - Communication or operational issues affecting valuation
    - Connect perception gaps to valuation impact: how do these gaps contribute to the P/E discount/premium?

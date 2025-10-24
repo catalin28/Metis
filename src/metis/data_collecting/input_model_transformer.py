@@ -187,6 +187,7 @@ class InputModelTransformer:
             ('market_cap_data', 'Market Cap'),
             ('pe_ratio_data', 'P/E Ratio'),
             ('roe_data', 'ROE'),
+            ('roa_data', 'ROA'),
             ('revenue_growth_data', 'Revenue Growth'),
             ('debt_equity_data', 'Debt/Equity'),
             ('combined_ratio_data', 'Combined Ratio'),
@@ -269,16 +270,21 @@ class InputModelTransformer:
             for m in sorted_weaknesses[:3]
         ]
         
+        # PRE-CALCULATE overall target rank using weighted average
+        overall_target_rank = ranker.calculate_overall_rank(target_symbol, all_ranked_metrics)
+        
         logger.info(f"Created dashboard input with {len(metrics_list)} metrics for {target_symbol}")
         logger.info(f"Top 3 strengths: {[m['metric_name'] for m in top_3_strengths]}")
         logger.info(f"Top 3 weaknesses: {[m['metric_name'] for m in top_3_weaknesses]}")
+        logger.info(f"Overall target rank: {overall_target_rank}")
         
         return CompetitiveDashboardInput(
             target_symbol=target_symbol,
             peer_symbols=peer_symbols,
             metrics=metrics_list,
             top_3_strengths=top_3_strengths,
-            top_3_weaknesses=top_3_weaknesses
+            top_3_weaknesses=top_3_weaknesses,
+            overall_target_rank=overall_target_rank
         )
     
     @staticmethod

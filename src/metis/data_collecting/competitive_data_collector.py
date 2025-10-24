@@ -402,7 +402,7 @@ class CompetitiveDataCollector:
             'pe_gap': pe_gap,
             'pe_gap_pct': pe_gap_pct,
             'target_pe': round(target_pe_recommendation, 2),  # Target P/E for recommendations
-            'overall_rank': rankings.get('overall', (1, ''))[0] or 1,  # Default to 1 if not found
+            'overall_rank': 1,  # Placeholder - will be overwritten by dashboard's overall_target_rank
             'strengths': strengths[:5],  # Top 5 strengths
             'weaknesses': weaknesses[:5],  # Top 5 weaknesses
             'perception_gaps': perception_gaps,

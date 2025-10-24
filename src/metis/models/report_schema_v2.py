@@ -690,6 +690,14 @@ class CompetitiveDashboardInput(BaseModel):
                     "Pre-calculated in Python - LLM writes summary using these exact metrics."
     )
     
+    overall_target_rank: int = Field(
+        ...,
+        ge=1,
+        description="PRE-CALCULATED overall competitive ranking based on weighted average "
+                    "of all metric ranks (1 = best). Calculated by DashboardMetricsRanker.calculate_overall_rank(). "
+                    "LLM MUST use this exact value - DO NOT recalculate."
+    )
+    
     @field_validator('metrics')
     @classmethod
     def validate_metrics_structure(cls, v):

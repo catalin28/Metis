@@ -149,6 +149,21 @@ async def generate_report(
     
     # Generate requested sections
     dashboard_metrics = None
+    dashboard = None
+    
+    # Generate dashboard FIRST to get accurate overall_target_rank
+    if 2 in sections:
+        logger.info("Generating Section 2: Competitive Dashboard...")
+        dashboard = await report_generator.generate_competitive_dashboard(
+            target_symbol=symbol,
+            company_data=company_data,
+            comparative_metrics=comparative_metrics
+        )
+        result['section_2_competitive_dashboard'] = dashboard.model_dump()
+        dashboard_metrics = [metric.model_dump() for metric in dashboard.metrics]
+        
+        # Use dashboard's overall_target_rank instead of comparative_metrics['overall_rank']
+        comparative_metrics['overall_rank'] = dashboard.overall_target_rank
     
     if 1 in sections:
         logger.info("Generating Section 1: Executive Summary...")
@@ -159,16 +174,6 @@ async def generate_report(
             company_overview="A leading company in its sector."  # Placeholder
         )
         result['section_1_executive_summary'] = exec_summary.model_dump()
-    
-    if 2 in sections:
-        logger.info("Generating Section 2: Competitive Dashboard...")
-        dashboard = await report_generator.generate_competitive_dashboard(
-            target_symbol=symbol,
-            company_data=company_data,
-            comparative_metrics=comparative_metrics
-        )
-        result['section_2_competitive_dashboard'] = dashboard.model_dump()
-        dashboard_metrics = [metric.model_dump() for metric in dashboard.metrics]
     
     if 2.5 in sections:
         logger.info("Generating Section 2.5: Analyst Consensus...")

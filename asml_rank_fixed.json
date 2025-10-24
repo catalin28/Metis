@@ -72,7 +72,7 @@
         "target_rank": 2,
         "rank_qualifier": "2nd best",
         "market_perception": "Adequate",
-        "perception_explanation": "ASML is a clear scale leader behind TSM; market recognizes size but TSM's much larger scale moderates perceived differentiation. Valuation upside depends on sustaining growth to justify any premium."
+        "perception_explanation": "ASML is a clear scale leader behind TSM; its large market cap is recognized but overshadowed by TSM's much larger size, so scale is acknowledged without creating extra valuation upside unless growth is sustained."
       },
       {
         "metric_name": "P/E Ratio",
@@ -84,8 +84,8 @@
         },
         "target_rank": 3,
         "rank_qualifier": "3rd cheapest",
-        "market_perception": "Adequate",
-        "perception_explanation": "Trades above the peer average P/E (~33.95) and sits lower than STM; ROE and margins justify some premium, but slower revenue growth and cyclical risk put pressure on the current premium multiple."
+        "market_perception": "Overvalued",
+        "perception_explanation": "Trades above the peer average P/E (36.99), reflecting a premium view; this elevated multiple is under pressure from near-term revenue softness and execution risk, putting pressure on the current premium multiple."
       },
       {
         "metric_name": "ROE",
@@ -98,20 +98,7 @@
         "target_rank": 1,
         "rank_qualifier": "best",
         "market_perception": "Underappreciated",
-        "perception_explanation": "Best-in-class ROE signals superior capital returns, but ASML doesn't command the very highest P/E versus peers; market is cautious (growth/cycle risks), so profitability strength is not fully reflected."
-      },
-      {
-        "metric_name": "ROA",
-        "target_value": 0.051066799556735806,
-        "peer_values": {
-          "TSM": 0.056844580364513016,
-          "NXPI": 0.017623762376237622,
-          "STM": -0.0038094490044378116
-        },
-        "target_rank": 2,
-        "rank_qualifier": "2nd best",
-        "market_perception": "Not communicated",
-        "perception_explanation": "Solid asset efficiency (2nd best) versus peers but not prominently marketed; investors focus on scale and ROE/growth, leaving asset-return advantages under-telegraphed for valuation benefit."
+        "perception_explanation": "Best-in-class ROE (~13%) signals strong capital returns, but the market is focused more on near-term revenue and capacity cycles, so ROE strength is not fully reflected in incremental re-rating."
       },
       {
         "metric_name": "Revenue Growth",
@@ -124,7 +111,7 @@
         "target_rank": 4,
         "rank_qualifier": "worst",
         "market_perception": "Root cause",
-        "perception_explanation": "Negative revenue growth is the clearest driver of valuation pressure: as the weakest growth performer, it directly puts pressure on ASML's premium multiple despite strong margins and ROE."
+        "perception_explanation": "Negative revenue growth (-2.28%) is the primary near-term concern and directly puts pressure on the current premium multiple, driving investor caution despite strong profitability metrics."
       },
       {
         "metric_name": "Debt/Equity",
@@ -136,8 +123,8 @@
         },
         "target_rank": 2,
         "rank_qualifier": "2nd best",
-        "market_perception": "Adequate",
-        "perception_explanation": "Low leverage is aligned with market expectations for a capital-light, high-margin semiconductor equipment leader; investors view capital structure as supportive of stability and investment."
+        "market_perception": "Not communicated",
+        "perception_explanation": "Low leverage (0.21) provides financial flexibility relative to NXPI, but the market conversation centers on growth and cyclical demand, so capital-structure strength is under-discussed and under-leveraged in messaging."
       },
       {
         "metric_name": "Gross Margin",
@@ -150,7 +137,7 @@
         "target_rank": 2,
         "rank_qualifier": "2nd best",
         "market_perception": "Adequate",
-        "perception_explanation": "High gross margin (2nd) supports ASML's premium positioning; market sees margins as consistent with technology leadership, though TSM's slightly higher margin caps upside."
+        "perception_explanation": "Gross margins are strong (~53.7%) and roughly in line with peers; market views margins as a stable strength but not a differentiated re-rating lever versus TSM."
       },
       {
         "metric_name": "Operating Margin",
@@ -163,7 +150,7 @@
         "target_rank": 2,
         "rank_qualifier": "2nd best",
         "market_perception": "Adequate",
-        "perception_explanation": "Strong operating margin signals operational leverage; market rewards this but benchmarks it to TSM's higher margin, so ASML's margin strength is priced in rather than creating a separate premium."
+        "perception_explanation": "Operating margin (~34.6%) is robust and respected by investors, but TSM's superior margin profile caps the perception of ASML as the clear margin leader, keeping sentiment steady rather than bullish."
       },
       {
         "metric_name": "Net Margin",
@@ -176,22 +163,22 @@
         "target_rank": 2,
         "rank_qualifier": "2nd best",
         "market_perception": "Adequate",
-        "perception_explanation": "High net margin confirms profitability advantage and is largely recognized by investors; it supports ASML's elevated multiple but is balanced against growth and cyclical concerns."
+        "perception_explanation": "Net margin (~29.8%) confirms strong profitability but sits behind TSM; the market treats ASML's margins as solid and appropriately priced given growth uncertainty."
       }
     ],
     "overall_target_rank": 2,
-    "key_strengths_summary": "ASML leads in ROE (#1, 0.129996253873835), Market Cap (#2, 401713581429), and ROA (#2, 0.051066799556735806)",
+    "key_strengths_summary": "ASML leads in ROE (#1, 0.129996253873835), Market Cap (#2, 401713581429), and Debt/Equity (#2, 0.20994766775266485)",
     "key_weaknesses_summary": "ASML trails in Revenue Growth (#4, -2.284280458156194) and P/E Ratio (#3, 36.99)",
-    "perception_gap_count": 3
+    "perception_gap_count": 4
   },
   "section_1_executive_summary": {
-    "company_overview": "ASML Holding N.V. is a critical equipment supplier to the semiconductor industry, specializing in lithography systems that enable leading-edge chip manufacturing. Its business model centers on high-margin capital equipment sales, long multi-year service contracts, and a technology moat driven by proprietary extreme ultraviolet (EUV) lithography. In our comparative analysis across three peers, ASML ranks #2 overall. The company\u2019s key operational strengths include a return on equity (ROE) of 0.129996253873835% (0.13%), which is above the peer average ROE of 0.042659238731310646% (0.043%), and efficient asset use (ROA ~0.05, ranked #2) plus conservative leverage (debt-to-equity ~0.21, ranked #2). These strengths support durable cash generation and competitive positioning in a concentrated market where scale and IP barriers matter.\n\nAt the same time, ASML exhibits areas that require attention: its P/E ratio of 36.99 ranks #3 among the set, reflecting a material premium, and recent revenue growth is negative (-2.28%), identified as a key weakness in our dataset. Market opportunity remains substantial as ongoing node transitions and advanced packaging demand sustain capital expenditure cycles, but near-term performance will hinge on improving top-line momentum and translating service and software expansion into more predictable, recurring revenue. Given the mixed signal of strong ROE but weaker revenue growth and a high valuation, ASML\u2019s strategic focus should be on converting technological leadership into clearer, recurring revenue pathways and tighter forward guidance to justify its premium multiple.",
-    "key_finding": "ASML currently trades at a 36.99 P/E versus a peer average of 33.946666666666665 P/E \u2014 a valuation premium of 3.0433333333333366 P/E points (\u22488.97% premium). With a market cap of $401.7B, compressing to the peer-average P/E of 33.95 would imply approximately -8.2% downside (\u2248-$33.0B). The premium appears linked to superior ROE (0.13% above the peer average) and the company\u2019s technology leadership, but it is vulnerable given negative revenue growth (-2.28%) and the highest P/E ranking in the peer group. Strategically, this means sustaining the premium requires clearer evidence of durable revenue recovery, improved predictability from services and software, and tighter investor communication; absent that, market re-rating to peer multiples would materialize as roughly -8.2% downside to market capitalization.",
-    "root_cause": "No explicit perception gaps identified. The observed premium appears driven by fundamentals: ASML\u2019s above-peer ROE and strong technology position support a higher multiple, while contemporaneous weakness in revenue growth (-2.28%) and the highest P/E in the peer set elevate downside risk. Operational factors\u2014slower near-term order intake, cyclicality in capital equipment spending, and limited recurring-revenue share relative to total revenue\u2014likely explain investor caution. Communication clarity and forward guidance cadence also affect how quickly the market credits recovery, so the premium is contingent on demonstrable fundamental improvements rather than perceptual misalignment.",
+    "company_overview": "ASML Holding N.V. is the leading supplier of photolithography equipment for advanced semiconductor manufacturing, specializing in extreme ultraviolet (EUV) and deep ultraviolet (DUV) lithography systems. The company designs, manufactures and services highly capital-intensive machines that are critical to the leading-edge node roadmaps of foundries and IDM customers globally. In our peer set ASML ranks #2 overall among 3 peers in our comparative analysis. Operationally, ASML\u2019s principal strengths include a return on equity of approximately 0.13% \u2014 above peer average \u2014 a solid return on assets (~0.05, ranking #2) and a conservative balance sheet with debt-to-equity of ~0.21 (ranking #2). These metrics underscore ASML\u2019s capital efficiency and financial resilience relative to this small peer group. Market opportunities include secular demand for leading-edge lithography driven by AI, high-performance computing and advanced logic/memory scaling, together with recurring service and upgrade revenue tied to installed bases. Areas needing attention are valuation (P/E 36.99, ranks #3) and recent revenue trends (revenue growth -2.28, identified as a weakness). Taken together, ASML\u2019s unique technology position and strong profitability provide a structural basis for a premium valuation, but near-term revenue softness and elevated P/E relative to peers create measurable downside risk unless the company reinforces growth visibility and investor-facing disclosures.",
+    "key_finding": "ASML currently trades at a 3.0433333333333366 P/E points premium to the peer average (36.99 vs 33.946666666666665), approximately an 8.97% premium. Using the peer-average P/E target of 33.95x as a baseline, compressing to that level would imply roughly an -8.2% downside to market capitalization \u2014 approximately $33.0B. The primary driver of the premium is the company\u2019s superior ROE and strategic technology moat; the main vulnerability is weak near-term revenue growth and limited forward guidance granularity. For strategy, this means the market is currently valuing ASML for differentiation and durability, but that valuation is tethered to execution and clarity on demand recovery and margin sustainability.",
+    "root_cause": "No explicit perception gaps identified. The observed premium appears driven by fundamentals \u2014 notably a higher ROE and dominant technology position \u2014 combined with episodic revenue softness and uneven forward visibility. Communication cadence and granularity on near-term demand, backlog conversion and service revenue trends are limited relative to the premium embedded in the share price; this amplifies the downside risk if execution wavers. In short, valuation sensitivity is less about misperception and more about the market pricing a premium that requires continued operational clarity and predictable growth to sustain.",
     "top_recommendations": [
-      "Executive guidance tightening and roadmap disclosure (0\u201312 months): Publish a more granular 12\u201324 month revenue and service-margin roadmap with quarterly KPIs (order backlog conversion rate, recurring revenue % of total, book-to-bill) and at least one multi-quarter guidance band. Rationale: sustaining the current premium requires clearer forward visibility; absent these improvements the peer-average P/E (33.95) scenario would imply ~-8.2% downside (~$33.0B). KPIs: quarterly book-to-bill >1.0, recurring revenue \u226530% of sales within 24 months, sequential revenue growth turning positive within 4 quarters.",
-      "Accelerate recurring-revenue and service expansion (0\u201324 months): Prioritize commercialization of service, software and spare-parts subscriptions to convert cyclical equipment sales into higher-margin recurring streams. Set targets: increase recurring revenue contribution by +5\u20138 percentage points within 18 months and improve service gross margin by 200\u2013400 bps. Rationale: strengthening recurring cash flow reduces reliance on cyclicality and helps justify a sustained premium; failure to do so increases risk of compression to 33.95x (\u2248-8.2% market-cap impact). KPIs: ARPU growth, subscription churn <5%, recurring margin expansion.",
-      "Investor relations and proof-point cadence (0\u20139 months): Launch a proactive IR program focused on demonstrating execution against backlog conversion and recurring-revenue targets\u2014quarterly investor days, targeted analyst briefings, and publish a short-form quarterly metrics dashboard. Rationale: sustaining the premium requires repeatable credibility; improved disclosure reduces re-rating risk to peer average (33.95x) which would imply ~-8.2% downside (~$33.0B). KPIs: analyst consensus revision improvements, reduction in P/E volatility (quarterly sigma), and improved sentiment metrics within two reporting cycles."
+      "Tighten investor communications and publish quantified multi-year guidance within 6 months to validate the premium vs. peer average (target P/E 33.95x). Specific actions: deliver quarterly forward-looking metrics (order backlog, book-to-bill, service revenue %, normalized gross margin), host targeted analyst workshops on EUV demand drivers, and provide a clear capital allocation framework. KPIs: biannual updates to backlog conversion rate (+ target), YoY service revenue growth, and guidance vs. actual variance. Sustaining the premium requires these disclosures; absent clearer fundamentals and guidance, a rerate to 33.95x would imply ~-8.2% downside (~$33.0B).",
+      "Drive near-term revenue stabilization and conversion initiatives over 12 months: prioritize order fulfillment velocity, accelerate high-margin service and upgrade offerings, and deploy targeted customer-engagement programs to convert backlog into revenue. Specific actions: cross-functional \u2018ship-to-service\u2019 task force, prioritized production slots for high-margin systems, and a service attach-rate improvement program. KPIs: quarterly revenue growth, backlog-to-revenue conversion ratio, service revenue as % of total. These operational improvements are necessary to justify the existing premium; absent execution the 33.95x peer rerate implies ~-8.2% downside (~$33.0B).",
+      "Enhance risk transparency around supply chain, capacity expansion plans and sustainability within 9\u201312 months to reduce execution uncertainty priced into the P/E premium. Specific actions: publish a multi-year capacity and capex roadmap, third-party validation of supply constraints mitigation, and quantified ESG/circularity targets tied to equipment lifecycle. KPIs: disclosed capacity ramp timelines, capex per delivered system, and supplier on-time delivery rates. Clearer risk mitigation and governance will help sustain the premium; without it, compression to 33.95x would imply ~-8.2% downside (~$33.0B)."
     ]
   },
   "section_2_5_analyst_consensus": {
@@ -277,9 +264,9 @@
         }
       }
     ],
-    "relative_positioning": "ASML has 8 firms, slightly below peer average of ~9 (NXPI: 17, STM: 7, TSM: 3). Recent activity shows a modest disparity: ASML recorded 4 actions in the last 90 days (1 upgrade, 0 downgrades, 3 maintains) while NXPI had 0 actions, STM had 1 maintain, and TSM had 5 maintains. Net sentiment is Neutral for ASML and peers despite ASML's strong operational metrics.",
-    "perception_gap_narrative": "Wall Street attention is muted relative to ASML's fundamental profile. ASML trades at 36.99x P/E versus a peer average of ~33.95x (NXPI 26.34x, STM 43.55x, TSM 31.95x), a ~9% premium to peers, yet consensus tone remains Neutral and activity is dominated by maintains. That gap is notable given ASML\u2019s dashboard strengths: #1 in ROE and #2 rankings in ROA, Debt/Equity, Gross Margin, Operating Margin and Net Margin. Analysts appear to be prioritizing momentum and near-term demand visibility over durable profitability\u2014NXPI shows high coverage (17 firms) but no recent actions, while TSM had more frequent maintains. The combination of top-tier margins and limited upgrade momentum suggests a perception lag that could reverse if order visibility or EUV demand clarity improves, creating a contrarian setup where fundamentals outpace current analyst conviction.",
-    "contrarian_opportunity_score": "High (contingent on sustaining lithography leadership and growth reacceleration; premium otherwise at risk)"
+    "relative_positioning": "ASML has 8 firms, below peer average of ~9 (NXPI: 17, STM: 7, TSM: 3). Recent activity shows modest engagement: ASML recorded 4 actions in the last 90 days (1 upgrade, 3 maintains) while NXPI had 0 actions, STM had 1 action (1 maintain), and TSM had 5 actions (5 maintains). Net sentiment is Neutral despite ASML's #1 ROE and top\u2011two rankings across Market Cap, Debt/Equity, Gross Margin, Operating Margin and Net Margin, indicating limited upgrade momentum relative to its fundamental strength.",
+    "perception_gap_narrative": "Despite top-tier profitability and capital structure (#1 in ROE; #2 in Market Cap, Debt/Equity, Gross Margin, Operating Margin, Net Margin), ASML's consensus remains Neutral with predominantly maintain actions (3 of 4 in the last 90 days). ASML trades at 36.99x P/E versus a peer average of ~33.95x (NXPI 26.34x, STM 43.55x, TSM 31.95x), a modest premium. Coverage is slightly narrower (8 firms vs peer avg ~9) and analyst momentum has favored firms with higher action cadence or broader footprints (NXPI: 17 firms of coverage, TSM: 5 recent actions), which can sustain narrative attention even without upgrades. The divergence likely reflects a valuation haircut for the premium multiple plus caution on execution/capex and geopolitical exposure; that cautious stance despite superior margin and ROE profiles creates a contrarian setup if ASML sustains EUV leadership and demand reacceleration.",
+    "contrarian_opportunity_score": "High (contingent on sustaining EUV technology leadership and demand reacceleration; premium otherwise at risk)"
   },
   "section_3_hidden_strengths": {
     "strengths": [
@@ -288,15 +275,7 @@
         "target_value": 0.129996253873835,
         "peer_average": 0.042659238731310646,
         "outperformance_magnitude": "2.80x larger than NXPI (4.65%), positive vs STM (-0.55%), 49.5% better than TSM (8.69%)",
-        "why_wall_street_ignores": "Analysts often discount ASML's ROE because they view equipment sales as cyclical and lumpy; attention focuses on order-book timing, EUV cadence, and geopolitical risk, not steady capital returns embedded in recurring service and spares. ROE benefits are therefore under-credited.",
-        "valuation_impact": "+1.2x to +1.2x P/E range"
-      },
-      {
-        "metric_name": "net_margin",
-        "target_value": 0.2977625232393359,
-        "peer_average": 0.181175845867481,
-        "outperformance_magnitude": "1.96x larger than NXPI (15.21%), positive vs STM (-3.51%), 30.2% worse than TSM (42.65%)",
-        "why_wall_street_ignores": "High margins are masked by headline concerns (capex cycles, near-term unit volatility) and by comparisons to TSM's foundry margins. Analysts treat ASML more like a cyclical equipment vendor than a high-margin platform capturing aftermarket revenue.",
+        "why_wall_street_ignores": "ROE strength reflects ASML's high-margin, capital-light software and aftermarket services, but analysts focus on cyclical capex in equipment peers (TSM, STM) and treat semiconductor-equipment economics differently. ROE gains are often buried in segment disclosure and not translated to a durable premium.",
         "valuation_impact": "+1.2x to +1.2x P/E range"
       },
       {
@@ -304,7 +283,7 @@
         "target_value": 0.051066799556735806,
         "peer_average": 0.023552964578770944,
         "outperformance_magnitude": "2.90x larger than NXPI (1.76%), positive vs STM (-0.38%), 10.2% worse than TSM (5.68%)",
-        "why_wall_street_ignores": "ROA is underappreciated because ASML's asset base is specialized and capitalized differently from peers; investors prioritize system shipments and backlog over normalized asset returns, so efficient asset utilization gets low emphasis in models.",
+        "why_wall_street_ignores": "ROA advantage signals superior asset productivity, but ASML's long lead-times and high working capital profiles make analysts emphasize cyclical revenue visibility over steady asset returns. The metric is deprioritized relative to growth and EUV capacity debates.",
         "valuation_impact": "+1.2x to +1.2x P/E range"
       },
       {
@@ -312,7 +291,7 @@
         "target_value": 0.20994766775266485,
         "peer_average": 0.5029505997325464,
         "outperformance_magnitude": "81.3% lower than NXPI (1.12), 26.0% higher than STM (0.17), 5.1% lower than TSM (0.22)",
-        "why_wall_street_ignores": "Debt metrics are sidelined because ASML is compared to companies with different capital strategies (NXPI\u2019s acquisition leverage, TSM\u2019s foundry financing). The nuance \u2014 ASML\u2019s low leverage vs peer average but slightly higher than STM \u2014 is rarely highlighted in coverage notes.",
+        "why_wall_street_ignores": "Low D/E vs peer average is a balance-sheet strength, but markets fixate on capex cycles and supply-chain risk for equipment makers. Analysts also compare to capital structures of very different business models (STM, NXPI), so ASML's conservative leverage is often overlooked.",
         "valuation_impact": "+1.2x to +1.2x P/E range"
       },
       {
@@ -320,11 +299,19 @@
         "target_value": 401713581429.0,
         "peer_average": 528709691243.3333,
         "outperformance_magnitude": "7.22x larger than NXPI ($55.65B), 17.77x larger than STM ($22.60B), 73.4% worse than TSM ($1507.88B)",
-        "why_wall_street_ignores": "ASML\u2019s scale is evident but often mispositioned versus TSM; coverage narratives emphasize TAM differences (foundry vs lithography) rather than the strategic value of ASML\u2019s near-monopoly in EUV, so market-cap advantages don\u2019t translate into multiple expansion in analysts\u2019 frameworks.",
+        "why_wall_street_ignores": "ASML's large absolute market cap versus STM/NXPI draws fewer small-cap comparables; conversely it's far smaller than TSM, which complicates peer-based narratives. Analysts default to technology- and supply-driven stories rather than acknowledging scale-driven pricing power.",
         "valuation_impact": "+0.7x to +0.8x P/E range"
+      },
+      {
+        "metric_name": "net_margin",
+        "target_value": 0.2977625232393359,
+        "peer_average": 0.181175845867481,
+        "outperformance_magnitude": "1.96x larger than NXPI (15.21%), positive vs STM (-3.51%), 30.2% worse than TSM (42.65%)",
+        "why_wall_street_ignores": "Strong net margins are offset in street models by perceived cyclicality in equipment demand and heavy upfront R&D for EUV. Margin durability from software/servicing is under-communicated and often lumped into 'equipment cyclicality' buckets rather than recurring profit streams.",
+        "valuation_impact": "+1.2x to +1.2x P/E range"
       }
     ],
-    "aggregate_impact_estimate": "Current valuation sits ~9% above the peer fair-value band (32-34x P/E). Sustaining the premium requires continued EUV-based technological leadership, consistent high-margin aftermarket growth, and clear visibility on order cadence and geopolitical resilience.",
-    "communication_gap_summary": "Common themes: ASML\u2019s structural strengths are obscured by cyclicality narratives, product-cycle timing, and business-model differences vs foundries/IC designers. Analysts focus on order-book noise and geopolitical risk; clearer disclosure on recurring service revenue, normalized returns, and capital-structure discipline would close perception gaps."
+    "aggregate_impact_estimate": "Current valuation sits ~9-19% above the peer fair-value band (31-34x P/E). Sustaining the premium requires continued EUV technology leadership, clear evidence of durable aftermarket/service margins, and predictable multi-year order visibility from major customers (TSM, large IDMs).",
+    "communication_gap_summary": "Analysts overweight cyclical capex narratives and EUV risk while underweight steady returns, conservative leverage, and service-driven margins. Key themes: buried segment disclosures, different comparables (TSM vs STM/NXPI), and storytelling focused on short-term demand rather than structural profitability."
   }
 }

@@ -57,7 +57,7 @@ Analyze each metric to determine market perception and generate explanations for
    - market_perception: enum from categories above
    - perception_explanation: 20-500 char explanation of why this perception exists
 
-2. **overall_target_rank**: Integer rank (1=best) based on weighted average of metrics
+2. **overall_target_rank**: COPY the pre-calculated value from input ({overall_target_rank}) - DO NOT recalculate
 
 3. **key_strengths_summary**: 50-500 char summary using ONLY the top_3_strengths provided above
    - DO NOT choose different metrics - use the 3 pre-calculated strengths
@@ -83,8 +83,15 @@ Metric: [METRIC_NAME] = X.X, Rank #N, rank_qualifier="[qualifier]", Peers: [PEER
 
 For P/E specifically:
 Metric: P/E Ratio = X.Xx, Rank #N, rank_qualifier="Nth cheapest/most expensive", Peers: [values]
-- market_perception: "[Undervalued if low P/E + strong metrics, Overvalued if high P/E, etc.]"
-- perception_explanation: "Trades at [lowest/highest/Nth] P/E in peer set despite [strong/weak] operational metrics, reflecting market [concern/optimism] about [specific factors]."
+- market_perception: "[Use 'Premium vs peers' if trading above peer avg; 'Discount vs peers' if below; avoid 'Overvalued'/'Undervalued' unless extreme]"
+- perception_explanation: "Trades at [lowest/highest/Nth] P/E ([above/below] peer average of X.Xx) due to [ROE premium/growth concerns/risk factors]. [Specific driver explanation]."
+
+P/E INTERPRETATION NOTES:
+- P/E rank_qualifier shows relative positioning ("3rd cheapest" = third-lowest P/E among peers)
+- market_perception should reflect if premium/discount is JUSTIFIED by fundamentals
+- "Premium vs peers" = trading above peer avg P/E (may be justified by superior ROE/growth)
+- "Overvalued" = premium NOT justified by fundamentals (reserve for extreme cases)
+- Be consistent: don't label "3rd cheapest" as "Overvalued" unless fundamentals are clearly weak
 
 CRITICAL: 
 - Copy metric_name, target_value, peer_values, target_rank, and rank_qualifier EXACTLY from input
