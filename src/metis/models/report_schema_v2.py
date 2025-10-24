@@ -236,6 +236,108 @@ class PeerSelectionRationale(BaseModel):
     )
 
 
+class ReportMethodology(BaseModel):
+    """
+    Explanation of report methodology for transparency.
+    
+    Describes data sources, analytical approach, limitations, and how findings should be interpreted.
+    """
+    overview: str = Field(
+        default=(
+            "This competitive intelligence report combines quantitative financial analysis with AI-assisted "
+            "qualitative interpretation to identify valuation gaps and actionable opportunities. The methodology "
+            "prioritizes transparency, data-driven insights, and sector-agnostic applicability."
+        ),
+        min_length=100,
+        max_length=500,
+        description="High-level summary of the analytical approach"
+    )
+    
+    data_sources_description: str = Field(
+        default=(
+            "Financial data sourced from FinancialModelingPrep (FMP) API, including: (1) company profiles "
+            "and market data (quote, market cap, P/E); (2) quarterly financial statements (income statement, "
+            "balance sheet, cash flow) for trailing 5 quarters; (3) key financial ratios and metrics; "
+            "(4) analyst ratings and consensus data; (5) earnings call transcripts for linguistic analysis. "
+            "Company overviews and industry context augmented via web search (OpenAI). All financial metrics "
+            "calculated to ensure accuracy and consistency."
+        ),
+        min_length=200,
+        max_length=800,
+        description="Detailed explanation of data sources and collection methods"
+    )
+    
+    peer_selection_process: str = Field(
+        default=(
+            "Peers identified via automated screening based on: (1) sector match (same GICS sector), "
+            "(2) market capitalization proximity (within ±70% of target), and (3) industry relevance. "
+            "Selection prioritizes scale comparability and sector alignment over perfect business model fit. "
+            "Typically 3-5 peers selected to balance statistical robustness with focused analysis. Peer selection "
+            "rationale includes structural differences acknowledgment when cross-subsector comparisons occur."
+        ),
+        min_length=200,
+        max_length=600,
+        description="How peer companies are identified and selected"
+    )
+    
+    analytical_framework: str = Field(
+        default=(
+            "Analysis combines: (1) Quantitative benchmarking across 8-11 financial metrics (market cap, P/E, "
+            "ROE, revenue growth, margins, leverage) with competitive rankings (1=best); (2) Valuation gap analysis "
+            "comparing target P/E to peer average, with directional assessment (premium vs discount); "
+            "(3) AI-assisted market perception classification (e.g., 'Undervalued', 'Hidden strength', 'Root cause') "
+            "based on metric rankings vs valuation multiples; (4) Linguistic analysis of earnings transcripts to "
+            "identify messaging patterns and sentiment correlations; (5) Multi-factor P/E decomposition to separate "
+            "fundamental vs perception-driven valuation components."
+        ),
+        min_length=300,
+        max_length=1000,
+        description="Core analytical methods and frameworks applied"
+    )
+    
+    llm_role_and_transparency: str = Field(
+        default=(
+            "Large language models (LLMs) used for: (1) generating narrative explanations of pre-calculated metrics, "
+            "(2) identifying market perception gaps by analyzing metric rankings vs valuation, (3) synthesizing "
+            "earnings call themes and competitor messaging patterns, and (4) formulating actionable recommendations. "
+            "All quantitative calculations (rankings, percentages, valuation impacts) performed in Python prior to "
+            "LLM involvement to eliminate math errors. LLM outputs validated against input data and schema constraints. "
+            "Model: OpenAI GPT-4 family (gpt-5-mini for structured outputs)."
+        ),
+        min_length=300,
+        max_length=800,
+        description="How AI/LLMs are used and what safeguards are in place"
+    )
+    
+    limitations_and_caveats: str = Field(
+        default=(
+            "Limitations: (1) Peer comparisons may span different subsectors with varying business models, margins, "
+            "and capital structures—interpretation guidance provided when applicable; (2) Market perception analysis "
+            "is inferential, not based on direct investor surveys; (3) Valuation gap decomposition uses industry-standard "
+            "heuristics and regression models, not company-specific proprietary models; (4) Earnings transcript analysis "
+            "limited to most recent available transcripts (typically 1-2 quarters); (5) Recommendations are directional "
+            "and require company-specific contextualization before implementation; (6) Historical data and peer comparisons "
+            "do not guarantee future performance or valuation outcomes."
+        ),
+        min_length=300,
+        max_length=1000,
+        description="Known limitations, assumptions, and important caveats"
+    )
+    
+    intended_use: str = Field(
+        default=(
+            "This report is intended for internal strategic planning, investor relations assessment, and competitive "
+            "positioning analysis. It is NOT investment advice and should not be used as the sole basis for investment "
+            "decisions. Findings represent analytical perspectives based on available data and may not reflect all "
+            "material factors affecting valuation. Users should conduct independent verification and consult qualified "
+            "financial advisors before making strategic or investment decisions."
+        ),
+        min_length=200,
+        max_length=600,
+        description="Intended use and important disclaimers"
+    )
+
+
 class PeerGroup(BaseModel):
     """Collection of peer companies"""
     target_company: CompanyProfile = Field(..., description="The target company being analyzed")
@@ -1523,6 +1625,7 @@ class CompetitiveIntelligenceReport(BaseModel):
     6. Actionable Roadmap - Problem-solution framework with ranked actions
     """
     metadata: ReportMetadata = Field(..., description="Report metadata and generation info")
+    methodology: ReportMethodology = Field(default_factory=ReportMethodology, description="Explanation of analytical methodology and limitations")
     data_sources: List[DataSource] = Field(..., description="Data sources used in analysis")
     peer_group: PeerGroup = Field(..., description="Target company and analyzed peers")
     valuation_context: Optional[ValuationContext] = Field(None, description="Valuation summary for quick reference")
@@ -1578,14 +1681,15 @@ __all__ = [
     'StealTheirPlaybookInput',
     'ValuationForensicsInput',
     'ActionableRoadmapInput',
-    
     # Core Data Models
     'ReportMetadata',
+    'ReportMethodology',
     'DataSource',
     'CompanyProfile',
     'PeerCompany',
     'PeerGroup',
     'PeerSelectionRationale',
+    'MetricComparison',nale',
     'MetricComparison',
     
     # Section Models (Output)

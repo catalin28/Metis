@@ -64,9 +64,9 @@ Create an executive-level summary that synthesizes the competitive analysis find
    - Significance of the finding for the company's strategic positioning
 
 3. **Root Cause Analysis** (50-150 words):
-   - Number and nature of perception gaps identified (reference {perception_gaps} count and content)
+   - Number and nature of perception gaps identified (reference {perception_gaps} list content)
    - CRITICAL: If {perception_gaps} list is not empty, explicitly acknowledge these gaps exist
-   - Example: "We identified {len(perception_gaps)} perception gaps..." or "Despite strong operational metrics, {len(perception_gaps)} perception gaps..."
+   - Example: "We identified [count] perception gaps..." or "Despite strong operational metrics, multiple perception gaps exist..."
    - DO NOT say "No explicit perception gaps" if {perception_gaps} contains items
    - Underlying factors driving market misperception
    - Communication or operational issues affecting valuation
