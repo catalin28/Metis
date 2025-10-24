@@ -311,10 +311,18 @@ class ReportGenerator:
             'executive_summary.txt'
         )
         
-        # Format prompt with input data
-        formatted_prompt = prompt_template.format(
-            **input_model.model_dump()
-        )
+        # Format metric values for better display
+        from ..utils.metric_calculations import format_metric_value
+        
+        input_dict = input_model.model_dump()
+        # Format ROE values for display
+        target_roe = input_dict.get('target_roe', 0)
+        peer_avg_roe = input_dict.get('peer_average_roe', 0)
+        input_dict['target_roe_formatted'] = format_metric_value(target_roe, 'ROE') if target_roe else 'N/A'
+        input_dict['peer_average_roe_formatted'] = format_metric_value(peer_avg_roe, 'ROE') if peer_avg_roe else 'N/A'
+        
+        # Format prompt with modified input data
+        formatted_prompt = prompt_template.format(**input_dict)
         
         # Generate structured output using LLM
         output = await self.llm_agent.generate_structured_output(

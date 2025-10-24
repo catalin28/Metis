@@ -52,6 +52,7 @@ from ..models.report_schema_v2 import (
     CompanyProfile,
     PeerCompany,
     PeerGroup,
+    PeerSelectionRationale,
     DataQuality
 )
 from ..utils.prompt_loader import PromptLoader
@@ -185,11 +186,12 @@ class ReportGenerator:
             # STEP 3: Get company overview via web search
             logger.info("Step 3/4: Researching company via web search")
             company_overview_result = self.llm_agent.research_company_with_web_search(
+                symbol=target_symbol,
                 company_name=company_data[target_symbol]['name'],
-                company_symbol=target_symbol
+                industry=company_data[target_symbol].get('industry', 'Unknown'),
+                sector=company_data[target_symbol].get('sector', 'Unknown')
             )
             company_overview = company_overview_result['company_overview']
-            
             # POST-PROCESS: Validate and correct ranking statements in company_overview
             actual_rank = comparative_metrics.get('overall_rank', 1)
             total_companies = len(peer_symbols) + 1
@@ -317,7 +319,8 @@ class ReportGenerator:
         # Generate structured output using LLM
         output = await self.llm_agent.generate_structured_output(
             prompt=formatted_prompt,
-            response_format=ExecutiveSummary
+            response_format=ExecutiveSummary,
+            temperature=None
         )
         
         logger.info(f"✓ Executive Summary generated for {target_symbol}")
@@ -353,7 +356,8 @@ class ReportGenerator:
         # Generate structured output using LLM
         output = await self.llm_agent.generate_structured_output(
             prompt=formatted_prompt,
-            response_format=CompetitiveDashboard
+            response_format=CompetitiveDashboard,
+            temperature=None
         )
         
         # POST-PROCESS: Auto-calculate perception_gap_count from LLM's market_perception tags
@@ -444,7 +448,8 @@ class ReportGenerator:
         # Generate structured output using LLM (just narrative fields)
         llm_output = await self.llm_agent.generate_structured_output(
             prompt=formatted_prompt,
-            response_format=AnalystConsensusOutput
+            response_format=AnalystConsensusOutput,
+            temperature=None
         )
         
         # POST-PROCESSING: Fix common LLM narrative errors
@@ -525,17 +530,6 @@ class ReportGenerator:
             perception_gap_narrative=fixed_perception_gap,
             contrarian_opportunity_score=fixed_contrarian_score
         )
-                fixed_perception_gap
-            )
-        
-        # Merge LLM output with input data to create full section
-        output = AnalystConsensusSection(
-            target_analysis=target_analysis,
-            peer_analysis=peer_analysis,
-            relative_positioning=fixed_relative_positioning,
-            perception_gap_narrative=fixed_perception_gap,
-            contrarian_opportunity_score=llm_output.contrarian_opportunity_score
-        )
         
         logger.info(f"✓ Analyst Consensus generated for {target_symbol}")
         return output
@@ -577,7 +571,8 @@ class ReportGenerator:
         # Generate structured output using LLM
         output = await self.llm_agent.generate_structured_output(
             prompt=formatted_prompt,
-            response_format=HiddenStrengths
+            response_format=HiddenStrengths,
+            temperature=None
         )
         
         logger.info(f"✓ Hidden Strengths generated for {target_symbol}")
@@ -613,7 +608,8 @@ class ReportGenerator:
         # Generate structured output using LLM
         output = await self.llm_agent.generate_structured_output(
             prompt=formatted_prompt,
-            response_format=StealTheirPlaybook
+            response_format=StealTheirPlaybook,
+            temperature=None
         )
         
         logger.info(f"✓ Steal Their Playbook generated for {target_symbol}")
@@ -649,7 +645,8 @@ class ReportGenerator:
         # Generate structured output using LLM
         output = await self.llm_agent.generate_structured_output(
             prompt=formatted_prompt,
-            response_format=ValuationForensics
+            response_format=ValuationForensics,
+            temperature=None
         )
         
         logger.info(f"✓ Valuation Forensics generated for {target_symbol}")
@@ -695,7 +692,8 @@ class ReportGenerator:
         # Generate structured output using LLM
         output = await self.llm_agent.generate_structured_output(
             prompt=formatted_prompt,
-            response_format=ActionableRoadmap
+            response_format=ActionableRoadmap,
+            temperature=None
         )
         
         logger.info(f"✓ Actionable Roadmap generated for {target_symbol}")
@@ -739,10 +737,89 @@ class ReportGenerator:
             if symbol != target_symbol and data.get('available', True)
         ]
         
+        # Generate peer selection rationale
+        selection_rationale = self._generate_peer_selection_rationale(
+            target_company, peers, company_data
+        )
+        
         return PeerGroup(
             target_company=target_company,
             peers=peers,
-            discovery_method="automated"
+            discovery_method="automated",
+            selection_rationale=selection_rationale
+        )
+    
+    def _generate_peer_selection_rationale(
+        self,
+        target: CompanyProfile,
+        peers: List[PeerCompany],
+        company_data: Dict[str, Dict[str, Any]]
+    ) -> PeerSelectionRationale:
+        """
+        Generate explanation of peer selection methodology and structural caveats.
+        
+        Addresses cross-subsector comparison concerns by explaining:
+        - Why these peers were selected (market cap proximity, sector match)
+        - Business model differences across the peer set
+        - How to interpret comparisons given structural differences
+        """
+        # Identify business model types in peer set
+        peer_industries = {}
+        for peer in peers:
+            peer_data = company_data.get(peer.symbol, {})
+            industry = peer_data.get('industry', 'Unknown')
+            peer_industries[peer.symbol] = industry
+        
+        target_industry = company_data.get(target.symbol, {}).get('industry', 'Unknown')
+        unique_industries = set(peer_industries.values())
+        unique_industries.add(target_industry)
+        
+        # Determine if cross-subsector comparison exists
+        cross_subsector = len(unique_industries) > 1
+        
+        # Build methodology explanation
+        methodology = (
+            f"Peers selected via market capitalization proximity (±70%) and sector match ({target.sector}). "
+            f"Selection prioritizes scale comparability and industry relevance over perfect business model alignment."
+        )
+        
+        # Build structural differences explanation
+        if cross_subsector:
+            industry_list = ", ".join(sorted(unique_industries))
+            structural_differences = (
+                f"Peer set includes companies across {len(unique_industries)} subsectors: {industry_list}. "
+                f"These subsectors may have different business models, margin profiles, ROE characteristics, and capital structures. "
+                f"Comparisons should account for inherent structural differences in operational leverage, pricing power, "
+                f"and capital intensity that vary by subsector."
+            )
+        else:
+            structural_differences = (
+                f"All peers operate within the {target_industry} subsector, providing relatively consistent "
+                f"business model comparisons. Metric differences primarily reflect operational efficiency and "
+                f"market positioning rather than structural subsector variations."
+            )
+        
+        # Build interpretation guidance
+        interpretation_guidance = (
+            "Valuation premiums/discounts should be interpreted cautiously when comparing across subsectors. "
+            "Margin and ROE outperformance may partially reflect business model advantages (e.g., monopoly position, "
+            "asset-light operations) rather than pure operational superiority. Premium multiples for differentiated "
+            "business models (e.g., sole-source suppliers) may be structurally justified."
+        )
+        
+        # Optional: Note alternative peers
+        alternative_note = None
+        if cross_subsector:
+            alternative_note = (
+                f"Pure-play {target_industry} comparisons would provide tighter valuation bands but lack sector "
+                f"breadth. Current peer set balances subsector diversity with scale/relevance."
+            )
+        
+        return PeerSelectionRationale(
+            methodology=methodology,
+            structural_differences=structural_differences,
+            interpretation_guidance=interpretation_guidance,
+            alternative_peer_considerations=alternative_note
         )
     
     def _create_data_sources(self) -> List[DataSource]:
