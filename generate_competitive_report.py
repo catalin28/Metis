@@ -93,22 +93,34 @@ async def generate_report(
     target_data = company_data[symbol]
     
     # Prepare valuation context (always needed)
+    peer_benchmark_pe = comparative_metrics.get('peer_average_pe', 0)
+    current_pe = target_data.get('pe_ratio', 0)
+    current_market_cap = target_data.get('market_cap', 0)
+    
     valuation_context = {
-        'current_pe': target_data.get('pe_ratio', 0),
-        'peer_average_pe': comparative_metrics.get('peer_average_pe', 0),
-        'target_pe': comparative_metrics.get('target_pe', 0),
-        'current_market_cap': target_data.get('market_cap', 0),
+        'current_pe': current_pe,
+        'peer_average_pe': peer_benchmark_pe,
+        'peer_benchmark_pe': peer_benchmark_pe,  # Renamed for clarity
+        'current_market_cap': current_market_cap,
         'implied_market_cap': 0,
-        'valuation_gap_percent': 0,
+        'implied_market_cap_method': 'current_market_cap × (peer_benchmark_pe / current_pe)',
+        'premium_vs_peer_percent': 0,  # Basis: peer average
+        'downside_to_peer_multiple_percent': 0,  # Basis: current
         'valuation_gap_dollars': 0
     }
     
     # Calculate implied values
-    if valuation_context['current_pe'] > 0 and valuation_context['target_pe'] > 0:
-        ratio = valuation_context['target_pe'] / valuation_context['current_pe']
-        valuation_context['implied_market_cap'] = valuation_context['current_market_cap'] * ratio
-        valuation_context['valuation_gap_percent'] = (ratio - 1) * 100
-        valuation_context['valuation_gap_dollars'] = valuation_context['implied_market_cap'] - valuation_context['current_market_cap']
+    if current_pe > 0 and peer_benchmark_pe > 0:
+        ratio = peer_benchmark_pe / current_pe
+        valuation_context['implied_market_cap'] = current_market_cap * ratio
+        
+        # Premium vs peer (basis = peer): (current - peer) / peer × 100
+        valuation_context['premium_vs_peer_percent'] = ((current_pe - peer_benchmark_pe) / peer_benchmark_pe) * 100
+        
+        # Downside to compress to peer (basis = current): (implied - current) / current × 100
+        valuation_context['downside_to_peer_multiple_percent'] = (ratio - 1) * 100
+        
+        valuation_context['valuation_gap_dollars'] = valuation_context['implied_market_cap'] - current_market_cap
     
     # Build peer group with selection rationale
     logger.info("Generating peer group structure...")

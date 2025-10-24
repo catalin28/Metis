@@ -60,6 +60,7 @@ class DashboardMetricsRanker:
             'market_cap_data': self._extract_and_rank(field='market_cap', higher_is_better=True),
             'pe_ratio_data': self._extract_and_rank(field='pe_ratio', higher_is_better=False),
             'roe_data': self._extract_and_rank(field='roe', higher_is_better=True),
+            'roa_data': self._extract_and_rank(field='roa', higher_is_better=True),
             'revenue_growth_data': self._extract_and_rank(field='revenue_growth', higher_is_better=True),
             'debt_equity_data': self._extract_and_rank(field='debt_to_equity', higher_is_better=False),
             'combined_ratio_data': self._extract_and_rank(field='combined_ratio', higher_is_better=False),

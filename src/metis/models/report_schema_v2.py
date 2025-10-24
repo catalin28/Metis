@@ -102,6 +102,7 @@ class ExecutiveSummaryInput(BaseModel):
     areas_of_excellence: List[str] = Field(..., description="Metrics where target outperforms peers")
     areas_of_improvement: List[str] = Field(..., description="Metrics where target underperforms peers")
     perception_gaps: List[str] = Field(..., description="Identified perception gaps affecting valuation")
+    perception_gap_count: int = Field(default=0, ge=0, description="Count of perception gaps (auto-calculated from list length)")
     
     @field_validator('symbol')
     @classmethod
@@ -283,15 +284,18 @@ class ReportMethodology(BaseModel):
     analytical_framework: str = Field(
         default=(
             "Analysis combines: (1) Quantitative benchmarking across 8-11 financial metrics (market cap, P/E, "
-            "ROE, revenue growth, margins, leverage) with competitive rankings (1=best); (2) Valuation gap analysis "
-            "comparing target P/E to peer average, with directional assessment (premium vs discount); "
+            "ROE, ROA, revenue growth, margins, leverage) with competitive rankings (1=best); (2) Valuation gap analysis "
+            "comparing target P/E to peer average, with directional assessment (premium vs discount). "
+            "VALUATION FORMULAS: implied_market_cap = current_market_cap × (peer_benchmark_pe / current_pe); "
+            "premium_vs_peer_percent = ((current_pe - peer_benchmark_pe) / peer_benchmark_pe) × 100 (basis: peer); "
+            "downside_to_peer_multiple_percent = ((implied_market_cap - current_market_cap) / current_market_cap) × 100 (basis: current). "
             "(3) AI-assisted market perception classification (e.g., 'Undervalued', 'Hidden strength', 'Root cause') "
             "based on metric rankings vs valuation multiples; (4) Linguistic analysis of earnings transcripts to "
             "identify messaging patterns and sentiment correlations; (5) Multi-factor P/E decomposition to separate "
             "fundamental vs perception-driven valuation components."
         ),
         min_length=300,
-        max_length=1000,
+        max_length=1200,
         description="Core analytical methods and frameworks applied"
     )
     

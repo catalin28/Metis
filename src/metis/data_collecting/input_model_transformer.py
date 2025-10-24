@@ -141,7 +141,8 @@ class InputModelTransformer:
             target_rank=comparative_metrics.get('overall_rank', 1),  # Rankings start at 1
             areas_of_excellence=comparative_metrics.get('strengths', [])[:3],
             areas_of_improvement=comparative_metrics.get('weaknesses', [])[:3],
-            perception_gaps=comparative_metrics.get('perception_gaps', [])
+            perception_gaps=comparative_metrics.get('perception_gaps', []),
+            perception_gap_count=len(comparative_metrics.get('perception_gaps', []))
         )
     
     @staticmethod

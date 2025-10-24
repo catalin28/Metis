@@ -50,6 +50,8 @@ Focus on quantifiable disparities that create contrarian opportunities.
    - Example format: "[TARGET] has X firms, slightly [above/below] peer average of ~Y ([PEER_A]: Z, [PEER_B]: W, [PEER_C]: V). Recent activity shows [disparity/alignment]: [TARGET] received N actions (A upgrades, B maintains) versus M for [PEER_A], P for [PEER_B], and Q for [PEER_C]. Sentiment is [Neutral/Bullish/Bearish] despite [strong/weak] fundamentals."
    
 2. PERCEPTION GAP NARRATIVE (150-1000 characters):
+   - **CRITICAL LENGTH LIMIT: MAXIMUM 1000 CHARACTERS TOTAL - Count your output and trim if needed**
+   - **If approaching 1000 chars, prioritize: (1) P/E comparison, (2) sentiment vs fundamentals mismatch, (3) contrarian opportunity setup**
    - **CRITICAL: Extract P/E values from input data:**
      * target_analysis has field "current_pe" = target's P/E ratio
      * Each peer in peer_analysis list has "current_pe" field

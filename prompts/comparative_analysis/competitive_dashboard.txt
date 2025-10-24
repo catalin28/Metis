@@ -68,6 +68,12 @@ Analyze each metric to determine market perception and generate explanations for
    - DO NOT choose different metrics - use the 3 pre-calculated weaknesses
    - Format: "{{Company}} trails in {{metric1}} (#{{rank}}, value), {{metric2}} (#{{rank}}, value), and {{metric3}} (#{{rank}}, value)"
    - Include actual values and ranks from the data
+   - **CRITICAL: If fewer than 3 weaknesses provided:**
+     * DO NOT add "N/A (#N/A, N/A)" or placeholder text
+     * Write summary using ONLY weaknesses actually provided
+     * If 2 weaknesses: "{{Company}} trails in {{metric1}} and {{metric2}}"
+     * If 1 weakness: "{{Company}}'s primary weakness is {{metric1}}"
+     * NEVER include "N/A" or meta-commentary about missing data
 
 **Example Analysis Format**:
 Metric: [METRIC_NAME] = X.X, Rank #N, rank_qualifier="[qualifier]", Peers: [PEER_A]=Y.Y, [PEER_B]=Z.Z

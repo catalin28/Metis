@@ -33,6 +33,7 @@ Generate a comprehensive executive summary for the competitive intelligence repo
 - Target Company Rank: {target_rank} out of {peer_count} companies
 - Areas of Excellence: {areas_of_excellence}
 - Areas Needing Improvement: {areas_of_improvement}
+- Perception Gaps Count: {perception_gap_count}
 - Perception Gaps Identified: {perception_gaps}
 - CRITICAL: If any list has fewer than 3 items, use only the items provided - DO NOT add meta-text like "a third item was not provided"
 - Example: If only 2 weaknesses provided, mention only those 2 naturally without explaining why there's no third
@@ -44,7 +45,10 @@ Create an executive-level summary that synthesizes the competitive analysis find
 
 1. **Company Overview** (200-400 words):
    - Brief description of the company's business model and market position
-   - Current competitive standing within the industry: {target_rank} out of {peer_count} peers analyzed
+   - CRITICAL: Overall competitive standing = #{target_rank} out of {peer_count} peers (USE THIS EXACT NUMBER)
+   - DO NOT say "#1 overall" unless {target_rank} = 1
+   - DO NOT say "#2 overall" unless {target_rank} = 2
+   - If {target_rank} = 2, you MUST say "ranks #2 overall" or "second-ranked overall"
    - Key operational strengths and market opportunities
    - ACCURACY: When citing ROE, say "above peer average" NOT "outperforming peers" (a peer may be higher)
    - CRITICAL OVERALL RANKING RULE:
@@ -64,10 +68,12 @@ Create an executive-level summary that synthesizes the competitive analysis find
    - Significance of the finding for the company's strategic positioning
 
 3. **Root Cause Analysis** (50-150 words):
-   - Number and nature of perception gaps identified (reference {perception_gaps} list content)
-   - CRITICAL: If {perception_gaps} list is not empty, explicitly acknowledge these gaps exist
-   - Example: "We identified [count] perception gaps..." or "Despite strong operational metrics, multiple perception gaps exist..."
-   - DO NOT say "No explicit perception gaps" if {perception_gaps} contains items
+   - Number and nature of perception gaps identified - ALWAYS use {perception_gap_count}
+   - If {perception_gap_count} = 0: "No explicit perception gaps identified"
+   - If {perception_gap_count} = 1: "We identified 1 perception gap..."
+   - If {perception_gap_count} > 1: "We identified {perception_gap_count} perception gaps..."
+   - DO NOT count {perception_gaps} list manually - ALWAYS use {perception_gap_count} variable
+   - DO NOT say "0 perception gaps" if {perception_gap_count} > 0
    - Underlying factors driving market misperception
    - Communication or operational issues affecting valuation
    - Connect perception gaps to valuation impact: how do these gaps contribute to the P/E discount/premium?
