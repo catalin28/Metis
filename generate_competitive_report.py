@@ -22,6 +22,7 @@ from metis.assistants.peer_discovery_service import PeerDiscoveryService
 from metis.data_collecting.competitive_data_collector import CompetitiveDataCollector
 from metis.data_collecting.fmp_client import FMPClient
 from metis.orchestrators.report_generator import ReportGenerator
+from metis.models.report_schema_v2 import ReportMethodology
 
 # Configure logging (suppress unless --verbose)
 logging.basicConfig(
@@ -116,11 +117,15 @@ async def generate_report(
         company_data=company_data
     )
     
+    # Create methodology section (auto-populated with defaults)
+    methodology = ReportMethodology()
+    
     # Build result
     result = {
         'target_symbol': symbol,
         'peer_symbols': peer_symbols,
         'valuation_context': valuation_context,
+        'methodology': methodology.model_dump(),
         'peer_group': peer_group.model_dump()
     }
     

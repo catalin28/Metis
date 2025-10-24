@@ -1689,7 +1689,6 @@ __all__ = [
     'PeerCompany',
     'PeerGroup',
     'PeerSelectionRationale',
-    'MetricComparison',nale',
     'MetricComparison',
     
     # Section Models (Output)
