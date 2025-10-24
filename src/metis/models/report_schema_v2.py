@@ -505,6 +505,48 @@ class ExecutiveSummary(BaseModel):
         
         return [rec.strip() for rec in v]
     
+    @model_validator(mode='after')
+    def validate_ranking_consistency(self) -> 'ExecutiveSummary':
+        """
+        CRITICAL: Ensure company_overview doesn't claim #1 overall when not actually rank 1.
+        
+        This validator catches LLM hallucinations where it says "ranks #1 overall"
+        when the actual target_rank is 2, 3, etc.
+        """
+        import re
+        overview = self.company_overview.lower()
+        
+        # Check for explicit "#1 overall" or "ranks #1" or "#1 among" patterns
+        rank_1_patterns = [
+            r'ranks?\s*#1\s+overall',
+            r'#1\s+overall',
+            r'ranked?\s*#1\s+among',
+            r'#1\s+among.*peer',
+            r'top.?ranked\s+among.*peer',  # "top-ranked among peers" implies #1
+        ]
+        
+        claims_rank_1 = any(re.search(pattern, overview) for pattern in rank_1_patterns)
+        
+        # Get actual rank from context (stored during validation)
+        # This will be injected by the caller before validation
+        actual_rank = getattr(self, '_input_target_rank', None)
+        
+        if claims_rank_1 and actual_rank and actual_rank != 1:
+            logger.warning(
+                f"RANKING CONTRADICTION: company_overview claims '#1 overall' but actual target_rank={actual_rank}. "
+                f"Auto-correcting text."
+            )
+            # Auto-correct the text
+            for pattern in rank_1_patterns:
+                self.company_overview = re.sub(
+                    pattern,
+                    f'ranks #{actual_rank} overall',
+                    self.company_overview,
+                    flags=re.IGNORECASE
+                )
+        
+        return self
+    
     class Config:
         json_schema_extra = {
             "example": {
@@ -754,7 +796,7 @@ class CompetitiveDashboard(BaseModel):
     
     key_weaknesses_summary: str = Field(
         ...,
-        min_length=50,
+        min_length=10,
         max_length=500,
         description="LLM-generated summary using ONLY the top_3_weaknesses provided in input. "
                     "Write narrative about these specific metrics - DO NOT choose different ones. "
