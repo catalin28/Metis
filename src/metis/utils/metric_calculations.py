@@ -16,6 +16,94 @@ from typing import Dict, List, Tuple, Optional
 logger = logging.getLogger(__name__)
 
 
+def format_metric_value(
+    value: Optional[float],
+    metric_name: str,
+    decimal_places: int = 1
+) -> str:
+    """
+    Format a metric value for display according to its type.
+    
+    - Percentages (ROE, ROA, margins, growth): Convert 0.13 → "~13.0%"
+    - Market cap / large numbers: Convert 38500000000 → "$38.5B"
+    - Ratios / multipliers: Keep as-is with 'x' suffix: 15.5 → "15.5x"
+    - Combined ratios (insurance): Format as percentage: 0.95 → "95%"
+    
+    Args:
+        value: The numeric value to format
+        metric_name: Name of the metric to determine formatting
+        decimal_places: Number of decimal places (default: 1)
+        
+    Returns:
+        Formatted string ready for display
+        
+    Examples:
+        >>> format_metric_value(0.13, "ROE")
+        "~13.0%"
+        >>> format_metric_value(38500000000, "Market Cap")
+        "$38.5B"
+        >>> format_metric_value(15.5, "P/E Ratio")
+        "15.5x"
+    """
+    if value is None:
+        return "N/A"
+    
+    metric_lower = metric_name.lower().replace(' ', '_')
+    
+    # 1. Percentage metrics (expressed as decimals like 0.13 for 13%)
+    #    ROE, ROA, margins, growth rates
+    percentage_metrics = [
+        'roe', 'roa', 'roic', 'return',
+        'margin', 'gross_margin', 'operating_margin', 'net_margin',
+        'growth', 'revenue_growth', 'earnings_growth',
+        'payout_ratio'
+    ]
+    
+    if any(term in metric_lower for term in percentage_metrics):
+        # If value is between -1 and 1, treat as decimal representation
+        if -1 <= value <= 1:
+            return f"~{value * 100:.{decimal_places}f}%"
+        # If value > 1, already in percentage format
+        return f"~{value:.{decimal_places}f}%"
+    
+    # 2. Market cap and large currency values (billions/millions)
+    currency_metrics = [
+        'market_cap', 'revenue', 'sales', 'income', 'earnings',
+        'assets', 'equity', 'liabilities', 'cash'
+    ]
+    
+    if any(term in metric_lower for term in currency_metrics):
+        if abs(value) >= 1e9:
+            return f"${value / 1e9:.{decimal_places}f}B"
+        elif abs(value) >= 1e6:
+            return f"${value / 1e6:.{decimal_places}f}M"
+        elif abs(value) >= 1e3:
+            return f"${value / 1e3:.{decimal_places}f}K"
+        return f"${value:.{decimal_places}f}"
+    
+    # 3. Ratios and multipliers (P/E, debt/equity, etc.)
+    ratio_metrics = [
+        'pe_ratio', 'p/e', 'price_to_earnings',
+        'debt_to_equity', 'debt_equity', 'd/e',
+        'price_to_book', 'p/b',
+        'current_ratio', 'quick_ratio'
+    ]
+    
+    if any(term in metric_lower for term in ratio_metrics):
+        return f"{value:.{decimal_places}f}x"
+    
+    # 4. Combined ratio (insurance-specific, expressed as percentage)
+    if 'combined_ratio' in metric_lower or 'loss_ratio' in metric_lower:
+        # If value < 2, treat as decimal (0.95 = 95%)
+        if value < 2:
+            return f"{value * 100:.{decimal_places}f}%"
+        # Otherwise already in percentage format
+        return f"{value:.{decimal_places}f}%"
+    
+    # 5. Default: numeric value with suffix
+    return f"{value:.{decimal_places}f}"
+
+
 def detect_negative_equity_peers(peer_values: Dict[str, float], metric_name: str) -> List[str]:
     """
     Detect peers with negative equity that make D/E ratios unreliable.

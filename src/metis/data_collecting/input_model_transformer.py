@@ -33,6 +33,7 @@ from ..utils.metric_calculations import (
     format_outperformance_vs_peers,
     calculate_valuation_impact,
     determine_metric_direction,
+    format_metric_value,
 )
 
 

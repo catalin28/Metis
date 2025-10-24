@@ -164,3 +164,13 @@ tmp/
 # Local configuration overrides
 config/local.yaml
 client_config_local.yaml
+
+# Metis project specific
+# Backup files
+*.backup
+*.bak
+
+# Temporary test outputs (keep reference files)
+debug_*.py
+check_*.py
+verify_*.py
