@@ -1,0 +1,56 @@
+Analyze why the market has a "{category}" perception of {symbol} based on the provided financial and communication metrics.
+
+**Company Analysis**: {symbol}
+**Market Perception Category**: {category}
+**Analysis Date**: {analysis_date}
+
+**Financial Metrics**:
+- P/E Ratio: {pe_ratio}x (vs peer average {peer_pe_avg}x)
+- ROE: {roe}% (vs peer average {peer_roe_avg}%)
+- Combined Ratio: {combined_ratio} (vs peer average {peer_combined_ratio_avg})
+- Revenue Growth: {revenue_growth}% (vs peer average {peer_growth_avg}%)
+- Debt/Equity: {debt_to_equity} (vs peer average {peer_debt_equity_avg})
+
+**Communication Metrics**:
+- Management Sentiment Score: {sentiment_score}/100
+- Analyst Confusion Score: {confusion_score}/100
+
+**Peer Context**:
+- Best Performing Peer: {best_performer}
+- Worst Performing Peer: {worst_performer}
+- Industry: Insurance/Financial Services
+
+**Instructions**:
+Provide a detailed 2-3 sentence explanation for why the market assigns this specific perception category to the company. Your analysis should cover:
+
+1. **PRIMARY REASON**: What specific metric gap or advantage drives this market perception?
+2. **MARKET PSYCHOLOGY**: What behavioral/cognitive bias or investor preference affects the valuation?
+3. **CATALYST POTENTIAL**: What specific changes could shift this market perception?
+
+Consider the insurance industry context where operational excellence (combined ratio) and financial stability are critical success factors.
+
+**Required Output Format** (JSON):
+```json
+{{
+    "explanation": "<detailed 2-3 sentence explanation covering primary reason, market psychology, and catalyst potential>",
+    "primary_driver": "<main metric or factor causing this perception>",
+    "market_bias": "<psychological factor or investor preference affecting valuation>",
+    "potential_catalyst": "<specific change that could alter market perception>",
+    "confidence_level": "<high|medium|low>",
+    "supporting_evidence": [
+        "<specific metric or fact supporting the analysis>",
+        "<second piece of supporting evidence>",
+        "<third piece of supporting evidence>"
+    ],
+    "perception_strength": "<strong|moderate|weak>",
+    "valuation_justification": "<fundamental|narrative|mixed>"
+}}
+```
+
+**Analysis Guidelines**:
+- Focus on the gap between fundamentals and market valuation
+- Consider insurance industry valuation drivers (underwriting, reserves, growth)
+- Identify specific communication or narrative gaps
+- Explain investor behavior and market sentiment factors
+- Provide actionable insights about perception drivers
+- Be specific about which metrics matter most for the perception

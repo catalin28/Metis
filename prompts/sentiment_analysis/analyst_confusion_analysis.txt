@@ -1,0 +1,65 @@
+Analyze the following earnings call Q&A section for analyst confusion indicators and uncertainty levels.
+
+**Company**: {symbol}
+**Quarter**: {quarter}
+**Analysis Date**: {analysis_date}
+
+**Q&A Section**:
+{qa_text}
+
+**Instructions**:
+Analyze the Q&A interaction between analysts and management to identify confusion, uncertainty, and communication clarity issues. Higher scores indicate MORE confusion/uncertainty (0 = very clear, 100 = highly confused).
+
+**Scoring Framework**:
+1. **QUESTION_COMPLEXITY (0-100)**: How complex, multi-part, or clarification-seeking are the questions?
+   - 90-100: Highly complex, multi-layered questions with multiple clarification requests
+   - 70-89: Complex questions with some follow-up clarifications needed
+   - 50-69: Moderately complex questions with occasional clarifications
+   - 30-49: Straightforward questions with minimal complexity
+   - 0-29: Simple, direct questions that are easy to understand
+
+2. **CLARIFICATION_FREQUENCY (0-100)**: How often do analysts ask follow-ups or request clarification?
+   - 90-100: Frequent "can you clarify", "what do you mean by", "I'm confused about"
+   - 70-89: Regular clarification requests and follow-up questions
+   - 50-69: Some clarification requests but not excessive
+   - 30-49: Occasional clarification needed
+   - 0-29: Analysts rarely need clarification
+
+3. **RESPONSE_AMBIGUITY (0-100)**: How vague, lengthy, or evasive are management responses?
+   - 90-100: Very long, circuitous responses that don't directly answer questions
+   - 70-89: Somewhat lengthy responses with some evasion
+   - 50-69: Moderately clear responses with some ambiguity
+   - 30-49: Generally clear responses with minor ambiguity
+   - 0-29: Clear, direct, specific responses
+
+4. **UNCERTAINTY_LANGUAGE (0-100)**: How much uncertainty language appears in both questions and responses?
+   - 90-100: Frequent use of "I think", "maybe", "unclear", "confused", "uncertain"
+   - 70-89: Regular uncertainty indicators in conversation
+   - 50-69: Some uncertainty language present
+   - 30-49: Minimal uncertainty indicators
+   - 0-29: Confident, certain language throughout
+
+**Required Output Format** (JSON):
+```json
+{{
+    "question_complexity": <score 0-100>,
+    "clarification_frequency": <score 0-100>,
+    "response_ambiguity": <score 0-100>,
+    "uncertainty_language": <score 0-100>,
+    "total_questions": <count>,
+    "complex_questions": <count>,
+    "clarification_requests": <count>,
+    "confusion_topics": ["topic1", "topic2", "topic3"],
+    "analyst_sentiment": "confused|clear|mixed",
+    "most_confused_moments": ["moment1", "moment2"],
+    "clarity_score": <0-100, inverse of confusion>
+}}
+```
+
+**Analysis Guidelines**:
+- Count actual instances of confusion indicators
+- Look for patterns of misunderstanding
+- Identify topics that generate the most questions
+- Note when analysts ask the same question multiple ways
+- Consider the overall flow and clarity of the Q&A session
+- Weight substantive confusion higher than minor clarifications

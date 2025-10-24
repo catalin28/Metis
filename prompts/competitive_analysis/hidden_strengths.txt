@@ -1,0 +1,97 @@
+Analyze hidden competitive strengths for {target_symbol} - metrics where the company excels but receives no valuation credit.
+
+**Target Company**: {target_symbol}
+**Current P/E**: {current_pe}x
+**Peer Average P/E**: {peer_average_pe}x
+
+**Peer Companies** (use these ACTUAL peer companies in your analysis, NOT made-up examples):
+{peer_details}
+
+**Underappreciated Metrics** (Target ranks #1 or #2 but has below-average P/E):
+{underappreciated_metrics}
+
+**CALCULATION ARCHITECTURE - READ CAREFULLY**:
+✅ ALL MATH IS PRE-CALCULATED IN PYTHON (no LLM calculations!)
+✅ Each metric includes:
+   - outperformance_magnitude_calculated: EXACT comparison string from verified Python calculations
+   - estimated_pe_impact: PRE-CALCULATED valuation impact estimate
+
+❌ DO NOT recalculate ratios, percentages, or comparisons yourself
+❌ DO NOT change the numbers in outperformance_magnitude_calculated
+✅ USE outperformance_magnitude_calculated verbatim in your outperformance_magnitude field
+✅ USE estimated_pe_impact verbatim in your valuation_impact field
+
+**SPECIAL CASES**:
+⚠️ Negative equity: If peers_excluded mentions "negative equity", note interpretability limits in narrative
+⚠️ Underperformance: Some metrics may show target WORSE than peers - acknowledge this plainly if relevant
+⚠️ Peer comparisons: Say what the data shows accurately - "above average but below HAS" not fabricated claims
+
+**Your ONLY Job**: Generate narrative explanations for "why_wall_street_ignores" field
+
+**Instructions**:
+Identify 2-6 operational advantages where the target significantly outperforms peers but this strength is NOT reflected in market valuation.
+
+**For Each Hidden Strength**:
+
+1. **metric_name**: 
+   - COPY from the metric_name field in underappreciated_metrics data
+
+2. **target_value**:
+   - COPY from the target_value field in underappreciated_metrics data
+
+3. **peer_average**:
+   - COPY from the peer_average field in underappreciated_metrics data
+
+4. **outperformance_magnitude**: 
+   - COPY the value from outperformance_magnitude_calculated EXACTLY
+   - This is pre-calculated Python math - DO NOT modify or recalculate
+
+5. **why_wall_street_ignores** (50-500 characters) - THIS IS WHERE YOU ADD VALUE:
+   Explain why analysts overlook this strength. Common reasons:
+   - Metric complexity / non-standard measurement
+   - Buried in disclosures / poor communication
+   - Analyst blind spots / coverage gaps
+   - Overshadowed by other concerns (e.g., "obscured by debt concerns")
+   - Industry perception biases
+   - Sector rotation / out of favor narrative
+   
+   **ACCURACY REQUIREMENTS**:
+   - If data shows "above average but below [PEER]", state that plainly
+   - Don't fabricate claims of superiority that aren't in the data
+   - For negative equity peers: Note "D/E comparison unreliable due to [PEER] negative equity"
+   - Be specific and truthful about what the numbers actually show
+   
+6. **valuation_impact**:
+   - COPY the value from estimated_pe_impact EXACTLY
+   - This is pre-calculated valuation modeling - DO NOT modify
+
+**Output Requirements**:
+- **2-6 hidden strengths** (prioritize by impact)
+- **aggregate_impact_estimate**: Valuation analysis based on current scenario:
+  * **CRITICAL CHECK: Compare {current_pe} vs {peer_average_pe} FIRST**
+  * **NEVER say "uplift to Xx-Yx" if stock already trades at premium (current_pe > peer_average_pe)**
+  * If current P/E < peer average (trading at DISCOUNT):
+    → "Total P/E uplift if all gaps closed: +X-Y% to fair value (Ax-Bx P/E)"
+    → Where A-B range is ABOVE current P/E (if current Cx, use higher Ax-Bx range)
+  * If current P/E > peer average (trading at PREMIUM):
+    → **REQUIRED FORMAT**: "Current valuation sits ~X-Y% above the peer fair-value band (Ax-Bx P/E). Sustaining the premium requires [key differentiator], [operational strength], and [growth catalyst]."
+    → Where A-B range is BELOW current P/E (peer band should be lower than current valuation)
+    → **DO NOT suggest "uplift" - stock is ALREADY above fair value**
+  * EXAMPLE for PREMIUM (when current_pe > peer_average_pe):
+    → "Current valuation sits ~X-Y% above the peer fair-value band (Ax-Bx P/E). Sustaining the premium requires continued [competitive advantage], [profitability strength], and a return to positive revenue growth."
+  * EXAMPLE for DISCOUNT (when current_pe < peer_average_pe):
+    → "Total P/E uplift if all gaps closed: +X-Y% to fair value (Ax-Bx P/E)"
+- **communication_gap_summary** (100-500 chars): Common themes explaining why these strengths are missed
+
+**Quality Standards for "why_wall_street_ignores"**:
+- Be specific to the company and metric (not generic)
+- Explain causal mechanisms for perception gaps
+- Consider industry context and current market narratives
+- Focus on actionable communication opportunities
+- Example: "Buried in footnotes; analysts focus on top-line growth over operational efficiency in this sector"
+
+**CRITICAL**:
+- Do NOT perform any mathematical calculations yourself
+- Do NOT modify pre-calculated comparison strings
+- Use peer ticker symbols from the data when writing narratives
+- Your value-add is explaining the "why" behind the perception gap

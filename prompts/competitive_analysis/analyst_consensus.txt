@@ -1,0 +1,145 @@
+ANALYST CONSENSUS & WALL STREET PERCEPTION GAP ANALYSIS
+
+You are analyzing analyst rating activity and coverage patterns to identify perception gaps between fundamental performance and Wall Street attention. This reveals contrarian opportunities where target companies have strong fundamentals but lack analyst momentum.
+
+=== INPUT DATA STRUCTURE ===
+
+TARGET COMPANY ANALYST METRICS:
+{target_analysis}
+
+PEER COMPANIES ANALYST METRICS:
+{peer_analysis}
+
+FUNDAMENTAL STRENGTHS (from Dashboard/Hidden Strengths):
+{fundamental_strengths}
+
+=== YOUR TASK ===
+
+Generate a comprehensive analyst consensus analysis that identifies perception gaps between:
+1. Fundamental performance (metrics where target excels)
+2. Analyst attention and sentiment (coverage breadth, action frequency, upgrade/downgrade patterns)
+
+Focus on quantifiable disparities that create contrarian opportunities.
+
+**CRITICAL: Coverage Comparison Rules**
+- Compare target's coverage_breadth vs EACH peer's coverage_breadth from the data
+- Higher coverage_breadth = MORE analyst firms covering (not "under-covered")
+- COMPARISON LOGIC:
+  * Calculate peer average FIRST: (peer_1_coverage + peer_2_coverage + ... + peer_N_coverage) / N
+  * Then compare: If target > peer_avg: "broader coverage" | If target ≈ peer_avg: "similar coverage" | If target < peer_avg: "narrower/more limited coverage"
+  * ALWAYS state the actual peer average number (e.g., "peer average of ~N" when calculated from data)
+  * Include all individual peer coverage numbers for context: "(PEER_A: X, PEER_B: Y, PEER_C: Z)"
+- CRITICAL: State coverage comparison ACCURATELY - check the actual numbers
+- Example: target=X, peer_avg=Y, PEER_A=A, PEER_B=B, PEER_C=C
+  → "X firms, [above/below] peer average of ~Y (PEER_A: A, PEER_B: B, PEER_C: C)"
+  → NOT "broader coverage with X firms compared to peer average of Y" when X < Y
+
+=== OUTPUT REQUIREMENTS ===
+
+1. RELATIVE POSITIONING (100-800 characters):
+   - Compare target's analyst coverage breadth (coverage_breadth = # of firms) vs peers
+   - CRITICAL: Use ONLY the numbers from the data provided - DO NOT fabricate action counts
+   - CRITICAL: Check upgrades_90d field - if 0, do NOT claim peer "received upgrades" or "multiple upgrades"
+   - Coverage interpretation: MORE firms = broader coverage (not "under-covered")
+   - Highlight sentiment tone vs fundamentals: "Neutral tone despite strong metrics"
+   - Focus on momentum: upgrades/downgrades vs maintains
+   - **DO NOT reference P/E ratios in this section** - P/E comparisons belong in perception_gap_narrative only
+   - **CRITICAL: COMPLETE ALL SENTENCES** - NO fragments ending mid-clause like "(PEER_A: 26.3x P/E vs TARGET's 36.99x."
+   - **CRITICAL: NO P/E COMPARISONS** - Remove any text containing "x P/E vs" or "P/E ratios" from this field
+   - After stating peer coverage numbers, FINISH THE SENTENCE with action counts or sentiment comparison
+   - Example format: "[TARGET] has X firms, slightly [above/below] peer average of ~Y ([PEER_A]: Z, [PEER_B]: W, [PEER_C]: V). Recent activity shows [disparity/alignment]: [TARGET] received N actions (A upgrades, B maintains) versus M for [PEER_A], P for [PEER_B], and Q for [PEER_C]. Sentiment is [Neutral/Bullish/Bearish] despite [strong/weak] fundamentals."
+   
+2. PERCEPTION GAP NARRATIVE (150-1000 characters):
+   - **CRITICAL: Extract P/E values from input data:**
+     * target_analysis has field "current_pe" = target's P/E ratio
+     * Each peer in peer_analysis list has "current_pe" field
+   - Calculate: target current_pe vs peer average current_pe to determine premium/discount context
+   - Connect analyst SENTIMENT (not just coverage) to fundamental performance
+   - Explain WHY sentiment/tone diverges from strong metrics
+   - Reference specific metrics from fundamental_strengths (use exact numbers from data)
+   - **MUST reference actual P/E values from current_pe fields** - DO NOT infer or estimate
+   - CRITICAL: Compare sentiment tone vs fundamentals, not coverage breadth
+   - CRITICAL: VERIFY upgrades_90d data before claiming "peer received upgrades" - if upgrades_90d = 0, say "benefit from growth narratives" NOT "received upgrades"
+   - **CRITICAL: ACCURATE ACTION COMPARISONS** - When comparing recent_actions_90d counts:
+     * Do NOT say "TARGET receives X less/more actions than PEER" unless you verify both counts
+     * Use relative comparisons ONLY when action counts differ significantly: "PEER_A shows N actions while TARGET shows M"
+     * For similar counts, say "comparable recent activity" instead of fabricating differences
+   - Example formats with P/E values extracted from data:
+     * "Despite #1 metric_A and #1 metric_B, [TARGET]'s consensus remains Neutral (all maintains, no upgrades) while peers benefit from growth narratives. [TARGET] trades at [target_analysis.current_pe]x P/E vs peer average [calculated avg]x, yet receives cautious tone—sentiment-fundamentals divergence creates contrarian setup."
+     * "Solid operating metrics meet cautious tone. [TARGET]'s [target_analysis.current_pe]x P/E compares to [PEER_A] [peer_a.current_pe]x, [PEER_B] [peer_b.current_pe]x. Opportunity if [TARGET] proves [key concern] and [key concern]"
+     * "Broader coverage (X firms) lacks positive momentum, suggesting investors want clearer evidence before upgrading. Trading at [target_analysis.current_pe]x vs peer range [min]x-[max]x."
+   - Address sentiment patterns: Are upgrades/downgrades justified by fundamentals?
+   - ACCURACY: Do not claim peers "received multiple upgrades" if their upgrades_90d field shows 0
+   
+3. CONTRARIAN OPPORTUNITY SCORE:
+   - CONSIDER VALUATION CONTEXT: Check if target P/E > or < peer average
+   - Score format must include context:
+   
+   **If trading at DISCOUNT (target P/E < peer average):**
+   - "High (accumulation opportunity)" = Strong fundamentals + neutral/negative sentiment
+   - "Moderate" = Decent fundamentals + mixed sentiment
+   - "Low" = Weak fundamentals match bearish sentiment
+   
+   **If trading at PREMIUM (target P/E > peer average):**
+   - **CRITICAL: For premium stocks with NEGATIVE revenue growth, ALWAYS qualify risk:**
+     * Required format: "High (contingent on sustaining [competitive advantage] and growth reacceleration; premium otherwise at risk)"
+     * NEVER use "High (accumulation opportunity)" for premium + negative growth - this is a logical contradiction
+     * Check revenue_growth field - if negative AND P/E > peer_avg, MUST include risk qualifier
+   - "High (contingent on [specific catalyst] to justify premium)" = Strong fundamentals but premium needs justification
+   - "Moderate (premium partially justified)" = Strong fundamentals + mixed sentiment
+   - "Low (premium appropriately valued)" = Strong fundamentals + bullish sentiment
+   
+   **General Rules:**
+   - "High": Large divergence between fundamentals and sentiment
+   - "Moderate": Some divergence
+   - "Low": Analyst views align with fundamentals
+   - ALWAYS clarify the opportunity type (accumulation vs caution) based on valuation level
+
+=== ANALYSIS FRAMEWORK ===
+
+**Coverage Gap Analysis:**
+- Is target under-covered relative to peers? (coverage_breadth comparison)
+- Does coverage gap create institutional blind spot?
+- Are peers getting disproportionate attention despite weaker fundamentals?
+
+**Sentiment vs Fundamentals:**
+- Does target's net_sentiment match its fundamental performance?
+- Are peers getting upgrades despite inferior metrics?
+- Recent action patterns: Who's getting momentum and why?
+
+**Contrarian Signals:**
+- Target outperforms on fundamentals but has bearish/neutral sentiment = BUY opportunity
+- Peer underperforms on fundamentals but has bullish sentiment = Overvalued, validates target discount
+- Target ignored (low coverage) despite top-tier metrics = Undiscovered value
+
+**Narrative Premium/Discount:**
+- Are analysts paying for "story" over substance?
+- Growth narrative bias vs profitability/efficiency strengths
+- Sector rotation effects: Is target's industry out of favor?
+
+=== CRITICAL REQUIREMENTS ===
+
+1. USE ACTUAL DATA: Reference specific numbers from target_analysis and peer_analysis
+2. CONNECT TO FUNDAMENTALS: Always tie analyst behavior back to fundamental_strengths
+2. BE SPECIFIC: Name individual peers when comparing (e.g., "[PEER_A] received X upgrades vs [TARGET]'s Y")
+4. QUANTIFY GAPS: Use numbers and percentages to show disparities
+5. NO INVESTMENT ADVICE: Focus on perception gaps, not price predictions
+6. SECTOR-AGNOSTIC: Analysis should work across all industries
+
+=== EXAMPLE OUTPUT STRUCTURE ===
+
+{{
+  "relative_positioning": "[TARGET] has [broader/narrower] coverage with X analyst firms providing ratings, compared to peer average of Y firms. Recent activity shows [disparity/alignment]: [TARGET] received N total actions in last 90 days (A upgrades, B maintains) while [PEER_A] received M actions (C upgrades, D maintains, E initiates). [PEER_B] and [PEER_C] averaged Z actions each. Target's net sentiment is [Bullish/Neutral/Bearish] despite [strong/weak] operational performance, while [PEER_A] maintains [sentiment] with Xx P/E vs [TARGET]'s Yx.",
+  
+  "perception_gap_narrative": "Wall Street's attention [disparity/alignment] is [striking/notable] given [TARGET]'s fundamental [advantages/challenges]. Despite ranking #N in [metric_A] ($XB vs $YB peer avg) and maintaining [superior/inferior] [metric_B] (X% vs Y% peer avg, +/-Z% vs [PEER]), [TARGET] receives Nx [more/less] analyst attention than [PEER_A]. The coverage gap (X firms vs Y for [PEER_A]) creates [opportunity/risk] where [TARGET]'s operational [efficiency/challenges] go [unrecognized/overemphasized]. Analyst momentum [favors/disfavors] [PEER_A] (N recent upgrades) despite [PEER_A] trading at Xx P/E vs [TARGET]'s Yx, suggesting [growth/value] narrative premium. This represents [contrarian/consensus] setup.",
+  
+  "contrarian_opportunity_score": "High (with context)"
+}}
+
+=== RESPONSE FORMAT ===
+
+Return ONLY a valid JSON object matching the AnalystConsensusOutput schema. No markdown, no code blocks, just the JSON with these 3 fields:
+- relative_positioning
+- perception_gap_narrative
+- contrarian_opportunity_score
+

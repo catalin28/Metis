@@ -1,0 +1,568 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Competitive Intelligence Report Schema",
+  "description": "Comprehensive JSON schema for competitive intelligence reports with validation rules and field definitions",
+  "type": "object",
+  "required": [
+    "metadata",
+    "data_sources",
+    "peer_group",
+    "executive_summary",
+    "competitive_dashboard",
+    "actionable_roadmap"
+  ],
+  "properties": {
+    "metadata": {
+      "$ref": "#/definitions/ReportMetadata"
+    },
+    "data_sources": {
+      "type": "array",
+      "description": "List of data sources used in the analysis",
+      "minItems": 1,
+      "maxItems": 50,
+      "items": {
+        "$ref": "#/definitions/DataSource"
+      }
+    },
+    "peer_group": {
+      "$ref": "#/definitions/PeerGroup"
+    },
+    "executive_summary": {
+      "$ref": "#/definitions/ExecutiveSummary"
+    },
+    "competitive_dashboard": {
+      "$ref": "#/definitions/CompetitiveDashboard"
+    },
+    "actionable_roadmap": {
+      "$ref": "#/definitions/ActionableRoadmap"
+    }
+  },
+  "definitions": {
+    "ReportMetadata": {
+      "type": "object",
+      "description": "Report metadata and generation information",
+      "required": ["target_symbol", "generated_at", "version", "report_id"],
+      "properties": {
+        "target_symbol": {
+          "type": "string",
+          "description": "Primary company symbol being analyzed",
+          "pattern": "^[A-Z]{1,5}$",
+          "examples": ["AAPL", "MSFT", "GOOGL"]
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Report generation timestamp (ISO 8601)"
+        },
+        "version": {
+          "type": "string",
+          "description": "Report schema version",
+          "pattern": "^\\d+\\.\\d+$",
+          "default": "1.0"
+        },
+        "report_id": {
+          "type": "string",
+          "description": "Unique report identifier",
+          "minLength": 10,
+          "maxLength": 100
+        },
+        "processing_time_seconds": {
+          "type": "number",
+          "description": "Report generation time in seconds",
+          "minimum": 0,
+          "maximum": 3600
+        }
+      },
+      "additionalProperties": false
+    },
+    "DataSource": {
+      "type": "object",
+      "description": "Information about data sources used in analysis",
+      "required": ["source_type", "provider", "quality"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "description": "Type of data source",
+          "enum": [
+            "financial_api",
+            "earnings_transcript",
+            "market_data",
+            "analyst_report",
+            "company_filing",
+            "news_article",
+            "social_media",
+            "alternative_data"
+          ]
+        },
+        "provider": {
+          "type": "string",
+          "description": "Data provider name",
+          "minLength": 1,
+          "maxLength": 100,
+          "examples": ["FinancialModelingPrep", "AlphaSense", "Yahoo Finance", "Bloomberg"]
+        },
+        "quality": {
+          "$ref": "#/definitions/DataQuality"
+        },
+        "data_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Data point timestamp"
+        },
+        "coverage": {
+          "type": "string",
+          "description": "Data coverage description",
+          "maxLength": 200
+        }
+      },
+      "additionalProperties": false
+    },
+    "DataQuality": {
+      "type": "string",
+      "description": "Data quality assessment",
+      "enum": ["VALID", "ESTIMATED", "STALE", "INCOMPLETE", "POOR"]
+    },
+    "PeerGroup": {
+      "type": "object",
+      "description": "Target company and identified peer companies",
+      "required": ["target_company", "peers"],
+      "properties": {
+        "target_company": {
+          "$ref": "#/definitions/CompanyProfile"
+        },
+        "peers": {
+          "type": "array",
+          "description": "List of peer companies",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "$ref": "#/definitions/CompanyProfile"
+          }
+        },
+        "discovery_method": {
+          "type": "string",
+          "description": "Method used to identify peers",
+          "enum": [
+            "sector_similarity",
+            "business_model_similarity",
+            "financial_similarity",
+            "machine_learning_similarity",
+            "manual_selection",
+            "analyst_consensus"
+          ]
+        },
+        "similarity_threshold": {
+          "type": "number",
+          "description": "Minimum similarity score for peer inclusion",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "CompanyProfile": {
+      "type": "object",
+      "description": "Company profile with financial metrics",
+      "required": ["symbol", "company_name", "sector"],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Company trading symbol",
+          "pattern": "^[A-Z]{1,5}$"
+        },
+        "company_name": {
+          "type": "string",
+          "description": "Official company name",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "sector": {
+          "type": "string",
+          "description": "Business sector classification",
+          "minLength": 1,
+          "maxLength": 100,
+          "examples": ["Technology", "Healthcare", "Financial Services", "Consumer Goods"]
+        },
+        "market_cap": {
+          "type": ["number", "null"],
+          "description": "Market capitalization in USD",
+          "minimum": 0,
+          "maximum": 1e13
+        },
+        "pe_ratio": {
+          "type": ["number", "null"],
+          "description": "Price-to-earnings ratio",
+          "minimum": -100,
+          "maximum": 1000
+        },
+        "revenue_ttm": {
+          "type": ["number", "null"],
+          "description": "Trailing twelve months revenue in USD",
+          "minimum": 0,
+          "maximum": 1e12
+        },
+        "similarity_score": {
+          "type": ["number", "null"],
+          "description": "Similarity score to target company (for peers only)",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExecutiveSummary": {
+      "type": "object",
+      "description": "High-level analysis summary and key findings",
+      "required": ["overview", "key_insights", "top_recommendations"],
+      "properties": {
+        "overview": {
+          "type": "string",
+          "description": "Executive overview of competitive position",
+          "minLength": 100,
+          "maxLength": 2000
+        },
+        "key_insights": {
+          "type": "array",
+          "description": "Top 3-5 strategic insights",
+          "minItems": 3,
+          "maxItems": 5,
+          "items": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 300
+          }
+        },
+        "top_recommendations": {
+          "type": "array",
+          "description": "Top 3-5 strategic recommendations",
+          "minItems": 3,
+          "maxItems": 5,
+          "items": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 300
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "CompetitiveDashboard": {
+      "type": "object",
+      "description": "Comparative metrics and competitive positioning",
+      "required": ["metric_comparisons", "strengths", "weaknesses"],
+      "properties": {
+        "metric_comparisons": {
+          "type": "array",
+          "description": "Financial and operational metric comparisons",
+          "minItems": 0,
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/definitions/MetricComparison"
+          }
+        },
+        "overall_ranking": {
+          "type": ["integer", "null"],
+          "description": "Overall competitive ranking (1 = best)",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "strengths": {
+          "type": "array",
+          "description": "Identified competitive strengths",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 200
+          }
+        },
+        "weaknesses": {
+          "type": "array",
+          "description": "Identified competitive weaknesses",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 200
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "MetricComparison": {
+      "type": "object",
+      "description": "Individual metric comparison across peer group",
+      "required": ["metric_name", "target_value", "peer_values", "analysis"],
+      "properties": {
+        "metric_name": {
+          "type": "string",
+          "description": "Name of the metric being compared",
+          "minLength": 1,
+          "maxLength": 100,
+          "examples": ["P/E Ratio", "ROE", "Revenue Growth", "Debt-to-Equity"]
+        },
+        "target_value": {
+          "type": ["number", "null"],
+          "description": "Target company metric value"
+        },
+        "peer_values": {
+          "type": "object",
+          "description": "Peer company metric values",
+          "patternProperties": {
+            "^[A-Z]{1,5}$": {
+              "type": ["number", "null"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "target_ranking": {
+          "type": ["integer", "null"],
+          "description": "Target company ranking for this metric (1 = best)",
+          "minimum": 1
+        },
+        "analysis": {
+          "type": "string",
+          "description": "Analysis of the metric comparison",
+          "minLength": 20,
+          "maxLength": 1000
+        }
+      },
+      "additionalProperties": false
+    },
+    "ActionableRoadmap": {
+      "type": "object",
+      "description": "Specific recommendations and implementation roadmap",
+      "required": ["recommendations"],
+      "properties": {
+        "recommendations": {
+          "type": "array",
+          "description": "List of specific recommendations",
+          "minItems": 5,
+          "maxItems": 25,
+          "items": {
+            "$ref": "#/definitions/Recommendation"
+          }
+        },
+        "implementation_timeline": {
+          "type": ["string", "null"],
+          "description": "Expected implementation timeline",
+          "maxLength": 100,
+          "examples": ["6-12 months", "1-2 years", "12-18 months"]
+        },
+        "success_metrics": {
+          "type": "array",
+          "description": "Key success metrics to track progress",
+          "minItems": 0,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 200
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Recommendation": {
+      "type": "object",
+      "description": "Individual strategic recommendation",
+      "required": ["title", "description", "category", "priority", "expected_impact"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Recommendation title/summary",
+          "minLength": 5,
+          "maxLength": 150
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed recommendation description",
+          "minLength": 20,
+          "maxLength": 2000
+        },
+        "category": {
+          "$ref": "#/definitions/RecommendationCategory"
+        },
+        "priority": {
+          "$ref": "#/definitions/RecommendationPriority"
+        },
+        "expected_impact": {
+          "type": "string",
+          "description": "Expected business impact",
+          "minLength": 10,
+          "maxLength": 500
+        },
+        "implementation_complexity": {
+          "type": "string",
+          "description": "Implementation complexity assessment",
+          "enum": ["LOW", "MEDIUM", "HIGH"]
+        },
+        "estimated_cost": {
+          "type": "string",
+          "description": "Estimated implementation cost range",
+          "enum": ["LOW", "MEDIUM", "HIGH", "VERY_HIGH"]
+        },
+        "timeframe": {
+          "type": "string",
+          "description": "Recommended implementation timeframe",
+          "enum": ["IMMEDIATE", "SHORT_TERM", "MEDIUM_TERM", "LONG_TERM"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "RecommendationCategory": {
+      "type": "string",
+      "description": "Recommendation action category",
+      "enum": ["DO", "SAY", "SHOW"]
+    },
+    "RecommendationPriority": {
+      "type": "string",
+      "description": "Recommendation priority level",
+      "enum": ["HIGH", "MEDIUM", "LOW"]
+    }
+  },
+  "additionalProperties": false,
+  "$comment": "Schema validation rules and business logic constraints",
+  "businessRules": {
+    "symbolConsistency": "metadata.target_symbol must match peer_group.target_company.symbol",
+    "peerUniqueness": "All peer symbols must be unique and different from target symbol",
+    "recommendationDistribution": "Recommendations should include mix of DO/SAY/SHOW categories",
+    "dataFreshness": "Data sources should be recent (within 12 months for most use cases)",
+    "metricReasonableness": "Financial metrics should be within reasonable ranges for the sector",
+    "rankingConsistency": "Rankings should be consistent with peer group size",
+    "timelineRealism": "Implementation timeline should be realistic for recommendation complexity"
+  },
+  "examples": [
+    {
+      "metadata": {
+        "target_symbol": "AAPL",
+        "generated_at": "2024-01-15T10:30:00Z",
+        "version": "1.0",
+        "report_id": "aapl-competitive-analysis-20240115",
+        "processing_time_seconds": 45.7
+      },
+      "data_sources": [
+        {
+          "source_type": "financial_api",
+          "provider": "FinancialModelingPrep",
+          "quality": "VALID",
+          "data_date": "2024-01-14T16:00:00Z",
+          "coverage": "Latest quarterly financials"
+        }
+      ],
+      "peer_group": {
+        "target_company": {
+          "symbol": "AAPL",
+          "company_name": "Apple Inc.",
+          "sector": "Technology",
+          "market_cap": 3000000000000,
+          "pe_ratio": 25.5,
+          "revenue_ttm": 400000000000
+        },
+        "peers": [
+          {
+            "symbol": "MSFT",
+            "company_name": "Microsoft Corporation",
+            "sector": "Technology",
+            "market_cap": 2800000000000,
+            "pe_ratio": 28.2,
+            "similarity_score": 0.85
+          }
+        ],
+        "discovery_method": "sector_similarity"
+      },
+      "executive_summary": {
+        "overview": "Apple maintains a strong competitive position in the technology sector with premium brand positioning and ecosystem integration driving customer loyalty and pricing power.",
+        "key_insights": [
+          "Strong brand loyalty provides sustainable competitive moat",
+          "Services segment offers high-margin growth opportunities",
+          "Supply chain efficiency creates cost advantages"
+        ],
+        "top_recommendations": [
+          "Accelerate AI integration across product portfolio",
+          "Expand services monetization in emerging markets",
+          "Strengthen supply chain diversification strategy"
+        ]
+      },
+      "competitive_dashboard": {
+        "metric_comparisons": [
+          {
+            "metric_name": "P/E Ratio",
+            "target_value": 25.5,
+            "peer_values": {
+              "MSFT": 28.2
+            },
+            "target_ranking": 1,
+            "analysis": "Apple trades at a discount to Microsoft, potentially offering value opportunity"
+          }
+        ],
+        "overall_ranking": 2,
+        "strengths": [
+          "Best-in-class profit margins",
+          "Strong brand loyalty and ecosystem"
+        ],
+        "weaknesses": [
+          "China market dependency",
+          "Hardware cyclicality exposure"
+        ]
+      },
+      "actionable_roadmap": {
+        "recommendations": [
+          {
+            "title": "Accelerate AI product integration",
+            "description": "Integrate advanced AI capabilities across iPhone, iPad, and Mac product lines to differentiate from competitors and justify premium pricing",
+            "category": "DO",
+            "priority": "HIGH",
+            "expected_impact": "Enhanced product differentiation and customer retention",
+            "implementation_complexity": "HIGH",
+            "timeframe": "MEDIUM_TERM"
+          },
+          {
+            "title": "Improve investor communication on services growth",
+            "description": "Enhance quarterly earnings presentations with detailed services metrics and growth trajectory modeling",
+            "category": "SAY",
+            "priority": "MEDIUM",
+            "expected_impact": "Better analyst understanding and coverage",
+            "implementation_complexity": "LOW",
+            "timeframe": "IMMEDIATE"
+          },
+          {
+            "title": "Showcase innovation pipeline publicly",
+            "description": "Increase visibility into R&D investments and future product roadmap through developer conferences and media events",
+            "category": "SHOW",
+            "priority": "HIGH",
+            "expected_impact": "Improved market confidence and valuation",
+            "implementation_complexity": "MEDIUM",
+            "timeframe": "SHORT_TERM"
+          },
+          {
+            "title": "Diversify supply chain geographically",
+            "description": "Accelerate manufacturing capacity development in India, Vietnam, and other regions to reduce China dependency",
+            "category": "DO",
+            "priority": "MEDIUM",
+            "expected_impact": "Reduced geopolitical risk and cost optimization",
+            "implementation_complexity": "HIGH",
+            "timeframe": "LONG_TERM"
+          },
+          {
+            "title": "Communicate ESG leadership position",
+            "description": "Better articulate environmental and social impact initiatives to institutional investors and stakeholders",
+            "category": "SAY",
+            "priority": "LOW",
+            "expected_impact": "Enhanced ESG ratings and institutional appeal",
+            "implementation_complexity": "LOW",
+            "timeframe": "SHORT_TERM"
+          }
+        ],
+        "implementation_timeline": "12-18 months",
+        "success_metrics": [
+          "Market share growth in key segments",
+          "P/E multiple expansion relative to peers",
+          "Analyst coverage and rating improvements"
+        ]
+      }
+    }
+  ]
+}

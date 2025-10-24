@@ -1,0 +1,61 @@
+Analyze the following earnings call management commentary for sentiment indicators and provide detailed scoring.
+
+**Company**: {symbol}
+**Quarter**: {quarter}
+**Analysis Date**: {analysis_date}
+
+**Management Commentary**:
+{management_text}
+
+**Instructions**:
+Analyze the management commentary and provide scores (0-100) for each component. Consider the context of the insurance industry and competitive positioning.
+
+**Scoring Framework**:
+1. **LEXICAL_SENTIMENT (0-100)**: Overall positive vs negative tone and language choice
+   - 90-100: Very positive language, confident tone, optimistic outlook
+   - 70-89: Generally positive with some neutral elements
+   - 50-69: Balanced or neutral tone
+   - 30-49: Generally negative with concerning language
+   - 0-29: Very negative, defensive, or crisis-mode language
+
+2. **FORWARD_CONFIDENCE (0-100)**: Confidence level in future guidance and outlook statements
+   - 90-100: Strong, specific guidance with high confidence indicators
+   - 70-89: Clear guidance with moderate confidence
+   - 50-69: Vague or cautious guidance
+   - 30-49: Limited guidance with uncertainty indicators
+   - 0-29: No guidance or highly uncertain outlook
+
+3. **SOLUTION_ORIENTATION (0-100)**: Ratio of solutions provided vs problems acknowledged
+   - 90-100: Every challenge paired with specific solution/action plan
+   - 70-89: Most challenges have corresponding solutions
+   - 50-69: Some solutions provided but not comprehensive
+   - 30-49: More problems identified than solutions offered
+   - 0-29: Problem-focused with minimal solution orientation
+
+4. **QUANTITATIVE_PRECISION (0-100)**: Use of specific numbers vs vague qualitative statements
+   - 90-100: Frequent use of specific metrics, percentages, dollar amounts
+   - 70-89: Good mix of quantitative and qualitative information
+   - 50-69: Some numbers provided but mostly qualitative
+   - 30-49: Limited quantitative information
+   - 0-29: Mostly vague qualitative statements
+
+**Required Output Format** (JSON):
+```json
+{{
+    "lexical_sentiment": <score 0-100>,
+    "forward_confidence": <score 0-100>,
+    "solution_orientation": <score 0-100>,
+    "quantitative_precision": <score 0-100>,
+    "overall_confidence": "<2-3 sentence explanation of overall management confidence>",
+    "key_phrases": ["phrase1", "phrase2", "phrase3"],
+    "confidence_indicators": ["indicator1", "indicator2"],
+    "concern_indicators": ["concern1", "concern2"]
+}}
+```
+
+**Analysis Notes**:
+- Focus on management tone, not business performance
+- Consider industry-specific terminology and context
+- Look for forward-looking statements and guidance quality
+- Identify specific phrases that indicate confidence or concern
+- Weight recent statements more heavily than prepared remarks

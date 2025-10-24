@@ -1,0 +1,62 @@
+Research and generate a comprehensive company profile for {symbol} ({company_name}).
+
+**Company Identification**:
+- Stock Symbol: {symbol}
+- Company Name: {company_name}
+- Industry: {industry}
+- Sector: {sector}
+
+**Research Instructions**:
+Perform web searches to gather current, authoritative information about this company. Focus on:
+
+1. **Business Model & Operations**:
+   - Core products and services offered
+   - Revenue streams and business segments
+   - Operating model (e.g., decentralized, centralized, franchise)
+   - Geographic presence and market reach
+
+2. **Market Position & Competitive Standing**:
+   - Market share and industry positioning
+   - Key competitive advantages and moats
+   - Major competitors and differentiation
+   - Recent strategic initiatives or pivots
+
+3. **Financial Performance Context**:
+   - Recent financial performance trends
+   - Growth trajectory and expansion plans
+   - Capital allocation strategy
+   - Management quality and track record
+
+4. **Industry-Specific Characteristics**:
+   - Unique operational metrics (e.g., combined ratio for insurance, same-store sales for retail)
+   - Regulatory environment and compliance
+   - Technology adoption and innovation
+   - Industry trends affecting the company
+
+**Source Requirements**:
+- Prioritize official company sources (investor relations, annual reports, 10-K filings)
+- Include recent news and analyst commentary (last 12 months)
+- Cite credible financial publications (WSJ, Bloomberg, Financial Times, Barron's)
+- Include industry-specific sources when available
+
+**Output Requirements**:
+Generate a 200-400 word executive-level overview that:
+- Starts with a clear 1-2 sentence description of what the company does
+- Describes the business model and how the company makes money
+- Explains the company's competitive positioning
+- Highlights 2-3 key operational strengths
+- Uses specific, factual information (avoid generalities)
+- Maintains professional, authoritative tone
+- Includes no speculation or unverified claims
+- CRITICAL: Do NOT make absolute ranking claims like "ranks #1 in the industry" or "largest in sector" unless you can verify this is true globally, not just within a small peer set. Use relative language like "a top-tier leader" or "among the largest" instead
+
+**Format**:
+Return ONLY the company overview text (no JSON, no additional fields, no citations in the main text).
+The overview should be suitable for inclusion in an executive summary for C-suite readers.
+
+**Quality Guidelines**:
+- Use specific numbers and metrics when available
+- Focus on business fundamentals, not stock price movements
+- Emphasize competitive advantages and market positioning
+- Keep technical jargon appropriate for the audience
+- Ensure information is current (prefer last 12 months)

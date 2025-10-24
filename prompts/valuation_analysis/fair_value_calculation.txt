@@ -1,0 +1,60 @@
+Calculate the fair value P/E ratio for {symbol} based on fundamental analysis.
+
+**Company Fundamentals:**
+- Symbol: {symbol}
+- Current P/E: {current_pe}
+- ROE: {roe}%
+- Revenue Growth: {revenue_growth}%
+- Debt/Equity: {debt_equity}
+- Combined Ratio: {combined_ratio}
+- Market Cap: ${market_cap}B
+
+**Peer Group Benchmarks:**
+- Peer Average P/E: {peer_pe_avg}
+- Peer Average ROE: {peer_roe_avg}%
+- Peer Average Growth: {peer_growth_avg}%
+- Peer Average Debt/Equity: {peer_debt_avg}
+- Peer Average Combined Ratio: {peer_combined_avg}
+
+**Methodology Requirements:**
+
+1. **ROE-Based Valuation**
+   - Use DuPont analysis framework
+   - Adjust for leverage differences
+   - Calculate sustainable growth rate
+
+2. **Growth-Adjusted Fair Value**
+   - Apply PEG ratio methodology
+   - Consider growth quality and sustainability
+   - Adjust for cyclical vs structural growth
+
+3. **Risk-Adjusted Multiple**
+   - Factor in debt levels and financial strength
+   - Consider business model stability
+   - Adjust for regulatory and competitive risks
+
+4. **Industry-Specific Factors**
+   - Combined ratio quality for insurance
+   - Reserve development patterns
+   - Underwriting cycle positioning
+
+**Output Format:**
+```json
+{
+  "fair_value_pe": 13.8,
+  "calculation_components": {
+    "base_peer_pe": 14.5,
+    "roe_adjustment": -0.2,
+    "growth_adjustment": 0.1,
+    "risk_adjustment": -0.6,
+    "industry_adjustment": 0.0
+  },
+  "valuation_range": {
+    "conservative": 12.5,
+    "base_case": 13.8,
+    "optimistic": 15.2
+  },
+  "methodology_notes": "Detailed explanation of calculation approach",
+  "confidence_level": "high|medium|low"
+}
+```

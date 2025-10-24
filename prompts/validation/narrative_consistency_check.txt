@@ -1,0 +1,106 @@
+Validate narrative consistency and logical flow across all sections of competitive intelligence report for {symbol}.
+
+**Report Sections to Validate:**
+{executive_summary}
+{hidden_strengths}
+{steal_their_playbook}
+{valuation_forensics}
+{actionable_roadmap}
+
+**Consistency Validation Requirements:**
+
+1. **Cross-Section Narrative Alignment**
+   - Executive summary findings supported by detailed analysis
+   - Hidden strengths mentioned in recommendations
+   - Valuation forensics conclusions align with executive summary
+   - Messaging strategies addressed in actionable roadmap
+
+2. **Quantitative vs Narrative Consistency**
+   - Numerical claims in narratives match data tables
+   - Ranking statements align with actual rankings
+   - Performance comparisons use consistent metrics
+   - Gap percentages mentioned consistently
+
+3. **Logical Flow and Coherence**
+   - Problem identification leads to relevant solutions
+   - Recommendations address identified weaknesses
+   - Success metrics align with stated objectives
+   - Timeline consistency across recommendations
+
+4. **Tone and Messaging Consistency**
+   - Professional, objective tone throughout
+   - Consistent confidence levels in statements
+   - Balanced presentation of strengths and weaknesses
+   - Actionable language in recommendations
+
+5. **Factual Accuracy Across Sections**
+   - Company names and symbols consistent
+   - Financial figures match across references
+   - Peer comparisons use same baseline data
+   - Timeline references align
+
+**Validation Checks:**
+
+**Critical Inconsistencies:**
+- Contradictory statements across sections
+- Numerical discrepancies in cross-references
+- Recommendations that contradict analysis findings
+- Missing connections between problems and solutions
+
+**Minor Issues:**
+- Slight tone variations
+- Redundant information across sections
+- Missing cross-references where helpful
+- Unclear pronoun references
+
+**Output Format:**
+```json
+{
+  "consistency_assessment": "high",
+  "validation_date": "2025-10-22T14:30:00Z",
+  "sections_analyzed": 5,
+  "consistency_score": 92,
+  "detailed_findings": {
+    "cross_section_alignment": {
+      "score": 95,
+      "issues": [],
+      "strengths": ["Executive summary accurately reflects detailed findings", "Recommendations directly address identified gaps"]
+    },
+    "quantitative_narrative_match": {
+      "score": 88,
+      "issues": [
+        {
+          "type": "minor_discrepancy",
+          "description": "Executive summary mentions '3 perception gaps' but roadmap addresses 4 specific messaging issues",
+          "severity": "low",
+          "location": "Executive Summary vs Actionable Roadmap"
+        }
+      ],
+      "verified_claims": 15
+    },
+    "logical_flow": {
+      "score": 94,
+      "assessment": "Strong logical progression from analysis to recommendations",
+      "flow_strength": "Problem → Analysis → Solution pathway clear throughout"
+    },
+    "tone_consistency": {
+      "score": 90,
+      "tone_assessment": "Professional and objective throughout",
+      "confidence_level": "Consistent moderate-to-high confidence in recommendations"
+    }
+  },
+  "improvement_recommendations": [
+    "Clarify whether there are 3 or 4 perception gaps - ensure consistency",
+    "Add cross-references between hidden strengths and specific recommendations",
+    "Consider adding transition sentences between major sections"
+  ],
+  "strengths_identified": [
+    "Clear problem-solution alignment",
+    "Quantitative support for qualitative claims",
+    "Actionable and specific recommendations",
+    "Consistent professional tone"
+  ],
+  "overall_quality": "high",
+  "recommendation": "Report demonstrates strong narrative consistency with minor improvements suggested"
+}
+```

@@ -1,0 +1,114 @@
+Generate a comprehensive executive summary for the competitive intelligence report on {symbol}.
+
+**Report Context**:
+- Target Company: {symbol} ({company_name})
+- Industry: {industry}
+- Report Date: {report_date}
+- Number of Peers Analyzed: {peer_count}
+
+**Key Financial Data**:
+- Market Cap: ${market_cap:,.0f}
+- Current P/E Ratio: {current_pe}x
+- Peer Average P/E: {peer_average_pe}x
+- Valuation Gap: {valuation_gap}x ({gap_percentage}%)
+- Target ROE: {target_roe}%
+- Peer Average ROE: {peer_average_roe}%
+- Target Combined Ratio: {target_combined_ratio}
+- Peer Average Combined Ratio: {peer_combined_ratio}
+
+**Valuation Math Guide** (for recommendations with market cap impact):
+- Formula: Market Cap Impact = (Target P/E / Current P/E - 1) × Current Market Cap
+- Current Scenario: {valuation_direction} valuation (Current P/E: {current_pe}x vs Peer Avg: {target_pe}x)
+- REQUIRED: All P/E rerate recommendations MUST target {target_pe}x (from analysis)
+- Calculation for {target_pe}x rerate: ({target_pe} / {current_pe} - 1) × ${market_cap:,.0f} = ${target_market_cap_change:,.2f} ({target_gap_percentage:.1f}%)
+- CRITICAL DIRECTION LOGIC:
+  * If {valuation_direction} = "premium": Rerate to {target_pe}x means DECREASE in market cap (use "would imply ~{target_gap_percentage:.1f}% downside" or "requires fundamentals to improve to justify premium")
+  * If {valuation_direction} = "discount": Rerate to {target_pe}x means INCREASE in market cap (use "potentially increasing market cap by ${target_market_cap_change:,.2f} (+{target_gap_percentage:.1f}%)")
+- Alternative scenarios (if needed):
+  * 18x scenario: (18 / {current_pe} - 1) × ${market_cap:,.0f}
+  * 20x scenario: (20 / {current_pe} - 1) × ${market_cap:,.0f}
+- DO NOT use arbitrary P/E targets—use {target_pe}x as primary recommendation
+
+**Competitive Position Data**:
+- Target Company Rank: {target_rank} out of {peer_count} companies
+- Areas of Excellence: {areas_of_excellence}
+- Areas Needing Improvement: {areas_of_improvement}
+- Perception Gaps Identified: {perception_gaps}
+
+**Instructions**:
+Create an executive-level summary that synthesizes the competitive analysis findings into clear, actionable insights. The summary should be suitable for C-suite executives and board members.
+
+**Required Components**:
+
+1. **Company Overview** (200-400 words):
+   - Brief description of the company's business model and market position
+   - Current competitive standing within the industry
+   - Key operational strengths and market opportunities
+   - ACCURACY: When citing ROE, say "above peer average" NOT "outperforming peers" (a peer may be higher)
+   - CRITICAL RANKING RULES:
+     * DO NOT use "#1 (tied)" unless multiple companies have the EXACT SAME numerical value
+     * If target is clearly #1 with best value, say "ranks #1" without qualification
+     * Only add "(tied)" when values are mathematically identical (e.g., both have X.XX%)
+     * Example: ROE X.XX% vs peers Y.YY%, Z.ZZ%, -W.WW% = "ranks #1 in ROE" NOT "#1 (tied)"
+
+2. **Key Finding** (100-200 words):
+   - Primary valuation insight with specific numbers
+   - When stating P/E gaps, use "P/E points" not "x" (e.g., "X.XX P/E points (~Y.Y% premium)" NOT "X.XXx")
+   - Root cause of any valuation gaps identified
+   - Significance of the finding for the company's strategic positioning
+
+3. **Root Cause Analysis** (50-150 words):
+   - Number and nature of perception gaps identified
+   - Underlying factors driving market misperception
+   - Communication or operational issues affecting valuation
+
+4. **Top Recommendations** (EXACTLY 3 bullet points):
+   - Highest-impact actions to address valuation gaps
+   - ALL recommendations must target {target_pe}x P/E rerate (from {current_pe}x)
+   - CRITICAL VALUATION LANGUAGE:
+     * For PREMIUM stocks (current P/E > peer average): Use "sustaining the premium requires..." or "if multiple compresses to peer average, would imply ~X% downside"
+     * For DISCOUNT stocks (current P/E < peer average): Use "rerate could increase market cap by $X (+Y%)"
+     * NEVER say "increase market cap by $-XXB" or use mixed signs like "(+X%)" with negative dollars
+   - CRITICAL DIRECTION ENFORCEMENT (CHECK EVERY RECOMMENDATION):
+     * If {valuation_direction} = "premium" (current P/E > target P/E):
+       ✓ CORRECT: "...would imply ~{target_gap_percentage:.1f}% downside from current levels unless fundamentals improve"
+       ✓ CORRECT: "...requires fundamental improvements to sustain premium, otherwise ~{target_gap_percentage:.1f}% downside risk"
+       ✗ WRONG: "...could increase market cap by ${target_market_cap_change:,.2f}"
+       ✗ WRONG: "...potentially increasing market cap"
+     * If {valuation_direction} = "discount" (current P/E < target P/E):
+       ✓ CORRECT: "...potentially increasing market cap by ${target_market_cap_change:,.2f} (+{target_gap_percentage:.1f}%)"
+   - VERIFY: Read each recommendation and confirm direction matches {valuation_direction}
+   - Include timeline, specific actions, and KPIs to measure progress
+   - Focus on: investor communications, IR programs, disclosure quality improvements, fundamental improvements (if premium)
+   - IMPORTANT: Provide EXACTLY 3 recommendations, no more, no less
+
+**Tone and Style**:
+- Executive-level language (avoid technical jargon)
+- Data-driven insights with specific metrics
+- Action-oriented recommendations
+- Confident but balanced assessment
+- Industry-appropriate terminology
+
+**Required Output Format** (JSON):
+```json
+{{
+    "company_overview": "<comprehensive overview paragraph>",
+    "key_finding": "<primary valuation insight with specific metrics>",
+    "root_cause": "<explanation of perception gaps and underlying factors>",
+    "top_recommendations": [
+        "<recommendation 1 with impact estimate>",
+        "<recommendation 2 with impact estimate>",
+        "<recommendation 3 with impact estimate>"
+    ],
+    "executive_priority": "<highest priority action item>",
+    "expected_outcomes": "<summary of expected results from implementation>",
+    "confidence_level": "<high|medium|low>"
+}}
+```
+
+**Quality Guidelines**:
+- Use specific numbers and percentages throughout
+- Ensure recommendations are actionable and measurable
+- Balance strengths and improvement areas
+- Focus on value creation opportunities
+- Maintain professional, authoritative tone

@@ -1,0 +1,84 @@
+Conduct comprehensive peer comparison analysis for {symbol} across all key competitive metrics.
+
+**Target Company Data:**
+- Symbol: {symbol}
+- Company Name: {company_name}
+- Market Cap: ${market_cap}B
+- Sector: {sector}
+
+**Financial Metrics for All Companies:**
+{financial_metrics_data}
+
+**Peer Group:**
+{peer_group_data}
+
+**Analysis Requirements:**
+
+1. **Ranking Analysis**
+   - Rank each company (1=best) across all metrics
+   - Calculate percentile rankings (0-100)
+   - Identify best and worst performers by category
+
+2. **Outlier Detection**
+   - Flag statistical outliers (>3 standard deviations)
+   - Identify data quality issues
+   - Recommend exclusions from averages
+
+3. **Competitive Positioning**
+   - Assess target company's relative strengths/weaknesses
+   - Identify competitive advantages and disadvantages
+   - Calculate peer group averages and target vs peer gaps
+
+4. **Trend Analysis**
+   - Compare year-over-year metric changes
+   - Identify improving vs declining performance trends
+   - Assess competitive position changes over time
+
+**Key Metrics to Analyze:**
+- Market Capitalization
+- P/E Ratio
+- Return on Equity (ROE)
+- Revenue Growth
+- Debt-to-Equity Ratio
+- Combined Ratio (insurance-specific)
+- Management Sentiment Score
+- Analyst Confusion Score
+
+**Output Format:**
+```json
+{
+  "rankings": {
+    "overall_composite": {
+      "target_rank": 3,
+      "total_companies": 5,
+      "percentile": 60
+    },
+    "by_metric": {
+      "pe_ratio": {"rank": 5, "value": 12.1, "peer_avg": 15.1, "gap": -3.0},
+      "roe": {"rank": 2, "value": 18.4, "peer_avg": 19.8, "gap": -1.4},
+      "combined_ratio": {"rank": 1, "value": 88.3, "peer_avg": 91.2, "gap": -2.9}
+    }
+  },
+  "competitive_positioning": {
+    "strengths": ["Best-in-class underwriting (combined ratio)", "Strong ROE performance", "Conservative debt management"],
+    "weaknesses": ["Lowest valuation multiple", "Limited growth narrative", "Complex business model communication"],
+    "opportunities": ["Valuation re-rating potential", "Technology narrative development", "Improved investor communication"]
+  },
+  "outlier_analysis": {
+    "statistical_outliers": [],
+    "data_quality_flags": [],
+    "exclusion_recommendations": []
+  },
+  "peer_benchmarking": {
+    "best_performers": {
+      "valuation": {"symbol": "PGR", "pe_ratio": 20.5},
+      "profitability": {"symbol": "PGR", "roe": 29.1},
+      "efficiency": {"symbol": "WRB", "combined_ratio": 88.3}
+    },
+    "improvement_targets": [
+      "Close P/E gap to peer average (current: 12.1x, target: 15.1x)",
+      "Maintain underwriting excellence while improving growth narrative"
+    ]
+  }
+}
+```

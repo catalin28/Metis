@@ -1,0 +1,69 @@
+Identify and analyze hidden competitive strengths for {symbol} that the market is not properly recognizing or valuing.
+
+**Company**: {symbol} ({company_name})
+**Industry**: {industry}
+**Analysis Date**: {analysis_date}
+
+**Competitive Metrics**:
+{competitive_metrics}
+
+**Peer Comparison Data**:
+{peer_comparison_data}
+
+**Market Perception**:
+Current P/E: {current_pe}x vs Peer Average: {peer_average_pe}x
+Market Perception Category: {market_perception}
+
+**Instructions**:
+Analyze the competitive positioning data to identify 3-5 specific areas where the target company outperforms peers but this strength is not reflected in market valuation or analyst coverage.
+
+**Analysis Framework**:
+1. **Operational Excellence**: Metrics where company significantly outperforms
+2. **Financial Efficiency**: Capital allocation and profitability advantages
+3. **Risk Management**: Superior risk profiles or stability measures
+4. **Strategic Position**: Competitive moats or market positioning advantages
+5. **Management Quality**: Communication, execution, or strategic capabilities
+
+**For Each Hidden Strength, Provide**:
+- **Quantified Advantage**: Specific metrics showing outperformance
+- **Market Blindness**: Why analysts/investors miss this strength
+- **Valuation Impact**: Estimated effect on fair value multiple
+- **Actionable Communication**: How to highlight this strength
+
+**Required Output Format** (JSON):
+```json
+{{
+    "hidden_strengths": [
+        {{
+            "title": "<concise strength title (10-50 characters)>",
+            "description": "<detailed explanation of the strength (100-300 words)>",
+            "quantification": "<specific metrics and comparisons>",
+            "why_hidden": "<explanation of why market misses this (50-200 words)>",
+            "peer_comparison": "<how this compares to specific peers>",
+            "valuation_impact": <estimated P/E multiple impact>,
+            "communication_strategy": "<how to highlight this strength>",
+            "supporting_data": ["<data point 1>", "<data point 2>", "<data point 3>"],
+            "confidence_level": "<high|medium|low>"
+        }}
+    ],
+    "overall_assessment": "<summary of hidden value potential>",
+    "total_estimated_impact": <combined P/E multiple impact>,
+    "priority_ranking": ["<strength 1>", "<strength 2>", "<strength 3>"]
+}}
+```
+
+**Analysis Guidelines**:
+- Focus on strengths that are NOT already recognized by the market
+- Provide specific, verifiable metrics for each strength
+- Explain the disconnect between performance and perception
+- Consider industry-specific value drivers (for insurance: underwriting, reserves, capital efficiency)
+- Identify communication gaps that hide these strengths
+- Estimate realistic valuation impact for each strength
+- Prioritize by potential valuation impact and actionability
+
+**Quality Standards**:
+- Each strength must be quantified with specific metrics
+- Compare directly to named peer companies where possible
+- Explain root cause of market's failure to recognize the strength
+- Provide actionable communication strategies
+- Ensure strengths are genuinely "hidden" rather than well-known

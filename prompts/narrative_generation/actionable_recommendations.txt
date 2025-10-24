@@ -1,0 +1,78 @@
+Generate prioritized actionable recommendations for {symbol} to close the competitive positioning gap.
+
+**Analysis Results:**
+- Current P/E: {current_pe}
+- Target Fair Value P/E: {fair_value_pe}
+- Valuation Upside: {upside_percentage}%
+- Key Competitive Advantages: {competitive_strengths}
+- Hidden Strengths: {hidden_strengths}
+- Messaging Gaps: {messaging_gaps}
+- Peer Best Practices: {peer_best_practices}
+
+**Recommendation Categories:**
+
+**DO Recommendations (Operational/Strategic Actions):**
+- Focus on concrete business actions and strategic initiatives
+- Include implementation frameworks and timelines
+- Specify expected impact on financial metrics
+
+**SAY Recommendations (Communication/Messaging):**
+- Focus on investor communication improvements
+- Include specific talking points and messaging frameworks
+- Specify forums and timing for communication
+
+**SHOW Recommendations (Demonstration/Proof Points):**
+- Focus on tangible demonstrations of competitive advantages
+- Include metrics and KPIs to track and showcase
+- Specify evidence and supporting materials needed
+
+**Priority Ranking Criteria:**
+1. **Valuation Impact Potential** (0-5 scale)
+2. **Implementation Feasibility** (0-5 scale)
+3. **Time to Impact** (immediate/3mo/6mo/12mo+)
+4. **Resource Requirements** (low/medium/high)
+
+**Required Output Format:**
+```json
+{
+  "recommendations": [
+    {
+      "id": 1,
+      "category": "DO",
+      "priority": "high",
+      "title": "Create monthly competitive valuation reports",
+      "problem_statement": "Why does Progressive trade at 20x when we have better combined ratio?",
+      "solution_framework": "Monthly competitive valuation reports highlighting operational superiority",
+      "specific_actions": [
+        "Create quarterly slide deck comparing operational metrics vs peer multiples",
+        "Develop standardized comparison framework with IR team",
+        "Present at next 2 investor conferences"
+      ],
+      "expected_impact": "Xx P/E multiple expansion",
+      "timeline": "Next 2 quarters",
+      "success_metrics": ["Analyst coverage improvement", "Investor sentiment surveys"],
+      "resource_requirements": "medium",
+      "feasibility_score": 4,
+      "impact_score": 5
+    }
+  ],
+  "implementation_sequence": [
+    "Start with high-impact, low-effort SAY recommendations",
+    "Build momentum with quick wins",
+    "Layer in medium-term DO initiatives",
+    "Execute long-term SHOW demonstrations"
+  ],
+  "success_tracking": {
+    "short_term_kpis": ["Analyst sentiment", "Media coverage tone"],
+    "medium_term_kpis": ["P/E multiple progression", "Earnings call question quality"],
+    "long_term_kpis": ["Valuation gap closure", "Peer multiple convergence"]
+  }
+}
+```
+
+**Minimum Requirements:**
+- Generate 15-20 total recommendations across all categories
+- Include at least 5 DO, 5 SAY, and 5 SHOW recommendations
+- Rank all recommendations by implementation priority
+- Provide specific implementation guidance for top 10 recommendations
+- Quantify expected impact where possible

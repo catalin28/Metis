@@ -1,0 +1,108 @@
+# Default client configuration
+clients:
+  default:
+    competitive_intelligence:
+      enabled: true
+      max_peers: 5
+      peer_discovery_mode: auto  # auto | manual
+      custom_peer_groups:
+        # Example custom peer groups (override auto-discovery)
+        # AAPL: ["MSFT", "GOOGL", "META", "AMZN"]
+        # TSLA: ["F", "GM", "RIVN", "LCID"]
+      
+      report_settings:
+        include_sections:
+          - executive_summary
+          - competitive_dashboard
+          - hidden_strengths
+          - steal_playbook
+          - valuation_forensics
+          - actionable_roadmap
+        
+        publish_to_wordpress: false
+        wordpress_visibility: private  # private | public
+        
+      analysis_settings:
+        valuation_model: multi_factor  # simple | multi_factor | ml_enhanced
+        event_study_model: fama_french  # market_model | fama_french | carhart
+        linguistic_analysis_depth: comprehensive  # basic | comprehensive
+        
+    rate_limits:
+      reports_per_month: 20
+      concurrent_analyses: 2
+      
+  enterprise:
+    competitive_intelligence:
+      enabled: true
+      max_peers: 8
+      peer_discovery_mode: auto
+      custom_peer_groups: {}
+      
+      report_settings:
+        include_sections:
+          - executive_summary
+          - competitive_dashboard
+          - hidden_strengths
+          - steal_playbook
+          - valuation_forensics
+          - actionable_roadmap
+        
+        publish_to_wordpress: true
+        wordpress_visibility: private
+        
+      analysis_settings:
+        valuation_model: ml_enhanced
+        event_study_model: carhart
+        linguistic_analysis_depth: comprehensive
+        
+    rate_limits:
+      reports_per_month: 100
+      concurrent_analyses: 5
+
+# Sector-specific templates
+sector_templates:
+  technology:
+    metrics:
+      - revenue_growth
+      - gross_margin
+      - r_and_d_ratio
+      - free_cash_flow_margin
+    linguistic_terms:
+      - innovation
+      - AI
+      - cloud
+      - platform
+      - digital_transformation
+    valuation_multiples:
+      - ev_revenue
+      - peg_ratio
+      - price_to_sales
+      
+  financial_services:
+    metrics:
+      - roe
+      - roa
+      - net_interest_margin
+      - efficiency_ratio
+    linguistic_terms:
+      - digital_banking
+      - fintech
+      - regulatory_capital
+      - credit_quality
+    valuation_multiples:
+      - price_to_book
+      - price_to_tangible_book
+      
+  healthcare:
+    metrics:
+      - pipeline_value
+      - r_and_d_ratio
+      - regulatory_approvals
+    linguistic_terms:
+      - clinical_trials
+      - FDA_approval
+      - innovation
+      - breakthrough_therapy
+    valuation_multiples:
+      - ev_revenue
+      - price_to_sales

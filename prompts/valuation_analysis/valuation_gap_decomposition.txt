@@ -1,0 +1,53 @@
+Analyze the P/E valuation gap for {symbol} and decompose it into fundamental vs narrative components.
+
+**Company Data:**
+- Target Symbol: {symbol}
+- Target P/E Ratio: {target_pe}
+- Peer Average P/E: {peer_average_pe}
+- Total Valuation Gap: {valuation_gap}x ({gap_percentage}%)
+
+**Financial Fundamentals:**
+- Target ROE: {target_roe}%
+- Peer Average ROE: {peer_roe_avg}%
+- Target Revenue Growth: {target_growth}%
+- Peer Average Growth: {peer_growth_avg}%
+- Target Combined Ratio: {target_combined_ratio}
+- Peer Average Combined Ratio: {peer_combined_ratio_avg}
+
+**Required Analysis:**
+
+1. **Fundamental Component Calculation**
+   - Calculate justified P/E based on ROE, growth, and risk metrics
+   - Determine if fundamentals justify premium/discount
+   - Quantify fundamental-driven gap component
+
+2. **Narrative Component Identification**
+   - Identify perception-driven valuation gap
+   - Analyze market sentiment and communication factors
+   - Quantify narrative-driven gap component
+
+3. **Valuation Bridge Components**
+   - Starting Point: Peer Average P/E
+   - ROE Adjustment (+ or - with explanation)
+   - Growth Adjustment (+ or - with explanation) 
+   - Risk/Quality Adjustment (+ or - with explanation)
+   - Fundamental Fair Value checkpoint
+   - Narrative Gap (+ or - with explanation)
+   - Actual P/E endpoint
+
+**Output Format:**
+```json
+{
+  "fundamental_component": -0.8,
+  "narrative_component": -1.6,
+  "valuation_bridge": [
+    {"component": "Peer Average P/E", "value": 14.5, "cumulative": 14.5, "explanation": "Starting baseline"},
+    {"component": "ROE Adjustment", "value": -0.3, "cumulative": 14.2, "explanation": "Slightly lower ROE vs peers"},
+    {"component": "Growth Adjustment", "value": 0.2, "cumulative": 14.4, "explanation": "Better growth prospects"},
+    {"component": "Risk Adjustment", "value": -0.7, "cumulative": 13.7, "explanation": "Lower debt, higher quality"},
+    {"component": "Fundamental Fair Value", "value": 0, "cumulative": 13.7, "explanation": "Fundamentally justified level"},
+    {"component": "Narrative Gap", "value": -1.6, "cumulative": 12.1, "explanation": "Perception discount due to complexity"}
+  ],
+  "analysis_summary": "Detailed explanation of valuation gap components"
+}
+```

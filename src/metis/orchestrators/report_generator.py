@@ -1,0 +1,838 @@
+"""
+Competitive Intelligence Report Generator
+
+Generates complete 6-section reports using Pydantic schemas and LLM prompts.
+Orchestrates the generation of all report sections with proper input/output validation.
+
+This module handles:
+- Data collection via FMP API
+- Data transformation to Input models
+- LLM prompt loading and formatting
+- Structured output generation with schema validation
+- Section assembly into complete report
+
+Author: Metis Development Team
+Created: 2025-10-22
+"""
+
+import json
+import logging
+import re
+from datetime import datetime
+from typing import Dict, List, Optional, Any
+
+from ..assistants.generic_llm_agent import GenericLLMAgent
+from ..assistants.peer_discovery_service import PeerDiscoveryService
+from ..data_collecting import (
+    CompetitiveDataCollector,
+    InputModelTransformer,
+)
+from ..models.report_schema_v2 import (
+    # Input Models
+    ExecutiveSummaryInput,
+    CompetitiveDashboardInput,
+    AnalystConsensusInput,
+    HiddenStrengthsInput,
+    StealTheirPlaybookInput,
+    ValuationForensicsInput,
+    ActionableRoadmapInput,
+    # Output Models
+    ExecutiveSummary,
+    CompetitiveDashboard,
+    AnalystConsensusOutput,
+    AnalystConsensusSection,
+    HiddenStrengths,
+    StealTheirPlaybook,
+    ValuationForensics,
+    ActionableRoadmap,
+    CompetitiveIntelligenceReport,
+    # Supporting Models
+    ReportMetadata,
+    DataSource,
+    CompanyProfile,
+    PeerCompany,
+    PeerGroup,
+    PeerSelectionRationale,
+    DataQuality
+)
+from ..utils.prompt_loader import PromptLoader
+
+
+logger = logging.getLogger(__name__)
+
+
+class ReportGenerator:
+    """
+    Generates complete competitive intelligence reports using LLM agents.
+    
+    This class coordinates:
+    1. Data collection from FMP API (via CompetitiveDataCollector)
+    2. Data transformation to Input models (via InputModelTransformer)
+    3. Generation of all 6 report sections using LLM
+    4. Assembly into validated CompetitiveIntelligenceReport
+    
+    Sections generated:
+    1. Executive Summary
+    2. Competitive Dashboard
+    3. Hidden Strengths
+    4. Steal Their Playbook
+    5. Valuation Forensics
+    6. Actionable Roadmap
+    
+    Each section uses:
+    - Pydantic Input model for data validation
+    - Prompt template for LLM guidance
+    - LLM generation with structured output
+    - Pydantic Output model for validation
+    """
+    
+    def __init__(self, fmp_api_key: Optional[str] = None, openai_api_key: Optional[str] = None):
+        """
+        Initialize report generator with required components.
+        
+        Args:
+            fmp_api_key: Optional FMP API key (uses env variable if not provided)
+            openai_api_key: Optional OpenAI API key (uses env variable if not provided)
+        """
+        self.llm_agent = GenericLLMAgent(api_key=openai_api_key)
+        self.data_collector = CompetitiveDataCollector(api_key=fmp_api_key)
+        self.transformer = InputModelTransformer()
+        self.prompt_loader = PromptLoader()
+        self.peer_discovery = PeerDiscoveryService()
+        logger.info("ReportGenerator initialized")
+    
+    async def generate_complete_report_with_discovery(
+        self,
+        target_symbol: str,
+        max_peers: int = 5,
+        max_workers: int = 6
+    ) -> CompetitiveIntelligenceReport:
+        """
+        Generate complete report with automatic peer discovery.
+        
+        This method discovers peers automatically and generates the full report.
+        
+        Args:
+            target_symbol: Stock ticker symbol for target company
+            max_peers: Maximum number of peers to discover (default: 5)
+            max_workers: Maximum parallel workers for data collection (default: 6)
+            
+        Returns:
+            Complete validated CompetitiveIntelligenceReport
+        """
+        logger.info(f"Generating report with auto peer discovery for {target_symbol}")
+        
+        # Discover peers
+        logger.info(f"Discovering peers for {target_symbol}")
+        peers = await self.peer_discovery.identify_peers(
+            symbol=target_symbol,
+            max_peers=max_peers
+        )
+        peer_symbols = [p['symbol'] for p in peers]
+        logger.info(f"✓ Discovered {len(peer_symbols)} peers: {', '.join(peer_symbols)}")
+        
+        # Generate report with discovered peers
+        return await self.generate_complete_report(
+            target_symbol=target_symbol,
+            peer_symbols=peer_symbols,
+            max_workers=max_workers
+        )
+    
+    async def generate_complete_report(
+        self,
+        target_symbol: str,
+        peer_symbols: List[str],
+        max_workers: int = 6
+    ) -> CompetitiveIntelligenceReport:
+        """
+        Generate complete 6-section competitive intelligence report.
+        
+        This is the main entry point for report generation. It:
+        1. Collects all financial data from FMP
+        2. Transforms data into Input models
+        3. Generates each section using LLM
+        4. Assembles complete validated report
+        
+        Args:
+            target_symbol: Stock ticker symbol for target company
+            peer_symbols: List of peer company symbols (3-5 recommended)
+            max_workers: Maximum parallel workers for data collection (default: 6)
+            
+        Returns:
+            Complete validated CompetitiveIntelligenceReport
+            
+        Raises:
+            ValueError: If insufficient data or invalid inputs
+            ValidationError: If any section fails validation
+        """
+        logger.info(f"Generating complete report for {target_symbol}")
+        
+        try:
+            # STEP 1: Collect all data from FMP
+            logger.info(f"Step 1/4: Collecting data for {target_symbol} + {len(peer_symbols)} peers")
+            company_data = self.data_collector.collect_all_company_data(
+                target_symbol=target_symbol,
+                peer_symbols=peer_symbols,
+                max_workers=max_workers
+            )
+            
+            # STEP 2: Calculate comparative metrics
+            logger.info("Step 2/4: Calculating comparative metrics")
+            comparative_metrics = self.data_collector.calculate_comparative_metrics(
+                company_data=company_data,
+                target_symbol=target_symbol
+            )
+            
+            # STEP 3: Get company overview via web search
+            logger.info("Step 3/4: Researching company via web search")
+            company_overview_result = self.llm_agent.research_company_with_web_search(
+                symbol=target_symbol,
+                company_name=company_data[target_symbol]['name'],
+                industry=company_data[target_symbol].get('industry', 'Unknown'),
+                sector=company_data[target_symbol].get('sector', 'Unknown')
+            )
+            company_overview = company_overview_result['company_overview']
+            # POST-PROCESS: Validate and correct ranking statements in company_overview
+            actual_rank = comparative_metrics.get('overall_rank', 1)
+            total_companies = len(peer_symbols) + 1
+            
+            # Replace incorrect ranking claims with accurate data
+            import re
+            # Remove patterns like "ranking #1", "#1 (tied)", "ranks #1", etc.
+            company_overview = re.sub(r'ranking #\d+( \(tied\))?', f'ranking #{actual_rank}', company_overview, flags=re.IGNORECASE)
+            company_overview = re.sub(r'ranks #\d+( \(tied\))?', f'ranks #{actual_rank}', company_overview, flags=re.IGNORECASE)
+            company_overview = re.sub(r'#\d+ \(tied\) among', f'#{actual_rank} among', company_overview, flags=re.IGNORECASE)
+            
+            # STEP 4: Generate all 6 sections
+            logger.info("Step 4/4: Generating report sections")
+            
+            # Generate metadata, peer group, and data sources
+            metadata = self._create_report_metadata(target_symbol, company_data[target_symbol])
+            peer_group = self._create_peer_group(target_symbol, company_data)
+            data_sources = self._create_data_sources()
+            
+            # Generate Section 1: Executive Summary
+            logger.info("  - Generating Section 1: Executive Summary")
+            executive_summary = await self.generate_executive_summary(
+                target_symbol, company_data, comparative_metrics, company_overview
+            )
+            
+            # Generate Section 2: Competitive Dashboard
+            logger.info("  - Generating Section 2: Competitive Dashboard")
+            competitive_dashboard = await self.generate_competitive_dashboard(
+                target_symbol, company_data, comparative_metrics
+            )
+            
+            # Generate Section 3: Hidden Strengths
+            logger.info("  - Generating Section 3: Hidden Strengths")
+            hidden_strengths = await self.generate_hidden_strengths(
+                target_symbol, company_data, comparative_metrics
+            )
+            
+            # Generate Section 4: Steal Their Playbook
+            logger.info("  - Generating Section 4: Steal Their Playbook")
+            steal_their_playbook = await self.generate_steal_their_playbook(
+                target_symbol, company_data, comparative_metrics
+            )
+            
+            # Generate Section 5: Valuation Forensics
+            logger.info("  - Generating Section 5: Valuation Forensics")
+            valuation_forensics = await self.generate_valuation_forensics(
+                target_symbol, company_data, comparative_metrics
+            )
+            
+            # Generate Section 6: Actionable Roadmap
+            logger.info("  - Generating Section 6: Actionable Roadmap")
+            actionable_roadmap = await self.generate_actionable_roadmap(
+                target_symbol,
+                company_data,
+                comparative_metrics,
+                executive_summary,
+                competitive_dashboard,
+                hidden_strengths,
+                steal_their_playbook,
+                valuation_forensics
+            )
+            
+            # Assemble complete report
+            report = CompetitiveIntelligenceReport(
+                metadata=metadata,
+                data_sources=data_sources,
+                peer_group=peer_group,
+                executive_summary=executive_summary,
+                competitive_dashboard=competitive_dashboard,
+                hidden_strengths=hidden_strengths,
+                steal_their_playbook=steal_their_playbook,
+                valuation_forensics=valuation_forensics,
+                actionable_roadmap=actionable_roadmap
+            )
+            
+            logger.info(f"✓ Complete report generated successfully for {target_symbol}")
+            return report
+            
+        except Exception as e:
+            logger.error(f"Report generation failed for {target_symbol}: {str(e)}")
+            raise
+    
+    async def generate_executive_summary(
+        self,
+        target_symbol: str,
+        company_data: Dict[str, Dict[str, Any]],
+        comparative_metrics: Dict[str, Any],
+        company_overview: str
+    ) -> ExecutiveSummary:
+        """
+        Generate Section 1: Executive Summary.
+        
+        Uses web search for company overview, then LLM generation for key findings.
+        
+        Args:
+            target_symbol: Target company symbol
+            company_data: All company data from collector
+            comparative_metrics: Comparative analysis results
+            company_overview: Pre-generated company overview from web search
+            
+        Returns:
+            Validated ExecutiveSummary instance
+        """
+        logger.info(f"Generating Executive Summary for {target_symbol}")
+        
+        # Transform data to Input model
+        input_model = self.transformer.create_executive_summary_input(
+            target_symbol=target_symbol,
+            company_data=company_data,
+            comparative_metrics=comparative_metrics,
+            company_overview=company_overview
+        )
+        
+        # Load prompt template
+        prompt_template = self.prompt_loader.load_prompt(
+            'narrative_generation',
+            'executive_summary.txt'
+        )
+        
+        # Format prompt with input data
+        formatted_prompt = prompt_template.format(
+            **input_model.model_dump()
+        )
+        
+        # Generate structured output using LLM
+        output = await self.llm_agent.generate_structured_output(
+            prompt=formatted_prompt,
+            response_format=ExecutiveSummary,
+            temperature=None
+        )
+        
+        logger.info(f"✓ Executive Summary generated for {target_symbol}")
+        return output
+    
+    async def generate_competitive_dashboard(
+        self,
+        target_symbol: str,
+        company_data: Dict[str, Dict[str, Any]],
+        comparative_metrics: Dict[str, Any]
+    ) -> CompetitiveDashboard:
+        """Generate Section 2: Competitive Dashboard."""
+        logger.info(f"Generating Competitive Dashboard for {target_symbol}")
+        
+        # Transform data to Input model
+        input_model = self.transformer.create_competitive_dashboard_input(
+            target_symbol=target_symbol,
+            company_data=company_data,
+            comparative_metrics=comparative_metrics
+        )
+        
+        # Load prompt template
+        prompt_template = self.prompt_loader.load_prompt(
+            'comparative_analysis',
+            'competitive_dashboard.txt'
+        )
+        
+        # Format prompt with input data
+        formatted_prompt = prompt_template.format(
+            **input_model.model_dump()
+        )
+        
+        # Generate structured output using LLM
+        output = await self.llm_agent.generate_structured_output(
+            prompt=formatted_prompt,
+            response_format=CompetitiveDashboard,
+            temperature=None
+        )
+        
+        # POST-PROCESS: Auto-calculate perception_gap_count from LLM's market_perception tags
+        gap_perceptions = {'Undervalued', 'Underappreciated', 'Hidden strength', 'Not communicated', 'Root cause', 'Overvalued'}
+        calculated_gap_count = sum(
+            1 for metric in output.metrics 
+            if metric.market_perception in gap_perceptions
+        )
+        
+        # Update if LLM provided wrong count (auto-correction)
+        if output.perception_gap_count != calculated_gap_count:
+            logger.warning(
+                f"perception_gap_count mismatch for {target_symbol}: "
+                f"LLM said {output.perception_gap_count}, actual count is {calculated_gap_count}. Auto-correcting."
+            )
+            # Create new instance with corrected count
+            output = CompetitiveDashboard(
+                metrics=output.metrics,
+                overall_target_rank=output.overall_target_rank,
+                key_strengths_summary=output.key_strengths_summary,
+                key_weaknesses_summary=output.key_weaknesses_summary,
+                perception_gap_count=calculated_gap_count
+            )
+        
+        logger.info(f"✓ Competitive Dashboard generated for {target_symbol} (perception gaps: {calculated_gap_count})")
+        return output
+    
+    async def generate_analyst_consensus(
+        self,
+        target_symbol: str,
+        peer_symbols: List[str],
+        company_data: Dict[str, Dict[str, Any]],
+        dashboard_metrics: Optional[List[Dict[str, Any]]] = None,
+        hidden_strengths: Optional[List[Dict[str, Any]]] = None
+    ) -> AnalystConsensusSection:
+        """
+        Generate Section 2.5: Analyst Consensus.
+        
+        Args:
+            target_symbol: Target company symbol
+            peer_symbols: List of peer company symbols
+            company_data: Company data dict including P/E ratios
+            dashboard_metrics: Optional metrics from Section 2 (for context)
+            hidden_strengths: Optional hidden strengths from Section 3 (for context)
+            
+        Returns:
+            AnalystConsensusSection with LLM-generated analysis
+        """
+        logger.info(f"Generating Analyst Consensus for {target_symbol}")
+        
+        # Import analyst grades collector
+        from ..data_collecting.analyst_grades_collector import collect_analyst_consensus
+        
+        # Extract company names from company_data
+        company_names = {symbol: data.get('name', symbol) for symbol, data in company_data.items()}
+        
+        # Collect analyst consensus data for target and peers with P/E ratios
+        target_analysis, peer_analysis = collect_analyst_consensus(
+            target_symbol=target_symbol,
+            peer_symbols=peer_symbols,
+            company_names=company_names,
+            company_data=company_data
+        )
+        
+        # Transform to Input model
+        input_model = self.transformer.create_analyst_consensus_input(
+            target_analysis=target_analysis,
+            peer_analysis=peer_analysis,
+            dashboard_metrics=dashboard_metrics,
+            hidden_strengths=hidden_strengths
+        )
+        
+        # Load prompt template
+        prompt_template = self.prompt_loader.load_prompt(
+            'competitive_analysis',
+            'analyst_consensus.txt'
+        )
+        
+        # Format prompt with input data
+        input_dict = input_model.model_dump()
+        # Convert analyst metrics to JSON for better prompt formatting
+        input_dict['target_analysis'] = json.dumps(input_dict['target_analysis'], indent=2)
+        input_dict['peer_analysis'] = json.dumps(input_dict['peer_analysis'], indent=2)
+        input_dict['fundamental_strengths'] = json.dumps(input_dict['fundamental_strengths'], indent=2)
+        
+        formatted_prompt = prompt_template.format(**input_dict)
+        
+        # Generate structured output using LLM (just narrative fields)
+        llm_output = await self.llm_agent.generate_structured_output(
+            prompt=formatted_prompt,
+            response_format=AnalystConsensusOutput,
+            temperature=None
+        )
+        
+        # POST-PROCESSING: Fix common LLM narrative errors
+        fixed_relative_positioning = llm_output.relative_positioning
+        fixed_perception_gap = llm_output.perception_gap_narrative
+        fixed_contrarian_score = llm_output.contrarian_opportunity_score
+        
+        # Fix 1: Remove P/E comparisons from relative_positioning (they don't belong there)
+        # Pattern: "PEER: XX.Xx P/E vs TARGET's YY.Yyx." or similar garbled P/E fragments
+        fixed_relative_positioning = re.sub(
+            r'\([A-Z]+:\s*\d+\.?\d*x?\s*P/E.*?\)',  # Remove parenthetical P/E comparisons
+            '',
+            fixed_relative_positioning
+        )
+        fixed_relative_positioning = re.sub(
+            r',\s*compared to.*?\d+\.?\d*x?\s*P/E.*?\.',  # Remove trailing P/E comparisons
+            '.',
+            fixed_relative_positioning
+        )
+        # Remove incomplete sentence fragments ending with "P/E vs..." or similar
+        fixed_relative_positioning = re.sub(
+            r'\s*\([A-Z]+:\s*\d+\.?\d*x?\s*P/E\s+vs\s+[A-Z]+\'s\s*\d+\.?\d*x?\.?\s*$',
+            '.',
+            fixed_relative_positioning
+        )
+        
+        # Fix 2: Remove garbled P/E comparisons from perception_gap_narrative
+        # Pattern: "NXPI: 26.3x P/E vs ASML's 36.99x" embedded mid-sentence
+        fixed_perception_gap = re.sub(
+            r',?\s*[A-Z]+:\s*\d+\.?\d*x?\s*P/E\s+vs\s+[A-Z]+\'s\s*\d+\.?\d*x?,?',
+            '',
+            fixed_perception_gap
+        )
+        
+        # Fix 3: Coverage comparison logic (8 < 9 is NOT "broader")
+        target_coverage = target_analysis.coverage_breadth
+        peer_coverages = [p.coverage_breadth for p in peer_analysis]
+        peer_avg_coverage = sum(peer_coverages) / len(peer_coverages) if peer_coverages else 0
+        
+        if target_coverage < peer_avg_coverage:
+            # Replace "broader" with "narrower" or "fewer firms"
+            fixed_relative_positioning = re.sub(
+                r'broader coverage with (\d+)',
+                r'narrower coverage with \1',
+                fixed_relative_positioning
+            )
+            fixed_relative_positioning = re.sub(
+                r'has broader coverage',
+                'has more limited coverage',
+                fixed_relative_positioning
+            )
+        
+        # Fix 4: Contrarian score qualification for premium stocks with negative growth
+        # Check if target P/E > peer average AND has negative revenue growth
+        target_pe = target_analysis.current_pe
+        peer_pes = [p.current_pe for p in peer_analysis if p.current_pe]
+        peer_avg_pe = sum(peer_pes) / len(peer_pes) if peer_pes else target_pe
+        
+        # Get revenue growth from dashboard_metrics if available
+        revenue_growth = None
+        if dashboard_metrics:
+            for metric in dashboard_metrics:
+                if metric.get('metric_name') == 'Revenue Growth':
+                    revenue_growth = metric.get('target_value')
+                    break
+        
+        # If premium + negative growth, qualify the "High" score
+        if target_pe > peer_avg_pe and revenue_growth is not None and revenue_growth < 0:
+            if "High" in fixed_contrarian_score and "accumulation" in fixed_contrarian_score.lower():
+                # Replace unconditional "accumulation" with risk-qualified version
+                fixed_contrarian_score = "High (contingent on sustaining competitive advantages and growth reacceleration; premium otherwise at risk)"
+        
+        # Merge LLM output with input data to create full section
+        output = AnalystConsensusSection(
+            target_analysis=target_analysis,
+            peer_analysis=peer_analysis,
+            relative_positioning=fixed_relative_positioning,
+            perception_gap_narrative=fixed_perception_gap,
+            contrarian_opportunity_score=fixed_contrarian_score
+        )
+        
+        logger.info(f"✓ Analyst Consensus generated for {target_symbol}")
+        return output
+    
+    async def generate_hidden_strengths(
+        self,
+        target_symbol: str,
+        company_data: Dict[str, Dict[str, Any]],
+        comparative_metrics: Dict[str, Any]
+    ) -> HiddenStrengths:
+        """Generate Section 3: Hidden Strengths."""
+        logger.info(f"Generating Hidden Strengths for {target_symbol}")
+        
+        # Transform data to Input model
+        input_model = self.transformer.create_hidden_strengths_input(
+            target_symbol=target_symbol,
+            company_data=company_data,
+            comparative_metrics=comparative_metrics
+        )
+        
+        # Load prompt template
+        prompt_template = self.prompt_loader.load_prompt(
+            'competitive_analysis',
+            'hidden_strengths.txt'
+        )
+        
+        # Format prompt with input data (convert lists to JSON for prompt)
+        input_dict = input_model.model_dump()
+        input_dict['underappreciated_metrics'] = json.dumps(
+            input_dict['underappreciated_metrics'], 
+            indent=2
+        )
+        input_dict['peer_details'] = json.dumps(
+            input_dict['peer_details'], 
+            indent=2
+        )
+        formatted_prompt = prompt_template.format(**input_dict)
+        
+        # Generate structured output using LLM
+        output = await self.llm_agent.generate_structured_output(
+            prompt=formatted_prompt,
+            response_format=HiddenStrengths,
+            temperature=None
+        )
+        
+        logger.info(f"✓ Hidden Strengths generated for {target_symbol}")
+        return output
+    
+    async def generate_steal_their_playbook(
+        self,
+        target_symbol: str,
+        company_data: Dict[str, Dict[str, Any]],
+        comparative_metrics: Dict[str, Any]
+    ) -> StealTheirPlaybook:
+        """Generate Section 4: Steal Their Playbook."""
+        logger.info(f"Generating Steal Their Playbook for {target_symbol}")
+        
+        # Transform data to Input model
+        input_model = self.transformer.create_steal_their_playbook_input(
+            target_symbol=target_symbol,
+            company_data=company_data,
+            comparative_metrics=comparative_metrics
+        )
+        
+        # Load prompt template
+        prompt_template = self.prompt_loader.load_prompt(
+            'linguistic_analysis',
+            'competitor_messaging.txt'
+        )
+        
+        # Format prompt with input data
+        formatted_prompt = prompt_template.format(
+            **input_model.model_dump()
+        )
+        
+        # Generate structured output using LLM
+        output = await self.llm_agent.generate_structured_output(
+            prompt=formatted_prompt,
+            response_format=StealTheirPlaybook,
+            temperature=None
+        )
+        
+        logger.info(f"✓ Steal Their Playbook generated for {target_symbol}")
+        return output
+    
+    async def generate_valuation_forensics(
+        self,
+        target_symbol: str,
+        company_data: Dict[str, Dict[str, Any]],
+        comparative_metrics: Dict[str, Any]
+    ) -> ValuationForensics:
+        """Generate Section 5: Valuation Forensics."""
+        logger.info(f"Generating Valuation Forensics for {target_symbol}")
+        
+        # Transform data to Input model
+        input_model = self.transformer.create_valuation_forensics_input(
+            target_symbol=target_symbol,
+            company_data=company_data,
+            comparative_metrics=comparative_metrics
+        )
+        
+        # Load prompt template
+        prompt_template = self.prompt_loader.load_prompt(
+            'valuation_analysis',
+            'valuation_gap_decomposition.txt'
+        )
+        
+        # Format prompt with input data
+        formatted_prompt = prompt_template.format(
+            **input_model.model_dump()
+        )
+        
+        # Generate structured output using LLM
+        output = await self.llm_agent.generate_structured_output(
+            prompt=formatted_prompt,
+            response_format=ValuationForensics,
+            temperature=None
+        )
+        
+        logger.info(f"✓ Valuation Forensics generated for {target_symbol}")
+        return output
+    
+    async def generate_actionable_roadmap(
+        self,
+        target_symbol: str,
+        company_data: Dict[str, Dict[str, Any]],
+        comparative_metrics: Dict[str, Any],
+        executive_summary: ExecutiveSummary,
+        competitive_dashboard: CompetitiveDashboard,
+        hidden_strengths: HiddenStrengths,
+        steal_their_playbook: StealTheirPlaybook,
+        valuation_forensics: ValuationForensics
+    ) -> ActionableRoadmap:
+        """Generate Section 6: Actionable Roadmap."""
+        logger.info(f"Generating Actionable Roadmap for {target_symbol}")
+        
+        # Transform data to Input model (includes outputs from all prior sections)
+        input_model = self.transformer.create_actionable_roadmap_input(
+            target_symbol=target_symbol,
+            company_data=company_data,
+            comparative_metrics=comparative_metrics,
+            executive_summary_output=executive_summary,
+            competitive_dashboard_output=competitive_dashboard,
+            hidden_strengths_output=hidden_strengths,
+            steal_their_playbook_output=steal_their_playbook,
+            valuation_forensics_output=valuation_forensics
+        )
+        
+        # Load prompt template
+        prompt_template = self.prompt_loader.load_prompt(
+            'recommendations',
+            'actionable_roadmap.txt'
+        )
+        
+        # Format prompt with input data
+        formatted_prompt = prompt_template.format(
+            **input_model.model_dump()
+        )
+        
+        # Generate structured output using LLM
+        output = await self.llm_agent.generate_structured_output(
+            prompt=formatted_prompt,
+            response_format=ActionableRoadmap,
+            temperature=None
+        )
+        
+        logger.info(f"✓ Actionable Roadmap generated for {target_symbol}")
+        return output
+    
+    def _create_report_metadata(
+        self,
+        target_symbol: str,
+        target_data: Dict[str, Any]
+    ) -> ReportMetadata:
+        """Create report metadata."""
+        return ReportMetadata(
+            target_symbol=target_symbol,
+            version="2.0"
+        )
+    
+    def _create_peer_group(
+        self,
+        target_symbol: str,
+        company_data: Dict[str, Dict[str, Any]]
+    ) -> PeerGroup:
+        """Create peer group structure."""
+        target_data = company_data[target_symbol]
+        
+        target_company = CompanyProfile(
+            symbol=target_symbol,
+            company_name=target_data.get('name', ''),
+            sector=target_data.get('sector', ''),
+            market_cap=target_data.get('market_cap'),
+            pe_ratio=target_data.get('pe_ratio'),
+            revenue_ttm=target_data.get('revenue')
+        )
+        
+        peers = [
+            PeerCompany(
+                symbol=symbol,
+                company_name=data.get('name', symbol),
+                similarity_score=0.8  # Default similarity score
+            )
+            for symbol, data in company_data.items()
+            if symbol != target_symbol and data.get('available', True)
+        ]
+        
+        # Generate peer selection rationale
+        selection_rationale = self._generate_peer_selection_rationale(
+            target_company, peers, company_data
+        )
+        
+        return PeerGroup(
+            target_company=target_company,
+            peers=peers,
+            discovery_method="automated",
+            selection_rationale=selection_rationale
+        )
+    
+    def _generate_peer_selection_rationale(
+        self,
+        target: CompanyProfile,
+        peers: List[PeerCompany],
+        company_data: Dict[str, Dict[str, Any]]
+    ) -> PeerSelectionRationale:
+        """
+        Generate explanation of peer selection methodology and structural caveats.
+        
+        Addresses cross-subsector comparison concerns by explaining:
+        - Why these peers were selected (market cap proximity, sector match)
+        - Business model differences across the peer set
+        - How to interpret comparisons given structural differences
+        """
+        # Identify business model types in peer set
+        peer_industries = {}
+        for peer in peers:
+            peer_data = company_data.get(peer.symbol, {})
+            industry = peer_data.get('industry', 'Unknown')
+            peer_industries[peer.symbol] = industry
+        
+        target_industry = company_data.get(target.symbol, {}).get('industry', 'Unknown')
+        unique_industries = set(peer_industries.values())
+        unique_industries.add(target_industry)
+        
+        # Determine if cross-subsector comparison exists
+        cross_subsector = len(unique_industries) > 1
+        
+        # Build methodology explanation
+        methodology = (
+            f"Peers selected via market capitalization proximity (±70%) and sector match ({target.sector}). "
+            f"Selection prioritizes scale comparability and industry relevance over perfect business model alignment."
+        )
+        
+        # Build structural differences explanation
+        if cross_subsector:
+            industry_list = ", ".join(sorted(unique_industries))
+            structural_differences = (
+                f"Peer set includes companies across {len(unique_industries)} subsectors: {industry_list}. "
+                f"These subsectors may have different business models, margin profiles, ROE characteristics, and capital structures. "
+                f"Comparisons should account for inherent structural differences in operational leverage, pricing power, "
+                f"and capital intensity that vary by subsector."
+            )
+        else:
+            structural_differences = (
+                f"All peers operate within the {target_industry} subsector, providing relatively consistent "
+                f"business model comparisons. Metric differences primarily reflect operational efficiency and "
+                f"market positioning rather than structural subsector variations."
+            )
+        
+        # Build interpretation guidance
+        interpretation_guidance = (
+            "Valuation premiums/discounts should be interpreted cautiously when comparing across subsectors. "
+            "Margin and ROE outperformance may partially reflect business model advantages (e.g., monopoly position, "
+            "asset-light operations) rather than pure operational superiority. Premium multiples for differentiated "
+            "business models (e.g., sole-source suppliers) may be structurally justified."
+        )
+        
+        # Optional: Note alternative peers
+        alternative_note = None
+        if cross_subsector:
+            alternative_note = (
+                f"Pure-play {target_industry} comparisons would provide tighter valuation bands but lack sector "
+                f"breadth. Current peer set balances subsector diversity with scale/relevance."
+            )
+        
+        return PeerSelectionRationale(
+            methodology=methodology,
+            structural_differences=structural_differences,
+            interpretation_guidance=interpretation_guidance,
+            alternative_peer_considerations=alternative_note
+        )
+    
+    def _create_data_sources(self) -> List[DataSource]:
+        """Create data sources list."""
+        return [
+            DataSource(
+                source_type="financial_api",
+                provider="FinancialModelingPrep",
+                quality=DataQuality.VALID
+            ),
+            DataSource(
+                source_type="web_search",
+                provider="OpenAI Web Search",
+                quality=DataQuality.VALID
+            )
+        ]

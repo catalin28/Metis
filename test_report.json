@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "target_symbol": "AAPL",
+  "message": "Competitive intelligence report for AAPL (placeholder)",
+  "max_peers": 5,
+  "include_sections": [
+    "all"
+  ],
+  "report_data": {
+    "executive_summary": "Analysis of AAPL vs peers (placeholder)",
+    "competitive_dashboard": {},
+    "hidden_strengths": [],
+    "steal_playbook": [],
+    "valuation_forensics": {},
+    "actionable_roadmap": []
+  }
+}

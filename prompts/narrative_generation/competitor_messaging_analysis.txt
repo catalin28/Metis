@@ -1,0 +1,64 @@
+Analyze competitor messaging strategies and identify successful communication patterns that {symbol} should adopt.
+
+**Peer Company Analysis Data:**
+{peer_messaging_data}
+
+**Linguistic Analysis Results:**
+{linguistic_patterns}
+
+**Target Company Current Messaging:**
+{target_messaging_baseline}
+
+**Analysis Requirements:**
+
+1. **Successful Messaging Strategies**
+   - Identify highest-impact competitor narratives
+   - Analyze correlation between messaging and P/E multiples
+   - Extract specific phrases and communication patterns
+
+2. **Technology and Innovation Narratives**
+   - Compare technology mention frequencies
+   - Analyze "digital transformation" positioning
+   - Evaluate AI/automation messaging impact
+
+3. **Growth and Vision Communication**
+   - Assess forward-looking statement patterns
+   - Compare quantitative vs qualitative guidance styles
+   - Analyze market expansion narratives
+
+4. **Management Communication Style**
+   - Evaluate confidence indicators in earnings calls
+   - Analyze use of analogies and examples
+   - Compare accessibility of complex concepts
+
+**Linguistic Pattern Requirements:**
+- Phrase frequency analysis ("technology", "innovation", "digital")
+- Sentiment analysis of management tone
+- Complexity scoring of explanations
+- Analogy usage patterns
+
+**Output Format:**
+```json
+{
+  "peer_strategies": [
+    {
+      "peer_symbol": "PGR",
+      "strategy_name": "Technology Moat Narrative",
+      "key_phrases": ["technology advantage", "data-driven", "algorithmic underwriting"],
+      "frequency_data": {"technology": 34, "innovation": 18, "digital": 12},
+      "impact_correlation": 0.65,
+      "appears_in_reports": "47% of sell-side research",
+      "recommendation": "Increase technology mentions by 300% in earnings calls"
+    }
+  ],
+  "messaging_gaps": {
+    "target_weaknesses": ["Limited technology narrative", "Complex explanations"],
+    "opportunities": ["Highlight AI in underwriting", "Simplify specialty insurance benefits"]
+  },
+  "actionable_recommendations": [
+    "Adopt Progressive's quantitative guidance style (80% statements include numbers)",
+    "Rebrand specialty underwriting as 'AI-powered risk assessment'",
+    "Use analogies 3x more frequently (competitor average: 2.1 per call vs target: 0.7)"
+  ]
+}
+```

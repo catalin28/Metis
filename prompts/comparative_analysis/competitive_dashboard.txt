@@ -1,0 +1,86 @@
+Generate competitive dashboard with market perception analysis for {target_symbol}.
+
+**Target Company**: {target_symbol}
+**Peer Companies**: {peer_symbols}
+
+**Raw Metrics Data**:
+{metrics}
+
+**Top 3 Strengths (PRE-CALCULATED - use these exact metrics)**:
+{top_3_strengths}
+
+**Top 3 Weaknesses (PRE-CALCULATED - use these exact metrics)**:
+{top_3_weaknesses}
+
+**Instructions**:
+Analyze each metric to determine market perception and generate explanations for why the market perceives each metric the way it does.
+
+**Market Perception Categories**:
+- **Undervalued**: Strong performance but low valuation multiple
+- **Underappreciated**: Top-tier metric but insufficient market recognition
+- **Hidden strength**: Best-in-class metric with communication gap
+- **Not communicated**: Advantage exists but not disclosed effectively
+- **Adequate**: Performance and perception aligned
+- **Overvalued**: Valuation exceeds fundamental support
+- **Root cause**: Metric directly contributing to valuation discount
+
+**For Each Metric, Provide**:
+
+1. **Market Perception Classification**: Choose from categories above based on:
+   - Metric rank vs peers (#1 = best performance)
+   - Current P/E ratio vs peer average
+   - Whether strong performance is rewarded with valuation premium
+   - NOTE: For P/E ratio itself, #1 rank = cheapest valuation (best value), not highest performance
+
+2. **Perception Explanation** (20-500 characters):
+   - WHY the market perceives this metric this way
+   - What drives the perception gap (if exists)
+   - Impact on overall valuation
+   - For P/E: Use "cheapest" not "best" (e.g., "trades at second-lowest P/E in peer set")
+   - For Market Cap "Adequate" when overshadowed by much larger peer: Acknowledge scale dominance (e.g., "strong but overshadowed by PEER's scale, which moderates perceived differentiation")
+   - CRITICAL VALUATION LANGUAGE:
+     * If target P/E is ABOVE peer average: Use "premium" or "pressure on premium multiple" - NEVER say "valuation discount"
+     * If target P/E is BELOW peer average: Use "discount" or "undervalued" - NEVER say "premium"
+     * For negative revenue growth on premium stock: Say "puts pressure on the current premium multiple" NOT "contributes to valuation discount"
+     * For market cap perceptions on premium stocks: Qualify upside with "may depend on sustaining growth to justify existing premium"
+     * Example (P/E above avg): "...puts pressure on the current premium multiple" NOT "contributes to valuation discount"
+
+**Analysis Rules**:
+- If target has #1 or #2 rank but lowest P/E → "Undervalued" or "Hidden strength"
+- If target has worst rank and lowest P/E → "Root cause"  
+- If metric is best but not widely discussed → "Not communicated"
+- Focus on explaining valuation disconnect, not just describing the number
+
+**Output Requirements**:
+1. **metrics**: List of CompetitiveMetric objects (min 5, max 20) with:
+   - metric_name, target_value, peer_values, target_rank, rank_qualifier (from input - COPY EXACTLY, DO NOT MODIFY)
+   - market_perception: enum from categories above
+   - perception_explanation: 20-500 char explanation of why this perception exists
+
+2. **overall_target_rank**: Integer rank (1=best) based on weighted average of metrics
+
+3. **key_strengths_summary**: 50-500 char summary using ONLY the top_3_strengths provided above
+   - DO NOT choose different metrics - use the 3 pre-calculated strengths
+   - Format: "{{Company}} leads in {{metric1}} (#{{rank}}, value), {{metric2}} (#{{rank}}, value), and {{metric3}} (#{{rank}}, value)"
+   - Include actual values and ranks from the data
+
+4. **key_weaknesses_summary**: 50-500 char summary using ONLY the top_3_weaknesses provided above
+   - DO NOT choose different metrics - use the 3 pre-calculated weaknesses
+   - Format: "{{Company}} trails in {{metric1}} (#{{rank}}, value), {{metric2}} (#{{rank}}, value), and {{metric3}} (#{{rank}}, value)"
+   - Include actual values and ranks from the data
+
+**Example Analysis Format**:
+Metric: [METRIC_NAME] = X.X, Rank #N, rank_qualifier="[qualifier]", Peers: [PEER_A]=Y.Y, [PEER_B]=Z.Z
+- market_perception: "[category from list above]"  
+- perception_explanation: "[Explanation of why market perceives this way, connecting rank to valuation and identifying communication/perception gaps]"
+
+For P/E specifically:
+Metric: P/E Ratio = X.Xx, Rank #N, rank_qualifier="Nth cheapest/most expensive", Peers: [values]
+- market_perception: "[Undervalued if low P/E + strong metrics, Overvalued if high P/E, etc.]"
+- perception_explanation: "Trades at [lowest/highest/Nth] P/E in peer set despite [strong/weak] operational metrics, reflecting market [concern/optimism] about [specific factors]."
+
+CRITICAL: 
+- Copy metric_name, target_value, peer_values, target_rank, and rank_qualifier EXACTLY from input
+- For P/E explanations, use language like "cheapest", "lowest valuation", "most discounted" (not "best P/E")
+- Only generate market_perception and perception_explanation fields
+- Do NOT calculate perception_gap_count - Python will auto-calculate it from your market_perception tags

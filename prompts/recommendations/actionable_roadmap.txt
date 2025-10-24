@@ -1,0 +1,151 @@
+Generate actionable roadmap with prioritized recommendations to close valuation gaps for {target_symbol}.
+
+**Target Company**: {target_symbol}
+**Current P/E**: {current_pe}x
+**Peer Average P/E**: {peer_average_pe}x
+**Valuation Gap**: {valuation_gap}x ({gap_percentage}% discount)
+
+**Identified Gaps from Analysis**:
+- **Perception Gaps**: {perception_gaps}
+- **Hidden Strengths**: {hidden_strengths}
+- **Successful Peer Strategies**: {successful_peer_strategies}
+
+**Most Impactful Opportunities** (ranked by valuation impact):
+{most_impactful_opportunities_json}
+
+**Instructions**:
+Create 3-6 problem-solution frameworks that translate all analysis findings into specific, actionable recommendations. Structure as: Problem → Root Causes → Solutions → Tracking Metrics.
+
+**Framework: DO / SAY / SHOW Categories**:
+- **DO**: Actions to take (operational changes, strategic initiatives)
+- **SAY**: Communication changes (messaging, narrative, language)
+- **SHOW**: What to display/highlight (disclosures, presentations, metrics)
+
+**For Each Problem**:
+
+1. **Problem Statement** (30+ characters, as a question):
+   - Example: "Why does Progressive trade at 20x when we have better metrics?"
+   - Example: "How to close P/E gap from Xx to Yx?"
+   - Example: "When should we execute buybacks for maximum impact?"
+
+2. **Root Causes** (1-5 items):
+   - Specific reasons why this problem exists
+   - Based on analysis from previous sections
+   - Example: "Limited technology narrative", "Specialty line complexity concerns"
+
+3. **Solutions** (2-8 recommendations):
+   For EACH recommendation provide:
+   - **Title** (10+ chars): Clear action statement
+   - **Description** (50+ chars): Detailed implementation guidance
+   - **Category**: DO / SAY / SHOW
+   - **Priority**: High / Medium / Low
+   - **Expected Impact**: Quantified estimate (e.g., "+Xx P/E", "+Y% to fair value")
+   - **Implementation Effort**: Timeline estimate ("Quick win (1-2 months)", "Medium-term (3-6 months)", "Long-term (6-12 months)")
+   - **Peer Precedent** (optional): Which peer successfully did this?
+
+4. **Tracking Metrics** (1-5 items):
+   - Specific KPIs to measure progress
+   - Example: "Monthly analyst mention count", "Quarterly sentiment score", "Tech keyword frequency in transcripts"
+
+**Common Problem Categories to Address**:
+
+1. **Valuation Gap Problems**:
+   - "Why do we trade at a discount despite better fundamentals?"
+   - "How to close P/E gap to peer average?"
+
+2. **Communication Problems**:
+   - "Why don't analysts understand our business model?"
+   - "How to improve narrative clarity?"
+
+3. **Strategic Timing Problems**:
+   - "When should we execute buybacks?"
+   - "Optimal timing for strategic announcements?"
+
+4. **Competitive Positioning**:
+   - "How to differentiate from peers?"
+   - "What narrative resonates with investors?"
+
+**Additional Output Requirements**:
+
+1. **Priority Quick Wins** (3-5 items):
+   - Highest impact, lowest effort recommendations
+   - Immediate execution candidates (next 30-90 days)
+   - Must include quantified impact estimate
+   - Example: "Add tech terminology to next earnings call (+Xx P/E, N month effort)"
+
+2. **Monthly Progress Framework** (100-500 chars):
+   - How to track execution month-by-month
+   - Progression: Messaging changes → Sentiment shifts → Analyst coverage → Multiple expansion
+   - Example: "Month 1-3: Deploy new tech narrative (track: mention frequency in calls, analyst note adoption). Month 4-6: Monitor sentiment shift (track: analyst rating changes, report language). Month 7-12: Measure multiple expansion (track: P/E convergence to peers, valuation re-ratings)"
+
+3. **Timeline to Target Multiple**:
+   - Realistic timeline to close valuation gap
+   - Example: "X-Y months to reach Ax-Bx P/E (vs current Cx) with consistent execution"
+
+**Recommendation Prioritization Logic**:
+
+**High Priority**:
+- Large valuation impact (+Xx+ P/E)
+- Low implementation effort (< 3 months)
+- Strong peer precedent
+- Addresses root cause directly
+
+**Medium Priority**:  
+- Moderate impact (+Xx-Yx P/E)
+- Medium effort (3-6 months)
+- Supports multiple problems
+
+**Low Priority**:
+- Smaller impact (< Xx P/E)
+- High effort (6+ months)
+- Nice-to-have vs critical
+
+**Example Problem-Solution Structure**:
+```
+Problem: "Why does Progressive trade at 20x P/E when we have better underwriting metrics?"
+
+Root Causes:
+1. Limited technology narrative ([PEER] uses 'technology' Xx more in earnings calls)
+2. Specialty line complexity perceived as higher risk
+3. Insufficient quantitative guidance (WRB provides 23% fewer forward metrics than PGR)
+
+Solutions:
+[DO] Rebrand specialty underwriting division
+  - Description: Rename "Specialty Lines" to "AI-Powered Risk Solutions" and create dedicated data science showcase
+  - Category: DO
+  - Priority: High
+  - Expected Impact: +Xx P/E (close Y% of gap to [PEER])
+  - Effort: Medium-term (4-6 months to fully implement)
+  - Peer Precedent: Hartford's 2022 rebrand from "property & casualty" to "digital insurance platform" (+6x P/E over 24 months)
+
+[SAY] Adopt Progressive's quantitative guidance style  
+  - Description: Increase specific numerical statements in earnings calls by 80%, provide quarterly tech metrics dashboard
+  - Category: SAY
+  - Priority: High  
+  - Expected Impact: +Xx P/E (reduces analyst uncertainty premium)
+  - Effort: Quick win (implement in next earnings call, 1 month)
+  - Peer Precedent: Progressive's consistent quantitative guidance correlates with 15% lower implied volatility
+
+[SHOW] Quarterly Data & Analytics Report
+  - Description: Publish 2-page quarterly summary of proprietary data assets, model performance, tech team growth
+  - Category: SHOW
+  - Priority: Medium
+  - Expected Impact: +Xx P/E (visibility into tech capabilities)
+  - Effort: Quick win (2 months to first publication)
+  - Peer Precedent: Chubb's quarterly risk insights report increased institutional ownership by 12%
+
+Tracking Metrics:
+- Tech keyword frequency in earnings transcripts (target: 3x increase)
+- Analyst report tech narrative adoption (target: 40% of reports mention tech/data within 6 months)
+- Implied volatility vs peers (target: converge from +8% premium to peer average)
+- P/E multiple convergence (target: Cx → Tx over X-Y months)
+```
+
+**Quality Standards**:
+- Every recommendation must have quantified impact estimate
+- Prioritization must be data-driven (not subjective)
+- Timeline estimates must be realistic
+- Peer precedents should be verifiable
+- Track metrics must be measurable
+- Focus on closing perception gaps, not fixing fundamentals
+- Ensure recommendations are actionable (not aspirational)

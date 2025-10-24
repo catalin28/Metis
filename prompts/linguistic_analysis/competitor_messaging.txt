@@ -1,0 +1,107 @@
+Perform linguistic analysis of competitor earnings calls to identify messaging patterns that correlate with higher valuations.
+
+**Target Company**: {target_symbol}
+**Target P/E**: {target_pe}x
+**Target Transcript Sample**: 
+{target_transcript_sample}
+
+**Peer Companies with Higher Multiples**:
+{peer_companies_json}
+
+**Instructions**:
+Analyze earnings call transcripts to extract specific language patterns, narrative themes, and communication strategies that successful peers use to command valuation premiums. Identify what they SAY that works.
+
+**For Each Peer Company**:
+
+1. **Identify Core Narrative Theme**:
+   - What's their central story? Examples:
+     - "Tech moat" (Progressive)
+     - "Global diversification" (Chubb)  
+     - "Stable and boring" (Travelers)
+     - "Turnaround story" (Hartford)
+   - How do they position themselves?
+
+2. **Extract Key Phrases** (3-10 exact quotes):
+   - Specific words/phrases used frequently in earnings calls
+   - Example: "technology platform", "data-driven insights", "telematics advantage"
+   - Must be EXACT phrases, not paraphrased
+   - Focus on phrases that resonate with analysts
+
+3. **Quantify Usage Frequency**:
+   - How often do they use key terms vs target company?
+   - Example: "PGR uses 'technology' 34x per call vs WRB's 8x"
+   - "[PEER] mentions 'global platform' Xx more than target"
+
+4. **Measure Analyst Adoption**:
+   - How often do analysts echo this narrative?
+   - Example: "appears in 47% of sell-side reports"
+   - "mentioned Xx more than target in analyst notes"
+
+5. **Estimate Valuation Correlation**:
+   - What P/E premium does this narrative support?
+   - Example: "correlates with +6-8x P/E premium vs specialty insurers"
+   - Be specific about the valuation impact
+
+6. **Assess Steal-Ability** (50-300 characters):
+   - Can target credibly adopt this narrative?
+   - What would it take to reposition?
+   - Example: "WRB could credibly adopt tech narrative by rebranding specialty underwriting as AI-powered risk assessment and highlighting data science team growth"
+
+**Output Requirements**:
+- **3-8 messaging patterns** from successful peers
+- **Linguistic gap summary** (100-500 chars): How target's language differs from high-multiple peers
+- **Priority messaging shifts** (3-5 items): Top communication changes target should make
+
+**Analysis Focus Areas**:
+
+1. **Technology/Innovation Language**:
+   - "AI", "machine learning", "data", "analytics", "platform"
+   - Frequency and context of usage
+
+2. **Quantitative vs Qualitative**:
+   - How often do they provide specific numbers in guidance?
+   - Progressive: 80% of statements include specific metrics
+   - Target comparison?
+
+3. **Simplicity vs Complexity**:
+   - Do they simplify or embrace complexity?
+   - Jargon usage vs plain language
+
+4. **Forward-Looking Statements**:
+   - Frequency of "will", "expect", "plan" statements
+   - Confidence and specificity levels
+
+5. **Risk Framing**:
+   - How do they discuss challenges/risks?
+   - Defensive vs proactive positioning
+
+**Example Output**:
+```
+Peer: Progressive (PGR)
+P/E: Xx vs Target's Yx
+Gap: +Zx
+
+Narrative Theme: "Technology-driven data company"
+
+Key Phrases:
+- "telematics platform" (18x per call)
+- "proprietary data insights" (12x per call)  
+- "advanced analytics" (15x per call)
+- "usage-based insurance" (22x per call)
+
+Usage Frequency: "[PEER] uses 'technology' Nx per earnings call vs target's Mx (Xx more)"
+
+Analyst Adoption: "Tech moat narrative appears in 47% of PGR sell-side reports vs 8% for target"
+
+Valuation Correlation: "Tech positioning correlates with +6-8x P/E premium vs traditional specialty insurers"
+
+Steal-Ability: "Target could credibly adopt by: (1) Rebranding specialty underwriting as AI-powered decisioning, (2) Creating quarterly 'Data & Analytics' investor update section, (3) Highlighting proprietary risk models and data science team (currently 45+ PhDs but never mentioned in earnings). Low effort, high impact."
+```
+
+**Quality Standards**:
+- Use EXACT phrases from transcripts (not paraphrased)
+- Provide specific frequency counts with verification
+- Compare linguistic patterns across multiple peers
+- Focus on patterns with demonstrated valuation correlation
+- Assess realistic adoptability for target company
+- Prioritize by impact potential

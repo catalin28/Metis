@@ -1,0 +1,80 @@
+Identify statistical outliers and data quality issues in peer group analysis for {symbol}.
+
+**Dataset for Analysis:**
+{metric_data}
+
+**Statistical Analysis Requirements:**
+
+1. **Outlier Detection Methods**
+   - Z-score analysis (>3 standard deviations)
+   - Interquartile Range (IQR) method (1.5 * IQR)
+   - Modified Z-score using median absolute deviation
+   - Domain-specific outlier rules for insurance metrics
+
+2. **Data Quality Assessment**
+   - Missing data identification
+   - Impossible value detection (negative P/E, >100% growth rates)
+   - Temporal consistency checks
+   - Cross-metric validation
+
+3. **Business Logic Validation**
+   - Combined ratios <70% or >130% (unusual for insurance)
+   - P/E ratios >50x or <5x (potential data errors)
+   - ROE >50% or <0% (extreme performance or errors)
+   - Market cap consistency with share price calculations
+
+4. **Exclusion Recommendations**
+   - Recommend data points to exclude from averages
+   - Suggest alternative data sources for flagged metrics
+   - Provide confidence scores for remaining data
+
+**Output Format:**
+```json
+{
+  "outliers_detected": [
+    {
+      "symbol": "HIG",
+      "metric": "pe_ratio",
+      "value": 45.2,
+      "z_score": 3.8,
+      "detection_method": "z_score",
+      "reason": "3+ standard deviations above mean",
+      "recommendation": "exclude_from_average",
+      "alternative_value": null
+    }
+  ],
+  "data_quality_issues": [
+    {
+      "symbol": "CB",
+      "metric": "revenue_growth",
+      "issue": "missing_data",
+      "impact": "cannot_calculate_ranking",
+      "suggestion": "use_industry_average_estimate"
+    }
+  ],
+  "statistical_summary": {
+    "total_data_points": 40,
+    "outliers_found": 2,
+    "missing_values": 1,
+    "data_quality_score": 92.5,
+    "reliability_assessment": "high"
+  },
+  "exclusion_impact": {
+    "before_exclusions": {
+      "peer_avg_pe": 16.8,
+      "peer_count": 5
+    },
+    "after_exclusions": {
+      "peer_avg_pe": 15.1,
+      "peer_count": 4
+    },
+    "impact_on_analysis": "Removes extreme outlier, more representative peer average"
+  },
+  "validation_rules": {
+    "pe_ratio_bounds": {"min": 5, "max": 50},
+    "roe_bounds": {"min": -10, "max": 50},
+    "combined_ratio_bounds": {"min": 70, "max": 130},
+    "growth_rate_bounds": {"min": -50, "max": 100}
+  }
+}
+```

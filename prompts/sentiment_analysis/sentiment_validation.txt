@@ -1,0 +1,113 @@
+Validate sentiment analysis results and scoring methodology for {symbol}.
+
+**Sentiment Analysis Results:**
+{sentiment_results}
+
+**Transcript Data Used:**
+{transcript_excerpts}
+
+**Methodology Validation:**
+{analysis_methodology}
+
+**Validation Requirements:**
+
+1. **Scoring Methodology Validation**
+   - Sentiment scores fall within 0-100 range
+   - Component scores properly weighted and aggregated
+   - Calculation transparency and replicability
+   - Consistent methodology across all companies
+
+2. **Text Analysis Quality**
+   - Appropriate text segments identified for analysis
+   - Management vs analyst sections properly separated
+   - Relevant time periods covered (recent 4 quarters)
+   - Sufficient text volume for reliable analysis
+
+3. **Sentiment Classification Accuracy**
+   - Sample validation of high/medium/low confidence scores
+   - Cross-validation with human judgment on subset
+   - Consistency with business context and market conditions
+   - Alignment with other performance indicators
+
+4. **Comparative Analysis Validity**
+   - Fair comparison methodology across peer group
+   - Adjustment for company size and complexity differences
+   - Normalization for industry-specific communication patterns
+   - Timeline alignment for all companies analyzed
+
+5. **Business Logic Consistency**
+   - High sentiment scores align with strong business performance
+   - Low confusion scores correlate with clear communication
+   - Sentiment trends match business trajectory
+   - Outlier scores have reasonable explanations
+
+**Quality Checks:**
+
+**Data Quality Issues:**
+- Insufficient transcript data (<3 quarters)
+- Text parsing errors or corrupted data
+- Missing management vs analyst distinctions
+- Timeline misalignment across companies
+
+**Methodology Issues:**
+- Inconsistent scoring criteria application
+- Weighting scheme lacks business justification
+- Cultural or linguistic bias in analysis
+- Statistical significance concerns
+
+**Output Format:**
+```json
+{
+  "validation_result": "pass",
+  "validation_date": "2025-10-22T14:30:00Z",
+  "overall_confidence": "high",
+  "sentiment_scores_validated": {
+    "WRB": {
+      "management_sentiment": 76,
+      "analyst_confusion": 42,
+      "validation_status": "pass",
+      "confidence_level": "high",
+      "data_quality": "sufficient",
+      "quarters_analyzed": 4
+    },
+    "PGR": {
+      "management_sentiment": 84,
+      "analyst_confusion": 28,
+      "validation_status": "pass",
+      "confidence_level": "high",
+      "data_quality": "excellent",
+      "quarters_analyzed": 4
+    }
+  },
+  "methodology_assessment": {
+    "scoring_consistency": "high",
+    "weighting_justification": "Business-relevant component weights applied consistently",
+    "cross_company_fairness": "Methodology applied equally to all companies",
+    "statistical_validity": "Sufficient sample size and variation for reliable analysis"
+  },
+  "quality_issues_identified": [
+    {
+      "issue": "Limited transcript data for CB",
+      "impact": "lower confidence in CB sentiment scores",
+      "mitigation": "Supplemented with investor presentation analysis",
+      "severity": "low"
+    }
+  ],
+  "business_logic_validation": {
+    "performance_alignment": "Sentiment scores generally align with business performance metrics",
+    "outlier_explanations": "TRV low sentiment score explained by recent catastrophe losses discussion",
+    "trend_consistency": "Sentiment trends match known business trajectory changes"
+  },
+  "recommendations": {
+    "data_improvements": ["Seek additional transcript sources for CB"],
+    "methodology_enhancements": ["Consider industry-specific weighting adjustments"],
+    "confidence_adjustments": "Reduce confidence level for CB due to limited data"
+  },
+  "sample_validation": {
+    "human_cross_check_performed": true,
+    "samples_reviewed": 10,
+    "agreement_rate": "85%",
+    "discrepancy_analysis": "Minor differences in subjective interpretation, within acceptable range"
+  }
+}
+```

@@ -1,0 +1,94 @@
+Validate business logic and mathematical relationships in competitive intelligence report for {symbol}.
+
+**Report Data to Validate:**
+{report_data}
+
+**Validation Requirements:**
+
+1. **Mathematical Consistency**
+   - Valuation gap = fundamental component + narrative component
+   - Rankings sum correctly (1, 2, 3, 4, 5 for 5 companies)
+   - Percentiles fall within 0-100 range
+   - Growth rates calculated consistently
+
+2. **Business Rule Validation**
+   - P/E ratios must be positive (exclude companies with losses)
+   - Combined ratios: reasonable range (70-130% for insurance)
+   - ROE calculations: Net Income / Average Shareholders Equity
+   - Market cap = Share price × Shares outstanding
+
+3. **Cross-Section Consistency**
+   - Same peer group across all sections
+   - Consistent financial data across metrics
+   - Timeline alignment for all calculations
+   - Symbol references match throughout
+
+4. **Logical Relationships**
+   - Higher ROE generally supports higher P/E ratios
+   - Lower combined ratios should correlate with higher valuations
+   - Growth rates should align with revenue progression
+   - Debt levels should impact risk assessments
+
+5. **Recommendation Alignment**
+   - Recommendations address identified weaknesses
+   - Action items align with analysis findings
+   - Priority rankings match impact assessments
+   - Timeline feasibility for implementation
+
+**Validation Checks:**
+
+**Critical Errors (Block Report Generation):**
+- Mathematical inconsistencies in core calculations
+- Missing required sections or fields
+- Invalid data types or ranges
+- Symbol mismatches across sections
+
+**Warnings (Flag for Review):**
+- Unusual metric relationships
+- Outlier values requiring explanation
+- Incomplete peer data affecting analysis
+- Timeline inconsistencies
+
+**Output Format:**
+```json
+{
+  "validation_result": "pass",
+  "validation_date": "2025-10-22T14:30:00Z",
+  "checks_performed": 25,
+  "errors_found": 0,
+  "warnings_found": 2,
+  "detailed_results": {
+    "mathematical_consistency": {
+      "status": "pass",
+      "checks": [
+        {"test": "valuation_gap_decomposition", "result": "pass", "details": "Gap components sum to total gap"},
+        {"test": "ranking_completeness", "result": "pass", "details": "All rankings 1-5 present"},
+        {"test": "percentile_ranges", "result": "pass", "details": "All percentiles 0-100"}
+      ]
+    },
+    "business_rules": {
+      "status": "pass",
+      "checks": [
+        {"test": "pe_ratio_positivity", "result": "pass", "details": "All P/E ratios > 0"},
+        {"test": "combined_ratio_ranges", "result": "warning", "details": "WRB combined ratio 88.3 is excellent but verify calculation"},
+        {"test": "roe_calculations", "result": "pass", "details": "ROE formulas applied consistently"}
+      ]
+    },
+    "cross_section_consistency": {
+      "status": "pass",
+      "checks": [
+        {"test": "peer_group_consistency", "result": "pass", "details": "Same 4 peers across all sections"},
+        {"test": "timeline_alignment", "result": "warning", "details": "Some metrics use Q3 data, others Q2 - document reasoning"}
+      ]
+    }
+  },
+  "recommendations": {
+    "critical_issues": [],
+    "improvement_suggestions": [
+      "Document why WRB combined ratio calculation differs from industry standard",
+      "Align all metrics to same reporting period where possible"
+    ],
+    "overall_assessment": "Report passes validation with minor documentation improvements needed"
+  }
+}
+```

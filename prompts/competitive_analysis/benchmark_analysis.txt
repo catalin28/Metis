@@ -1,0 +1,78 @@
+Conduct industry benchmark analysis for {symbol} against broader sector and industry standards.
+
+**Company Data:**
+- Target: {symbol} ({sector} sector)
+- Peer Group: {peer_symbols}
+- Industry: {industry}
+- Geography: {geography}
+
+**Benchmark Data:**
+{benchmark_data}
+
+**Analysis Scope:**
+
+1. **Sector Benchmarking**
+   - Compare against broader sector averages
+   - Identify sector-specific performance drivers
+   - Assess target's position within sector distribution
+
+2. **Industry-Specific Metrics**
+   - Insurance: Combined ratios, reserve adequacy, underwriting cycles
+   - Technology: R&D intensity, revenue per employee, growth metrics
+   - Healthcare: Regulatory compliance, innovation pipelines
+   - Financial Services: NIM, efficiency ratios, credit quality
+
+3. **Geographic/Market Benchmarking**
+   - Regional performance comparisons
+   - Market structure analysis
+   - Regulatory environment impact
+
+4. **Size-Adjusted Comparisons**
+   - Small-cap vs mid-cap vs large-cap performance
+   - Scale advantages and disadvantages
+   - Growth trajectory differences by size
+
+**Required Analysis:**
+- Percentile rankings within industry
+- Best-in-class performance identification
+- Improvement opportunities vs industry leaders
+- Sector rotation and cyclical considerations
+
+**Output Format:**
+```json
+{
+  "sector_positioning": {
+    "sector": "Property & Casualty Insurance",
+    "target_percentile": 65,
+    "sector_avg_pe": 13.8,
+    "target_vs_sector": {
+      "pe_ratio": {"target": 12.1, "sector_avg": 13.8, "percentile": 35},
+      "roe": {"target": 18.4, "sector_avg": 16.2, "percentile": 75},
+      "combined_ratio": {"target": 88.3, "sector_avg": 95.1, "percentile": 90}
+    }
+  },
+  "industry_leaders": {
+    "efficiency_leader": {"company": "Progressive", "combined_ratio": 87.2},
+    "profitability_leader": {"company": "Berkshire Hathaway", "roe": 22.1},
+    "growth_leader": {"company": "Lemonade", "revenue_growth": 34.2}
+  },
+  "size_cohort_analysis": {
+    "target_market_cap": 12.5,
+    "cohort": "mid_cap",
+    "cohort_avg_pe": 14.2,
+    "cohort_performance": "above_average",
+    "scale_advantages": ["Specialized expertise", "Nimble operations"],
+    "scale_disadvantages": ["Limited resources", "Smaller market presence"]
+  },
+  "improvement_opportunities": [
+    "Close valuation gap to sector average (20% upside potential)",
+    "Maintain operational excellence while scaling growth",
+    "Leverage technology to improve efficiency further"
+  ],
+  "cyclical_considerations": {
+    "cycle_position": "mid_cycle",
+    "sector_trends": ["Increasing catastrophe losses", "Rising interest rates benefit"],
+    "timing_factors": "Favorable environment for specialty insurers"
+  }
+}
+```

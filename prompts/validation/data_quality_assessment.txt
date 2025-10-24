@@ -1,0 +1,91 @@
+Assess data quality and reliability for competitive intelligence analysis of {symbol}.
+
+**Data Sources:**
+{data_sources}
+
+**Financial Data:**
+{financial_data}
+
+**Transcript Data:**
+{transcript_data}
+
+**Quality Assessment Criteria:**
+
+1. **Data Completeness**
+   - Required fields presence (>95% complete)
+   - Missing data identification and impact
+   - Data coverage across time periods
+   - Peer group data consistency
+
+2. **Data Accuracy**
+   - Cross-validation against multiple sources
+   - Mathematical consistency checks
+   - Range validation for financial metrics
+   - Temporal consistency verification
+
+3. **Data Freshness**
+   - Financial data: <90 days old
+   - Transcript data: <120 days old
+   - Market data: <24 hours old
+   - Peer data: Same reporting periods
+
+4. **Data Reliability**
+   - Source credibility assessment
+   - Data provider track record
+   - Audit trail completeness
+   - Error rate measurement
+
+**Quality Scoring (0-100 scale):**
+- 90-100: High quality, suitable for analysis
+- 70-89: Good quality, minor limitations noted
+- 50-69: Moderate quality, significant limitations
+- Below 50: Poor quality, analysis not recommended
+
+**Output Format:**
+```json
+{
+  "overall_quality_score": 87,
+  "assessment_date": "2025-10-22T14:30:00Z",
+  "data_sources_evaluated": 5,
+  "quality_by_category": {
+    "completeness": {
+      "score": 92,
+      "missing_fields": 2,
+      "critical_gaps": [],
+      "impact_assessment": "minimal"
+    },
+    "accuracy": {
+      "score": 85,
+      "validation_checks_passed": 18,
+      "validation_checks_failed": 2,
+      "accuracy_issues": ["One peer has outdated market cap data"]
+    },
+    "freshness": {
+      "score": 90,
+      "financial_data_age_days": 45,
+      "transcript_data_age_days": 30,
+      "market_data_age_hours": 2,
+      "freshness_issues": []
+    },
+    "reliability": {
+      "score": 82,
+      "source_credibility": "high",
+      "error_rate_percentage": 1.2,
+      "audit_trail_complete": true
+    }
+  },
+  "recommendations": {
+    "proceed_with_analysis": true,
+    "confidence_level": "high",
+    "limitations_noted": ["One peer excluded due to data quality"],
+    "improvement_suggestions": ["Update market cap data for CB", "Add additional data validation rules"]
+  },
+  "exclusions": [
+    {
+      "item": "HIG Q2 earnings data",
+      "reason": "Restated financials not yet incorporated",
+      "impact": "Use Q1 data for peer comparisons"
+    }
+  ]
+}
+```
