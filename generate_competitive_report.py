@@ -93,9 +93,9 @@ async def generate_report(
     target_data = company_data[symbol]
     
     # Prepare valuation context (always needed)
-    peer_benchmark_pe = comparative_metrics.get('peer_average_pe', 0)
-    current_pe = target_data.get('pe_ratio', 0)
-    current_market_cap = target_data.get('market_cap', 0)
+    peer_benchmark_pe = round(comparative_metrics.get('peer_average_pe', 0), 2)
+    current_pe = round(target_data.get('pe_ratio', 0), 2)
+    current_market_cap = round(target_data.get('market_cap', 0))  # Whole dollars for market cap
     
     valuation_context = {
         'current_pe': current_pe,
@@ -112,15 +112,15 @@ async def generate_report(
     # Calculate implied values
     if current_pe > 0 and peer_benchmark_pe > 0:
         ratio = peer_benchmark_pe / current_pe
-        valuation_context['implied_market_cap'] = current_market_cap * ratio
+        valuation_context['implied_market_cap'] = round(current_market_cap * ratio)  # Whole dollars
         
         # Premium vs peer (basis = peer): (current - peer) / peer × 100
-        valuation_context['premium_vs_peer_percent'] = ((current_pe - peer_benchmark_pe) / peer_benchmark_pe) * 100
+        valuation_context['premium_vs_peer_percent'] = round(((current_pe - peer_benchmark_pe) / peer_benchmark_pe) * 100, 2)
         
         # Downside to compress to peer (basis = current): (implied - current) / current × 100
-        valuation_context['downside_to_peer_multiple_percent'] = (ratio - 1) * 100
+        valuation_context['downside_to_peer_multiple_percent'] = round((ratio - 1) * 100, 2)
         
-        valuation_context['valuation_gap_dollars'] = valuation_context['implied_market_cap'] - current_market_cap
+        valuation_context['valuation_gap_dollars'] = round(valuation_context['implied_market_cap'] - current_market_cap)  # Whole dollars
     
     # Build peer group with selection rationale
     logger.info("Generating peer group structure...")
