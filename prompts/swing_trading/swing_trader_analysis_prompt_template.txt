@@ -1,0 +1,231 @@
+# SWING TRADER ANALYSIS PROMPT TEMPLATE
+# This template contains placeholders ({variable_name}) that should be replaced by a Python script
+# with actual values from the competitive intelligence JSON data
+
+---
+
+You are an expert swing trader analyst. Analyze the following competitive intelligence data and generate a comprehensive swing trading analysis report.
+
+## COMPANY DATA
+
+**Target Company:**
+- Symbol: {target_symbol}
+- Company Name: {target_company_name}
+- Sector: {target_sector}
+- Market Cap: ${target_market_cap}
+- Current P/E: {target_pe}x
+- Revenue TTM: ${target_revenue_ttm}
+
+**Peer Companies:**
+{peer_list}
+
+## VALUATION CONTEXT
+
+**Critical Valuation Metrics:**
+- Current P/E: {target_pe}x
+- Peer Average P/E: {peer_avg_pe}x
+- Premium vs Peers: {premium_vs_peer_percent}%
+- Implied Downside to Peer Multiple: {downside_to_peer_multiple_percent}%
+- Valuation Gap (Dollars): ${valuation_gap_dollars}
+- Implied Market Cap at Peer Multiple: ${implied_market_cap}
+
+## COMPETITIVE DASHBOARD - RANKINGS
+
+{competitive_metrics_table}
+
+**Key Rankings Summary:**
+- Overall Rank: #{overall_rank} out of {total_companies}
+- Best Rankings: {top_3_metrics}
+- Worst Rankings: {bottom_3_metrics}
+
+## ANALYST SENTIMENT
+
+**Target Company ({target_symbol}):**
+- Coverage Breadth: {target_coverage_breadth} firms
+- Recent Actions (90 days): {target_recent_actions_90d} total
+  - Upgrades: {target_upgrades_90d}
+  - Downgrades: {target_downgrades_90d}
+  - Maintains: {target_maintains_90d}
+- Net Sentiment: {target_net_sentiment}
+- Latest Action: {target_latest_action_date} - {target_latest_action_firm} - {target_latest_action_type} ({target_latest_action_new_grade})
+
+**Peer Comparison:**
+{peer_analyst_actions_table}
+
+## HIDDEN STRENGTHS
+
+{hidden_strengths_list}
+
+## YOUR TASK
+
+Generate a comprehensive swing trading analysis report with the following structure. **IMPORTANT**: Focus ONLY on comparisons with the peer companies listed above. Do NOT compare with any other companies or make external references.
+
+### REQUIRED SECTIONS:
+
+1. **Executive Summary (2-3 paragraphs)**
+   - Identify if the company is overvalued, undervalued, or fairly valued based on P/E premium/discount
+   - Highlight the key trading thesis (compression risk, breakout opportunity, or wait-and-see)
+   - State the primary risk/reward setup
+
+2. **Valuation Reality Check**
+   - List the P/E multiples for target and ALL peers in descending order (most expensive to cheapest)
+   - Calculate and state downside scenarios:
+     * If target re-rates to peer average: X% downside
+     * If target re-rates to closest peer: Y% downside
+     * If target re-rates to cheapest peer: Z% downside
+   - Identify if current valuation is sustainable or at risk
+
+3. **What Justifies the Premium/Discount? (Bull Case)**
+   - List metrics where target ranks #1 or #2
+   - Quantify the outperformance (e.g., "5x better ROE than peer average")
+   - Explain if these strengths justify the current valuation multiple
+   - Provide specific numbers and comparisons
+
+4. **Where Target is Weaker (Bear Case)**
+   - List metrics where target ranks #3 or #4 (worst)
+   - Quantify the underperformance vs peers
+   - Explain if these weaknesses create risk for the current multiple
+   - Highlight structural concerns (leverage, size, margins, etc.)
+
+5. **Analyst Sentiment: The Market's View**
+   - Compare recent analyst activity (upgrades, downgrades, maintains) across all companies
+   - Identify which peer is getting the most positive attention (upgrades)
+   - Explain what this tells us about market sentiment and momentum
+   - Note if there's a disconnect between fundamentals and analyst tone
+
+6. **Peer-by-Peer Comparison Matrix**
+   For EACH peer, create a comparison table with:
+   - P/E, ROE, Revenue Growth, Net Margin, Market Cap, Debt/Equity
+   - Declare a "winner" for each metric
+   - Provide a **Trading Verdict** at the end of each comparison
+   - Identify if there's a clear better trade or if it's a toss-up
+
+7. **The Key Question: Is the Current Valuation Justified?**
+   - List 4-5 bull case arguments (with ✅)
+   - List 4-5 bear case arguments (with ❌)
+   - Weigh both sides and conclude if premium/discount is sustainable
+
+8. **Swing Trading Playbook (3 Scenarios)**
+   
+   **SCENARIO 1: The Compression/Expansion Trade**
+   - Probability: X%
+   - Thesis: (explain expected mean reversion)
+   - Entry triggers: (specific conditions)
+   - Trade setup: (long/short/puts/calls)
+   - Target levels: (3 price/multiple targets with % moves)
+   - Stop-loss: (specific level)
+   - Expected timeline: (in quarters or months)
+
+   **SCENARIO 2: The Pairs Trade**
+   - Probability: X%
+   - Thesis: (explain relative value opportunity)
+   - Trade setup: (short X / long Y with rationale)
+   - Target spread: (quantify spread compression/expansion)
+   - Why this works: (3-4 bullet points)
+   - Stop-loss: (spread level that invalidates thesis)
+
+   **SCENARIO 3: The Momentum/Contrarian Trade**
+   - Probability: X%
+   - Thesis: (explain breakout or reversal setup)
+   - Entry triggers: (specific catalysts needed)
+   - Trade setup: (direction and instruments)
+   - Target: (upside with % gains)
+   - Stop-loss: (specific level)
+   - Why low/high probability: (explain risks)
+
+9. **Critical Events to Monitor**
+   
+   **HIGHEST PRIORITY:**
+   - Next earnings date (specify what to watch)
+   - Peer earnings dates (for relative comparison)
+   - Industry-specific catalysts (sector-dependent)
+
+   **SECONDARY MONITORING:**
+   - Macro events that impact the sector
+   - Company-specific risk factors (leverage, regulation, etc.)
+   - Technical levels or trend changes
+
+10. **The Numbers That Matter Most**
+    
+    **For LONG Trades (bullish setup):**
+    - ✅ Metric 1: threshold/direction
+    - ✅ Metric 2: threshold/direction
+    - ✅ Metric 3: threshold/direction
+    - ✅ Metric 4: threshold/direction
+
+    **For SHORT Trades (bearish setup):**
+    - ❌ Metric 1: threshold/direction
+    - ❌ Metric 2: threshold/direction
+    - ❌ Metric 3: threshold/direction
+    - ❌ Metric 4: threshold/direction
+
+11. **Bottom Line: How to Trade {target_symbol}**
+    
+    Create a summary table:
+    | Scenario | Probability | Action | Target | Risk/Reward |
+    |----------|-------------|--------|--------|-------------|
+    | [Scenario name] | [%] | [Long/Short/Pairs] | [% gain/loss] | [ratio] |
+
+    **Recommended Positions:**
+    - If you own {target_symbol}: (action plan)
+    - If you're considering entry: (wait conditions or entry zones)
+    - Best risk/reward trade: (pairs trade or specific setup)
+
+12. **Final Verdict**
+    - One sentence: Is this OVERVALUED, UNDERVALUED, or FAIRLY VALUED?
+    - One paragraph: Which peer offers better risk/reward right now and why?
+    - One sentence: Clear actionable recommendation (buy/sell/wait/pairs trade)
+
+---
+
+## STYLE GUIDELINES
+
+1. **Use tables and formatting for clarity**
+   - Comparison tables for peer metrics
+   - Bullet points for key insights
+   - Bold for emphasis on critical numbers
+   - ✅ and ❌ for bull/bear cases
+
+2. **Be specific with numbers**
+   - Always include actual values, not just qualitative statements
+   - Show calculations (e.g., "39.28x vs 31.39x = 25% premium")
+   - Provide multiple scenarios with quantified outcomes
+
+3. **Focus on actionable trading setups**
+   - Every scenario needs entry, target, stop-loss, and timeline
+   - Explain WHY each scenario has its probability
+   - Provide specific triggers and catalysts
+
+4. **Maintain swing trader perspective**
+   - Time horizon: 1-12 months (not day trading, not buy-and-hold)
+   - Focus on technical + fundamental catalysts
+   - Risk management is paramount (stops, position sizing)
+
+5. **Use peer comparisons throughout**
+   - Never analyze the target in isolation
+   - Always reference peers for context
+   - Identify which peer is the "better trade" alternative
+
+6. **Avoid generic advice**
+   - No "consider your risk tolerance" platitudes
+   - No "consult a financial advisor" disclaimers
+   - Give specific, actionable recommendations
+
+7. **Tone: Direct, confident, data-driven**
+   - Write like a professional trader talking to another trader
+   - Be opinionated but support with data
+   - Use phrases like "The trade here is...", "Your edge is...", "Bottom line..."
+
+---
+
+## OUTPUT FORMAT
+
+Generate the report in clean markdown format with:
+- Clear section headers (##)
+- Tables using markdown table syntax
+- Bullet points and numbered lists where appropriate
+- Bold (**text**) for emphasis
+- No XML tags or HTML in the output
+- Professional, readable formatting
+
+Now generate the comprehensive swing trading analysis report following this structure.

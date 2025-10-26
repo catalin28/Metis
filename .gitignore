@@ -174,3 +174,20 @@ client_config_local.yaml
 debug_*.py
 check_*.py
 verify_*.py
+
+# Test JSON files in root directory (generated reports)
+/*.json
+# But keep specific reference/example files
+!test_*.json
+!asml_with_qoq_labels.json
+
+# Generated report outputs
+*_report.json
+*_report.md
+*_signals.json
+*_prompt.txt
+*_narrative.md
+*_competitive_intelligence.json
+*_trading_*.json
+*_trading_*.md
+*_swing_trading_*.md

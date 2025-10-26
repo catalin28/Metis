@@ -199,6 +199,54 @@ async def generate_report(
     return result
 
 
+def generate_report_json(symbol: str, peer_symbols: list = None, sections: list = None) -> dict:
+    """
+    Synchronous wrapper to generate competitive intelligence report JSON.
+    
+    This function can be called directly from other Python code without dealing
+    with async/await or CLI arguments.
+    
+    Args:
+        symbol: Target company symbol (e.g., 'AAPL', 'MSFT')
+        peer_symbols: Optional list of peer symbols (e.g., ['MSFT', 'GOOGL', 'META']).
+                     If None, peers will be auto-discovered.
+        sections: List of section numbers to generate (default: [1, 2, 2.5, 3])
+                 1 = Executive Summary
+                 2 = Competitive Dashboard
+                 2.5 = Analyst Consensus
+                 3 = Hidden Strengths
+    
+    Returns:
+        dict: Complete report JSON structure
+    
+    Example:
+        >>> # Auto-discover peers
+        >>> report = generate_report_json('AAPL')
+        
+        >>> # Specify peers
+        >>> report = generate_report_json('AAPL', peer_symbols=['MSFT', 'GOOGL', 'META'])
+        
+        >>> # Generate specific sections only
+        >>> report = generate_report_json('CCL', peer_symbols=['CUK', 'HAS'], sections=[1, 2])
+    """
+    if sections is None:
+        sections = [1, 2, 2.5, 3]
+    
+    # Normalize inputs
+    symbol = symbol.upper()
+    if peer_symbols:
+        peer_symbols = [p.upper() for p in peer_symbols]
+    
+    # Run the async function and return result
+    result = asyncio.run(generate_report(
+        symbol=symbol,
+        peer_symbols=peer_symbols,
+        sections=sections
+    ))
+    
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='Generate competitive intelligence report JSON',
