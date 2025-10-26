@@ -352,16 +352,18 @@ class CompetitiveDataCollector:
         if len(peer_data) < 2:
             raise ValueError("Need at least 2 peers with valid data for comparison")
         
-        # Calculate peer averages
-        peer_pe_values = [d['pe_ratio'] for d in peer_data.values() if d.get('pe_ratio', 0) > 0]
-        peer_roe_values = [d['roe'] for d in peer_data.values() if d.get('roe', 0) != 0]
+        # Calculate peer averages (filter out None and zero values)
+        peer_pe_values = [d['pe_ratio'] for d in peer_data.values() 
+                         if d.get('pe_ratio') is not None and d.get('pe_ratio', 0) > 0]
+        peer_roe_values = [d['roe'] for d in peer_data.values() 
+                          if d.get('roe') is not None and d.get('roe', 0) != 0]
         
         peer_average_pe = sum(peer_pe_values) / len(peer_pe_values) if peer_pe_values else 0
         peer_average_roe = sum(peer_roe_values) / len(peer_roe_values) if peer_roe_values else 0
         
         # Calculate gaps
-        target_pe = target_data.get('pe_ratio', 0)
-        target_roe = target_data.get('roe', 0)
+        target_pe = target_data.get('pe_ratio') or 0
+        target_roe = target_data.get('roe') or 0
         
         pe_gap = target_pe - peer_average_pe
         pe_gap_pct = (pe_gap / peer_average_pe * 100) if peer_average_pe != 0 else 0
@@ -371,13 +373,13 @@ class CompetitiveDataCollector:
         
         # Identify strengths and weaknesses
         strengths = [
-            f"{metric}: {target_data.get(metric, 0):.2f} (#{rank}, {desc})"
+            f"{metric}: {target_data.get(metric) or 0:.2f} (#{rank}, {desc})"
             for metric, (rank, desc) in rankings.items()
             if rank <= 2  # Top 2 rankings are strengths
         ]
         
         weaknesses = [
-            f"{metric}: {target_data.get(metric, 0):.2f} (#{rank}, {desc})"
+            f"{metric}: {target_data.get(metric) or 0:.2f} (#{rank}, {desc})"
             for metric, (rank, desc) in rankings.items()
             if rank >= len(valid_data) - 1  # Bottom 2 rankings are weaknesses
         ]
@@ -449,11 +451,11 @@ class CompetitiveDataCollector:
         rankings = {}
         
         for metric, (direction, description) in metrics_to_rank.items():
-            # Get values for all companies
+            # Get values for all companies (filter out None and zero values)
             values = {
-                symbol: data.get(metric, 0)
+                symbol: data.get(metric)
                 for symbol, data in company_data.items()
-                if data.get(metric, 0) != 0  # Exclude zero values
+                if data.get(metric) is not None and data.get(metric, 0) != 0
             }
             
             if not values:
