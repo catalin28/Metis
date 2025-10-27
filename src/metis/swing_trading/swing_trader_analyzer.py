@@ -10,7 +10,7 @@ import asyncio
 from .signal_extractor import SignalExtractor
 from .prompt_generator import PromptGenerator
 from .models import SwingTradingSignals
-from src.metis.assistants.generic_llm_agent import GenericLLMAgent
+from metis.assistants.generic_llm_agent import GenericLLMAgent
 
 
 class SwingTraderAnalyzer:
