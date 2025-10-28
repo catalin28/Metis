@@ -92,7 +92,7 @@ where = ["src"]
 "" = "src"
 
 [tool.setuptools.package-data]
-metis = ["../prompts/**/*.txt"]
+metis = ["prompts/**/*.txt"]
 
 [tool.black]
 line-length = 88

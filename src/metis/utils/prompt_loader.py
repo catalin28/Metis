@@ -42,14 +42,20 @@ class PromptLoader:
     in separate files under the prompts/ directory structure.
     """
     
-    def __init__(self, base_path: str = "prompts/"):
+    def __init__(self, base_path: str = None):
         """
         Initialize PromptLoader with base path to prompts directory.
         
         Args:
-            base_path: Base directory path containing prompt files
+            base_path: Base directory path containing prompt files.
+                      If None, uses package-relative path.
         """
-        self.base_path = Path(base_path)
+        if base_path is None:
+            # Use package-relative path when installed
+            package_dir = Path(__file__).parent.parent
+            self.base_path = package_dir / "prompts"
+        else:
+            self.base_path = Path(base_path)
         self._prompt_cache: Dict[str, str] = {}
         self._validate_base_path()
     
